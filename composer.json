@@ -1,0 +1,23 @@
+{
+  "name": "pedialink",
+  "description": "A custom PHP framework.",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+        "App\\": "app/", 
+        "Library\\Framework\\": "library/framework/"
+    }
+  },
+  "require": {
+    "php": "^8.1"
+  },
+  "authors": [
+    {
+      "name": "Your Name",
+      "email": "you@example.com"
+    }
+  ],
+  "license": "MIT",
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
