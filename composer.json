@@ -1,5 +1,5 @@
 {
-  "name": "pedialink",
+  "name": "cs28/pedialink",
   "description": "A custom PHP framework.",
   "type": "project",
   "autoload": {
