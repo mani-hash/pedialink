@@ -75,23 +75,35 @@ class Container
      * @param mixed $concrete
      * @return mixed|null Returns new instance of class or null
      */
-    private function build($concrete)
+    protected function build($concrete)
     {
         if ($concrete instanceof \Closure) {
             return $concrete($this);
         }
 
-        $reflector = new \ReflectionClass($concrete);
+        $reflector   = new \ReflectionClass($concrete);
         $constructor = $reflector->getConstructor();
 
-        if ($constructor === null) {
+        if (! $constructor) {
             return new $concrete;
         }
 
-        $params = $constructor->getParameters();
-        $dependencies = array_map(function($param) {
-            return $this->make($param->getClass()->name);
-        }, $params);
+        $dependencies = [];
+        foreach ($constructor->getParameters() as $param) {
+            $type = $param->getType();
+            if ($type instanceof \ReflectionNamedType && ! $type->isBuiltin()) {
+                // This is a class‑type parameter
+                $depClass = $type->getName();
+                $dependencies[] = $this->make($depClass);
+            } else {
+                // No type or primitive; a default is supplied or error is thrown
+                if ($param->isDefaultValueAvailable()) {
+                    $dependencies[] = $param->getDefaultValue();
+                } else {
+                    throw new \Exception("Cannot resolve parameter \${$param->name}");
+                }
+            }
+        }
 
         return $reflector->newInstanceArgs($dependencies);
     }
