@@ -3,6 +3,7 @@
 use Library\Framework\Core\Application;
 use Library\Framework\Core\Env;
 use Library\Framework\Http\Response;
+use Library\Framework\Routing\Router;
 
 /**
  * Global helper to retrieve application instance
@@ -60,4 +61,9 @@ function config($key)
 function redirect(string $url, int $status = 302): Response
 {
     return Response::redirect($url, $status);
+}
+
+function route(string $name, array $params = [], array $query = [], array $defaults = [])
+{
+    return app(Router::class)->url($name, $params, $query, $defaults);
 }
