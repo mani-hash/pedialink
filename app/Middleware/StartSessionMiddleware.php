@@ -17,9 +17,9 @@ class StartSessionMiddleware
         $this->sessionManager = $sessionManager;
     }
 
-    public function handle(Request $request, callable $next)
+    public function handle(Request $request, callable $next, array $params)
     {
         $this->sessionManager->start();
-        return $next($request);
+        return $next($request, $params);
     }
 }
