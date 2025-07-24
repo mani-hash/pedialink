@@ -31,4 +31,9 @@ class Request
     {
         return $this->post[$key] ?? $this->get[$key] ?? $default;
     }
+
+    public function query($key, $default = null)
+    {
+        return $this->get[$key] ?? $default;
+    }
 }
