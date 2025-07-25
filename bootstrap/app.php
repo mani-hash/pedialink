@@ -2,6 +2,8 @@
 
 use Library\Framework\Core\Application;
 use Library\Framework\Core\Env;
+use Library\Framework\Core\Model;
+use Library\Framework\Database\Connection;
 
 // Start a new application container
 $app = new Application();
@@ -40,5 +42,8 @@ foreach ($providers as $providerClass)
 {
     (new $providerClass($app))->boot();
 }
+
+// Initialize the base model class
+Model::init($app->make(Connection::class));
 
 return $app;
