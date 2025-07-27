@@ -1,5 +1,7 @@
 <?php
 
+use App\Controllers\HomeController;
+
 return [
-    ['GET', '/', 'HomeController@home'],
+    ['GET', '/', [HomeController::class, 'home'], 'home'],
 ];
