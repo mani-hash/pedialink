@@ -2,13 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Models\User;
+use Library\Framework\Http\Request;
 use Library\Framework\Http\Response;
 
 class HomeController
 {
-    public function home()
+    public function home(Request $request)
     {
-        // return (new Response(['hello' => 'meow'], 200))->asJson();
-        return new Response("hello CS 28", 200);
+        return view("home/home");
     }
 }
