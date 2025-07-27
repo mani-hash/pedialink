@@ -5,6 +5,7 @@ services:
       dockerfile: docker/php/Dockerfile
     volumes:
       - ./:/var/www/html:cached
+      - storage-cache:/var/www/html/storage/cache
     ports:
       - "8080:80"
     env_file:
@@ -26,3 +27,4 @@ services:
 
 volumes:
   db-data:
+  storage-cache:
