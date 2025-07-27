@@ -1,3 +1,6 @@
-cache/
-logs/
-media/
+cache/*
+!cache/.gitignore
+logs/*
+!logs/.gitignore
+media/*
+!media/.gitignore
