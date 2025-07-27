@@ -1,0 +1,22 @@
+<IfModule mod_rewrite.c>
+    # Enable Rewrite Engine
+    RewriteEngine On
+
+    # Serve existing files/directories directly
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Redirect all other requests to index.php
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Prevent directory listings
+Options -Indexes
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>

@@ -1,0 +1,6 @@
+cache/*
+!cache/.gitignore
+logs/*
+!logs/.gitignore
+media/*
+!media/.gitignore
