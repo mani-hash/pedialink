@@ -233,9 +233,108 @@ class View
             $php
         );
 
+        // Handle component directives
+        $php = preg_replace_callback(
+            '/<c-([a-zA-Z0-9_.\-]+)\s*([^>]*)\/>/',
+            function ($m) {
+                // $m[1] = tag name, $m[2] = attribute string (may be empty)
+                $tag = $m[1] ?? '';
+
+                // replace nested folder with appropriate slashes
+                $path = str_replace('.', '/', $tag);
+
+                $attrString = isset($m[2]) ? trim($m[2]) : '';
+
+                // parse attributes robustly: supports key="v", key='v', and boolean key
+                $pairs = [];
+                if (preg_match_all(
+                    '/([a-zA-Z0-9_\-:]+)(?:\s*=\s*(?:"([^"]*)"|\'([^\']*)\'))?/',
+                    $attrString,
+                    $am,
+                    PREG_SET_ORDER
+                )) {
+                    foreach ($am as $p) {
+                        if (!is_array($p)) continue;
+                        $key = $p[1] ?? '';
+                        $val = null;
+                        if (isset($p[2]) && $p[2] !== '') {
+                            $val = $p[2];
+                        } elseif (isset($p[3]) && $p[3] !== '') {
+                            $val = $p[3];
+                        }
+
+                        if ($val !== null) {
+                            $pairs[] = "'" . addslashes($key) . "' => '" . addslashes($val) . "'";
+                        } else {
+                            // boolean attribute (e.g. disabled)
+                            $pairs[] = "'" . addslashes($key) . "' => true";
+                        }
+                    }
+                }
+
+                $attrArray = '[' . implode(', ', $pairs) . ']';
+
+                // call make() with empty default slot and empty slots array
+                return "<?php echo \$this->make('components.{$path}', array_merge({$attrArray}, ['slot'=>'', 'slots'=>[]])); ?>";
+            },
+            $php
+        );
+
+        $php = preg_replace_callback(
+            '/<c-([a-zA-Z0-9_.\-]+)\s*([^>]*)>([\s\S]*?)<\/c-\1>/',
+            function($m) {
+                $tag = $m[1];
+                
+                // replace nested folder with appropriate slashes
+                $path = str_replace('.', '/', $tag);
+                
+                $attrString = isset($m[2]) ? trim($m[2]) : '';
+
+                // parse attributes into PHP array syntax
+                $pairs = [];
+                if (preg_match_all(
+                    '/([a-zA-Z0-9_\-:]+)(?:\s*=\s*(?:"([^"]*)"|\'([^\']*)\'))?/',
+                    $attrString,
+                    $am,
+                    PREG_SET_ORDER
+                )) {
+                    foreach ($am as $p) {
+                        if (!is_array($p)) continue;
+                        $key = $p[1] ?? '';
+                        $val = null;
+                        if (isset($p[2]) && $p[2] !== '') {
+                            $val = $p[2];
+                        } elseif (isset($p[3]) && $p[3] !== '') {
+                            $val = $p[3];
+                        }
+
+                        if ($val !== null) {
+                            $pairs[] = "'" . addslashes($key) . "' => '" . addslashes($val) . "'";
+                        } else {
+                            // boolean attribute (e.g. disabled)
+                            $pairs[] = "'" . addslashes($key) . "' => true";
+                        }
+                    }
+                }
+
+                $attrArray = '[' . implode(',', $pairs) . ']';
+                
+                // compile inner slot recursively
+                $inner = $this->compile($m[3]);
+                return "<?php ob_start(); ?>\n" 
+                    . $inner 
+                    . "\n<?php \$__slot = ob_get_clean(); echo \$this->make('components." 
+                    . $path 
+                    . "', array_merge(" . $attrArray 
+                    . ", ['slot'=>\$__slot])); ?>";
+            },
+            $php
+        );
+
+
         // Handles @if, @elseif, @else, @endif directives
         $php = preg_replace('/@if\((.+?)\)/', '<?php if ($1): ?>', $php);
-        $php = str_replace('@elseif', '<?php elseif; ?>', $php);
+        $php = preg_replace('/@elseif\((.+?)\)/', '<?php elseif ($1): ?>', $php);
         $php = str_replace('@else', '<?php else: ?>', $php);
         $php = str_replace('@endif', '<?php endif; ?>', $php);
 
