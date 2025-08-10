@@ -56,6 +56,13 @@ class View
      */
     private string $currentSection = '';
 
+    /**
+     * Track the current component UID
+     * @var int
+     */
+    private int $componentUid = 0;
+
+
     public function __construct(string $viewsPath, string $cachePath, string $extension)
     {
         $this->viewsPath = rtrim($viewsPath, '/');
@@ -234,6 +241,8 @@ class View
         );
 
         // Handle component directives
+
+        // Handles self closing component tags
         $php = preg_replace_callback(
             '/<c-([a-zA-Z0-9_.\-]+)\s*([^>]*)\/>/',
             function ($m) {
@@ -280,17 +289,23 @@ class View
             $php
         );
 
+        // Handles component tags along with support for slots and named slots
         $php = preg_replace_callback(
-            '/<c-([a-zA-Z0-9_.\-]+)\s*([^>]*)>([\s\S]*?)<\/c-\1>/',
-            function($m) {
-                $tag = $m[1];
-                
-                // replace nested folder with appropriate slashes
-                $path = str_replace('.', '/', $tag);
-                
-                $attrString = isset($m[2]) ? trim($m[2]) : '';
+            '/<c-([a-zA-Z0-9_.\-]+)\s*([^>]*)>([\s\S]*?)<\/c-\\1>/',
+            function ($m) {
+                // unique id for this component invocation (persists across recursive compile calls)
+                $id = $this->componentUid++;
 
-                // parse attributes into PHP array syntax
+                // dynamic variable names (unique per invocation)
+                $slotsVar = "__slots_{$id}";
+                $slotVar  = "__slot_{$id}";
+
+                // tag name and path
+                $tag = $m[1] ?? '';
+                $path = str_replace(['.', '-'], '/', $tag);
+
+                // attributes parsing (robust)
+                $attrString = isset($m[2]) ? trim($m[2]) : '';
                 $pairs = [];
                 if (preg_match_all(
                     '/([a-zA-Z0-9_\-:]+)(?:\s*=\s*(?:"([^"]*)"|\'([^\']*)\'))?/',
@@ -311,22 +326,56 @@ class View
                         if ($val !== null) {
                             $pairs[] = "'" . addslashes($key) . "' => '" . addslashes($val) . "'";
                         } else {
-                            // boolean attribute (e.g. disabled)
                             $pairs[] = "'" . addslashes($key) . "' => true";
                         }
                     }
                 }
+                $attrArray = '[' . implode(', ', $pairs) . ']';
 
-                $attrArray = '[' . implode(',', $pairs) . ']';
-                
-                // compile inner slot recursively
-                $inner = $this->compile($m[3]);
-                return "<?php ob_start(); ?>\n" 
-                    . $inner 
-                    . "\n<?php \$__slot = ob_get_clean(); echo \$this->make('components." 
-                    . $path 
-                    . "', array_merge(" . $attrArray 
-                    . ", ['slot'=>\$__slot])); ?>";
+                // raw inner HTML of the component
+                $innerRaw = $m[3] ?? '';
+
+                // Extract named <c-slot name="...">...</c-slot> inside this inner content
+                $slotsCode = '';
+                $hasSlots = false;
+
+                if (preg_match_all('/<c-slot\b([^>]*)>([\s\S]*?)<\/c-slot>/i', $innerRaw, $slotMatches, PREG_SET_ORDER)) {
+                    foreach ($slotMatches as $sm) {
+                        $slotAttrs = $sm[1] ?? '';
+                        $slotContent = $sm[2] ?? '';
+
+                        // find name attribute inside slot tag (supports single/double quotes)
+                        if (preg_match('/\bname\s*=\s*(["\'])(.*?)\1/i', $slotAttrs, $nameMatch)) {
+                            $slotName = addslashes($nameMatch[2]);
+
+                            // compile the slot content recursively (so nested directives/components work)
+                            $compiledSlot = $this->compile($slotContent);
+
+                            // buffer compiled slot into the unique slots array variable
+                            $slotsCode .= "<?php ob_start(); ?>\n" . $compiledSlot . "\n<?php \${$slotsVar}['{$slotName}'] = ob_get_clean(); ?>\n";
+                            $hasSlots = true;
+                        }
+                        // if no name attr found, ignore that <c-slot> tag (treated as normal content)
+                    }
+
+                    // remove all <c-slot ...>...</c-slot> occurrences from innerRaw
+                    $innerRemaining = preg_replace('/<c-slot\b[^>]*>[\s\S]*?<\/c-slot>/i', '', $innerRaw);
+                } else {
+                    $innerRemaining = $innerRaw;
+                }
+
+                // compile the remaining inner (this is the default slot)
+                $compiledInner = $this->compile($innerRemaining);
+
+                // Build the final PHP: initialize unique slots array, emit slot captures, buffer default slot, then call make()
+                $code  = "<?php \${$slotsVar} = []; ?>\n";
+                $code .= $slotsCode;
+                $code .= "<?php ob_start(); ?>\n";
+                $code .= $compiledInner;
+                $code .= "\n<?php \${$slotVar} = ob_get_clean(); ";
+                $code .= "echo \$this->make('components.{$path}', array_merge({$attrArray}, ['slot'=>\${$slotVar}, 'slots'=>\${$slotsVar}])); ?>";
+
+                return $code;
             },
             $php
         );
