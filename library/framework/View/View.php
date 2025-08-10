@@ -351,8 +351,8 @@ class View
                             // compile the slot content recursively (so nested directives/components work)
                             $compiledSlot = $this->compile($slotContent);
 
-                            // buffer compiled slot into the unique slots array variable
-                            $slotsCode .= "<?php ob_start(); ?>\n" . $compiledSlot . "\n<?php \${$slotsVar}['{$slotName}'] = ob_get_clean(); ?>\n";
+                            // buffer compiled slot into the unique slots array variable and wrap as HtmlString
+                            $slotsCode .= "<?php ob_start(); ?>\n" . $compiledSlot . "\n<?php \${$slotsVar}['{$slotName}'] = new \\Library\\Framework\\View\\HtmlString(ob_get_clean()); ?>\n";
                             $hasSlots = true;
                         }
                         // if no name attr found, ignore that <c-slot> tag (treated as normal content)
@@ -372,7 +372,7 @@ class View
                 $code .= $slotsCode;
                 $code .= "<?php ob_start(); ?>\n";
                 $code .= $compiledInner;
-                $code .= "\n<?php \${$slotVar} = ob_get_clean(); ";
+                $code .= "\n<?php \${$slotVar} = new \\Library\\Framework\\View\\HtmlString(ob_get_clean()); ";
                 $code .= "echo \$this->make('components.{$path}', array_merge({$attrArray}, ['slot'=>\${$slotVar}, 'slots'=>\${$slotsVar}])); ?>";
 
                 return $code;
@@ -393,10 +393,11 @@ class View
 
         // Converts {{ }} syntax to proper echo format. Used for printing php variables in html code
         $php = preg_replace(
-            '/\{\{\s*(.+?)\s*\}\}/',
-            '<?php echo htmlspecialchars($1, ENT_QUOTES, "UTF-8"); ?>',
+            '/\{\{\s*(.+?)\s*\}\}/s',
+            '<?php $__val = $1; if (is_object($__val) && method_exists($__val, "toHtml")) { echo $__val->toHtml(); } else { echo htmlspecialchars($__val, ENT_QUOTES, "UTF-8"); } ?>',
             $php
         );
+
 
         // Extends the layout php files (if the current page is extending from a layout)
         if ($parent) {
