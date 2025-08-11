@@ -2,7 +2,7 @@
   /** Typography & spacing kept from your theme above **/
 
   /* semantic colors (light theme) */
-  --text-primary: var(--color-gray-900);
+  --text-primary: var(--color-zinc-900);
   --text-strong: var(--color-gray-900);
   --text-muted: var(--color-gray-600);
   --text-inverted: var(--color-white);
@@ -11,8 +11,8 @@
   --surface: var(--color-gray-50);
   --panel: var(--color-white);
 
-  --border: var(--color-gray-200);
-  --muted-border: var(--color-gray-300);
+  --border: var(--color-zinc-200);
+  --muted-border: var(--color-zinc-100);
 
   /* accent (interactive) - pick a neutral/black accent for black & white aesthetic */
   --accent: var(--color-slate-900);
@@ -20,12 +20,19 @@
   --accent-400: var(--color-slate-500);
 
   /* primary palette (for primary actions) — choose a subtle dark slate */
-  --primary-50: var(--color-slate-50);
-  --primary-100: var(--color-slate-100);
-  --primary-300: var(--color-slate-300);
-  --primary-500: var(--color-slate-600);
+  --primary-50: var(--color-zinc-50);
+  --primary-100: var(--color-zinc-100);
+  --primary-300: var(--color-zinc-300);
+  --primary-500: var(--color-zinc-600);
   /* main primary */
-  --primary-700: var(--color-slate-800);
+  --primary: var(--color-zinc-900);
+  /* main hover */
+  --primary-hover: var(--color-zinc-900-80);
+
+
+   /* main secondary */
+   --secondary: var(--color-zinc-100);
+   --secondary-hover: var(--color-zinc-100-80);
 
   /* semantic for states */
   --success: var(--color-green-600);

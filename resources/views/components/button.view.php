@@ -8,7 +8,9 @@ if (!empty($class)) {
 $type = $type ?? '';
 if ($type === 'primary') {
     $classes .= ' btn-primary';
-} else if ($type === 'ghost') {
+} elseif ($type === 'secondary') {
+    $classes .= ' btn-secondary';
+}else if ($type === 'ghost') {
     $classes .= ' btn-ghost';
 } else if ($type === 'outline'){
     $classes .= ' btn-outline';
