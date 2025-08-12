@@ -1,0 +1,57 @@
+/* components/card.css - shadcn-inspired card */
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius-lg) - 2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+  padding: 1rem;
+  overflow: hidden;
+}
+
+/* Card header/body/footer layout */
+.card-header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: .75rem;
+  margin-bottom: .5rem;
+  padding-bottom: .25rem;
+  border-bottom: 1px solid transparent;
+  color: var(--text-strong);
+  font-weight: var(--font-weight-semibold);
+}
+
+.card-title {
+  font-size: 1rem;
+}
+
+.card-subtitle {
+  color: var(--text-muted);
+  font-size: .9rem;
+}
+
+.card-body {
+  color: var(--text-primary);
+  padding-top: .6rem;
+  padding-bottom: .6rem;
+}
+
+.card-footer {
+  display:flex;
+  justify-content:flex-end;
+  gap: .5rem;
+  padding-top: .6rem;
+  border-top: 1px solid transparent;
+}
+
+/* Compact variant */
+.card--compact {
+  padding: .6rem;
+}
+
+/* Borderless / elevated variants */
+.card--elevated {
+  border-color: transparent;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.06);
+}
