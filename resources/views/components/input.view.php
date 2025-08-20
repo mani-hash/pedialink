@@ -4,7 +4,7 @@ $name = !empty($name) ? "name={$name}" : "";
 $id = !empty($id) ? "id={$id}" : "";
 $forId = !empty($id) ? "for={$id}" : "";
 $value = isset($value) ? $value : "";
-$placeholder = isset($placeholder) ? $placeholder : '';
+$placeholder = isset($placeholder) ? "placeholder={$placeholder}" : '';
 $disabled = !empty($disabled) ? "disabled=true" : "";
 $ariaDisabled = !empty($disabled) ? "aria-disabled=true" : "";
 $required = !empty($required) ? "required" : "";
