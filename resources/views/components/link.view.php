@@ -5,7 +5,7 @@
     $classes = 'link';
 
     if (!empty($class)) {
-        $classes = ' ' . $class;
+        $classes .= ' ' . $class;
     }
 
     if (!empty($type)) {
@@ -29,7 +29,7 @@
 
 <a
     {{ $id }}
-    href="{{ $href }}"
+    href="{{ $href ?? "#" }}"
     class="{{ $classes }}"
     {{ $targetAttr }} {{ $relAttr }} {{ $ariaDisabledAttr }}
 >
@@ -40,6 +40,6 @@
     @endif
 
     @if(trim($slot) !== '')
-        <span>{{ $slot }}</span>
+        {{ $slot }}
     @endif
 </a>
