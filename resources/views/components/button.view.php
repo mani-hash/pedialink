@@ -1,5 +1,7 @@
 <?php
-$id = !empty($id) ? "id='{$id}'" : "";
+$id = !empty($id) ? "id={$id}" : "";
+
+$form = !empty($form) ? "form={$form}" : "";
 
 $classes = 'btn';
 
@@ -21,6 +23,6 @@ if (!empty($icon_only)) $classes .= ' btn-icon';
 $disabled = !empty($disabled) ? "disabled='true'" : ""
 ?>
 
-<button {{ $id }} class="{{ $classes }}" {{ $disabled }}>
+<button {{ $id }} {{ $form }} class="{{ $classes }}" {{ $disabled }}>
   {{ $slot }}
 </button>
