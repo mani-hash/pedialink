@@ -17,8 +17,10 @@ if (!empty($size)) {
 
 // if icon-only
 if (!empty($icon_only)) $classes .= ' btn-icon';
+
+$disabled = !empty($disabled) ? "disabled='true'" : ""
 ?>
 
-<button {{ $id }} class="{{ $classes }}">
+<button {{ $id }} class="{{ $classes }}" {{ $disabled }}>
   {{ $slot }}
 </button>
