@@ -9,7 +9,7 @@
     {{ $slot ?? '' }}
   </div>
 
-  @if($slots['footer'])
+  @if(!empty($slots['footer']))
     <div class="card-footer">
       {{ $slots['footer'] }}
     </div>
