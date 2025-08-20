@@ -1,6 +1,6 @@
 <?php
 
-    $id = !empty($id) ? "id={$id}" : "";
+    $id = !empty($id) ? "id='{$id}'" : "";
 
     $classes = 'link';
 
