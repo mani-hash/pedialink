@@ -1,4 +1,9 @@
-<div {{ !empty($id) ? "id={$id}" : "" }} class="card {{ $class ?? '' }}">
+<div
+  @if (!empty($id))
+    id="{{ $id }}"
+  @endif
+  class="card {{ $class ?? '' }}"
+>
   @if(!empty($slots['header']))
     <div class="card-header">
       <div class="card-title">{{ $slots['header'] }}</div>

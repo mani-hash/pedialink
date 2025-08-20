@@ -1,8 +1,4 @@
 <?php
-$id = !empty($id) ? "id={$id}" : "";
-
-$form = !empty($form) ? "form={$form}" : "";
-
 $classes = 'btn';
 
 if (!empty($class)) {
@@ -19,10 +15,22 @@ if (!empty($size)) {
 
 // if icon-only
 if (!empty($icon_only)) $classes .= ' btn-icon';
-
-$disabled = !empty($disabled) ? "disabled='true'" : ""
 ?>
 
-<button {{ $id }} {{ $form }} class="{{ $classes }}" {{ $disabled }}>
+<button
+    @if (!empty($id))
+        id="{{ $id }}"
+    @endif
+
+    @if (!empty($form))
+        form="{{ $form }}"
+    @endif
+
+    @if (!empty($disabled))
+        disabled
+    @endif
+    
+    class="{{ $classes }}"
+>
   {{ $slot }}
 </button>

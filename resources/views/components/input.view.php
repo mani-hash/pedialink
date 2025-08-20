@@ -1,15 +1,5 @@
 <?php
-$type = !empty($type) ? "type={$type}" : 'text';
-$name = !empty($name) ? "name={$name}" : "";
-$id = !empty($id) ? "id={$id}" : "";
-$forId = !empty($id) ? "for={$id}" : "";
-$value = isset($value) ? $value : "";
-$placeholder = isset($placeholder) ? "placeholder={$placeholder}" : '';
-$disabled = !empty($disabled) ? "disabled=true" : "";
-$ariaDisabled = !empty($disabled) ? "aria-disabled=true" : "";
-$required = !empty($required) ? "required" : "";
 $error = !empty($error) ? $error : null;
-$ariaInvalid = !empty($error) ? "aria-invalid=true" : "";
 
 $classes = 'input-row';
 $classes .= isset($class) ? ' ' . $class : '';
@@ -25,10 +15,23 @@ if ($error) {
 
 <div class="input-wrapper">
     @if(!empty($label))
-        <label class="input-label" {{ $forId }}>{{ $label }}</label>
+        <label 
+            class="input-label"
+            @if (!empty($id))
+                for="{{ $id }}"
+            @endif
+        >
+            {{ $label }}
+        </label>
     @endif
 
-    <div class="{{ $classes }}" {{ $ariaDisabled }}>
+    <div 
+        class="{{ $classes }}"
+
+        @if (!empty($ariaDisabled))
+            aria-disabled="true"
+        @endif
+    >
         @if(!empty($slots['prefix']))
             <span class="input-prefix">
                 {{ $slots['prefix'] }}
@@ -37,9 +40,38 @@ if ($error) {
 
         <input
             class="input-field"
-            {{ $id }} {{ $type }} {{ $name }} {{ $placeholder }} {{ $required }}
-            value="{{ $value }}"
-            {{ $disabled }} {{ $ariaInvalid }}
+
+            @if (!empty($id))
+                id="{{ $id }}"
+            @endif
+
+            @if (!empty($type))
+                type="{{ $type }}"
+            @endif
+
+            @if (!empty($name))
+                name="{{ $name }}"
+            @endif
+
+            @if (!empty($placeholder))
+                placeholder="{{ $placeholder }}"
+            @endif
+
+            @if (!empty($required))
+                required
+            @endif
+            
+            @if (!empty($disabled))
+                disabled
+            @endif
+
+            @if (!empty($ariaInvalid))
+                aria-invalid="true"
+            @endif
+
+            @if (!empty($value))
+                value="{{ $value }}"
+            @endif
         />
 
         @if(!empty($slots['suffix']))
