@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="footer">
-                    <c-button id="sign-in" form="staff-login" type="primary">
+                    <c-button id="sign-in" form="staff-login" variant="primary">
                         Sign In
                     </c-button>
                 </div>

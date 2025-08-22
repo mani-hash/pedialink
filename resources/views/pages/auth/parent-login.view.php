@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div class="footer">
-                    <c-button id="sign-in" form="parent-login" type="primary">
+                    <c-button id="sign-in" form="parent-login" variant="primary">
                         Sign In
                     </c-button>
                     <div class="sign-up-group">

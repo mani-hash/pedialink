@@ -5,8 +5,8 @@ if (!empty($class)) {
     $classes .= ' ' . $class;
 }
 
-if (!empty($type)) {
-    $classes .= " btn-{$type}";
+if (!empty($variant)) {
+    $classes .= " btn-{$variant}";
 }
 
 if (!empty($size)) {
@@ -20,6 +20,12 @@ if (!empty($icon_only)) $classes .= ' btn-icon';
 <button
     @if (!empty($id))
         id="{{ $id }}"
+    @endif
+
+    @if (!empty($type))
+        type="{{ $type }}"
+    @else 
+        type="submit"
     @endif
 
     @if (!empty($form))
