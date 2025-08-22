@@ -35,7 +35,7 @@
                 </div>
                 <div>
                     <form id="staff-login" action="">
-                        <c-input label="Email:" placeholder="Enter your email" type="text" />
+                        <c-input label="Email:" placeholder="Enter your email" type="email" />
                         <c-input label="Password:" placeholder="Enter your password" type="password" />
                     </form>
                     <div class="forgot-password-group">
