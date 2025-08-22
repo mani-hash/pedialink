@@ -10,5 +10,7 @@
 <body>
     @yield('content')
     @yield('scripts')
+
+    <script src="{{ asset('js/password-box.js') }}"></script>
 </body>
 </html>
