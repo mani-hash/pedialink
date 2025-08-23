@@ -59,7 +59,7 @@ class Auth
         return true;
     }
 
-    private function login(User $user)
+    public function login(User $user)
     {
         $this->session->set($this->key, $user->id);
         $this->session->regenerate();
