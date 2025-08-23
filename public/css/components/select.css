@@ -130,6 +130,25 @@
   color: var(--text-strong);
 }
 
+/* Error styles */
+.select.select--error .select-trigger {
+  border-color: var(--danger);
+  box-shadow: 0 6px 18px rgba(220,38,38,0.06);
+}
+
+.select.select--error .select-trigger:focus {
+  box-shadow: 0 0 0 4px rgba(220,38,38,0.09);
+}
+
+/* Error text */
+.select-error-text {
+  margin-top: .375rem;
+  font-size: .85rem;
+  color: var(--danger);
+  font-weight: 600;
+}
+
+
 /* small mobile tweak */
 @media (max-width: 480px) {
   .select-panel { max-height: 14rem; }
