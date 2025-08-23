@@ -143,6 +143,10 @@ if (!empty($size)) {
   $classes .= ' select--' . $size;
 }
 
+if (!empty($error) && trim($error) !== '') {
+  $classes .= ' select--error';
+}
+
 ?>
 
 @if (!empty($label))
@@ -181,6 +185,10 @@ if (!empty($size)) {
     aria-haspopup="listbox"
     aria-expanded="false"
     aria-controls="{{ $uid . '_list'}}"
+    @if (!empty($error) && trim($error) !== '')
+      aria-invalid="true"
+      aria-describedby="{{ $uid . '_error'}}"
+    @endif
     @if (!empty($disabled))
       disabled
     @endif
@@ -234,6 +242,12 @@ if (!empty($size)) {
 
     <div class="select-empty" style="display:none;">No options</div>
   </div>
+
+  @if (!empty($error) && trim($error) !== '')
+    <div id="{{ $uid . '_error' }}" class="select-error-text">
+      {{ $error }}
+    </div>
+  @endif
 </div>
 
 <script>
