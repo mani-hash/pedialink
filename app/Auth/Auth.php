@@ -42,15 +42,25 @@ class Auth
         return (bool) $this->user();
     }
 
-    public function attempt(string $email, string $password)
+    public function attempt(string $email, string $password, ?string $role = null, $operator = "=")
     {
-        $user = User::query()->where("email", "=", $email);
+        $user = null;
+
+        // Optionally added a role based auth attempt if role is provided
+        // NOTE: this is because we have separate forms for parent and staff
+        if ($role) {
+            $user = User::query()
+                ->where("email", "=", $email)
+                ->where("role", $operator, $role)->first();
+        } else {
+            $user = User::query()->where("email", "=", $email)->first();
+        }
 
         if (!$user) {
             return false;
         }
 
-        if (!password_verify($password, $user->password)) {
+        if (!password_verify($password, $user->password_hash)) {
             return false;
         }
         
