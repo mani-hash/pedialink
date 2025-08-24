@@ -120,9 +120,57 @@ class AuthController
         return view('auth/parent-login');
     }
 
+    public function loginAsParent(Request $request)
+    {
+        $email = htmlspecialchars(trim($request->input("email"))) ?? '';
+        $password = htmlspecialchars($request->input("password")) ?? '';
+
+        if (auth()->attempt($email, $password, "parent")) {
+            return redirect(route("parent.dashboard"));
+        }
+
+        return redirect(route("parent.login"))
+            ->withInput([
+                "email" => $email,
+            ])
+            ->withErrors([
+                "email" => "Invalid username or password",
+            ]);
+    }
+
     public function staffLogin(Request $request)
     {
         return view('auth/staff-login');
+    }
+
+    public function loginAsStaff(Request $request)
+    {
+        $email = htmlspecialchars(trim($request->input("email"))) ?? '';
+        $password = htmlspecialchars($request->input("password")) ?? '';
+
+        if (auth()->attempt($email, $password, "parent", "!=")) {
+            $user = auth()->user();
+
+            if ($user->isPublicHealthMidwife()) {
+                return redirect(route("phm.dashboard"));
+            }
+
+            if ($user->isDoctor()) {
+                return redirect(route("doctor.dashboard"));
+            }
+
+            if ($user->isAdmin()) {
+                return redirect(route("admin.dashboard"));
+            }
+        }
+
+        return redirect(route("staff.login"))
+            ->withInput([
+                "email" => $email,
+            ])
+            ->withErrors([
+                "email" => "Invalid username or password",
+            ]);
     }
 
     public function forgotPassword(Request $request)
