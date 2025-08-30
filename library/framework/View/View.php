@@ -333,7 +333,7 @@ class View
                 $tag = $m[1] ?? '';
                 $path = str_replace(['.', '-'], '/', $tag);
 
-                // parse attrs into array of key/val
+                // parse attrs into array of key/val for this component
                 $attrString = isset($m[2]) ? trim($m[2]) : '';
                 $pairs = [];
                 if (preg_match_all(
@@ -353,21 +353,117 @@ class View
 
                 $innerRaw = $m[3] ?? '';
 
-                // Extract named <c-slot name="...">...</c-slot>
-                $slotsCode = '';
-                if (preg_match_all('/<c-slot\b([^>]*)>([\s\S]*?)<\/c-slot>/i', $innerRaw, $slotMatches, PREG_SET_ORDER)) {
-                    foreach ($slotMatches as $sm) {
-                        $slotAttrs = $sm[1] ?? '';
-                        $slotContent = $sm[2] ?? '';
-                        if (preg_match('/\bname\s*=\s*(["\'])(.*?)\1/i', $slotAttrs, $nameMatch)) {
-                            $slotName = addslashes($nameMatch[2]);
-                            $compiledSlot = $this->compile($slotContent);
-                            // wrap slot content into HtmlString
-                            $slotsCode .= "<?php ob_start(); ?>\n" . $compiledSlot . "\n<?php \${$slotsVar}['{$slotName}'] = new \\Library\\Framework\\View\\HtmlString(ob_get_clean()); ?>\n";
+                //
+                // === TOP-LEVEL SLOT EXTRACTION (stack-based) ===
+                //
+                // We will scan innerRaw for all <c-...> tags, maintain a stack, and only
+                // record <c-slot> ... </c-slot> ranges that were opened at stack-depth 0.
+                //
+                $slotRanges = []; // each item: ['start'=>int,'end'=>int,'full'=>string]
+
+                $pattern = '/
+                    <c-([a-zA-Z0-9_.\-]+)\b((?:[^"\'>]|"[^"]*"|\'[^\']*\')*)\/>   # self-closing (group1)
+                |<c-([a-zA-Z0-9_.\-]+)\b((?:[^"\'>]|"[^"]*"|\'[^\']*\')*)>     # opening (group3)
+                |<\/c-([a-zA-Z0-9_.\-]+)>                                      # closing (group5)
+                /ix';
+
+                if (preg_match_all($pattern, $innerRaw, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
+                    $stack = []; // each entry: ['tag'=>name, 'pos'=>offset, 'depth'=>int]
+                    foreach ($matches as $match) {
+                        $fullMatch = $match[0][0];
+                        $offset = $match[0][1];
+                        $len = strlen($fullMatch);
+
+                        // detect which alternative matched
+                        $selfName = isset($match[1]) && $match[1][0] !== '' ? $match[1][0] : null;
+                        $openName = isset($match[3]) && $match[3][0] !== '' ? $match[3][0] : null;
+                        $closeName = isset($match[5]) && $match[5][0] !== '' ? $match[5][0] : null;
+
+                        if ($selfName !== null) {
+                            // self-closing <c-name ... /> — does not affect stack depth
+                            continue;
+                        }
+
+                        if ($openName !== null) {
+                            // opening tag <c-name ...>
+                            $depth = count($stack);
+                            $stack[] = ['tag' => $openName, 'pos' => $offset, 'depth' => $depth];
+                            continue;
+                        }
+
+                        if ($closeName !== null) {
+                            // closing tag </c-name>
+                            // pop until matching open name (well-formed templates should match immediately)
+                            $popped = array_pop($stack);
+                            if ($popped === null) {
+                                // unmatched closing - ignore
+                                continue;
+                            }
+                            // If tag names mismatch, try to find matching open (best-effort)
+                            if ($popped['tag'] !== $closeName) {
+                                // try to find the matching one upwards
+                                $foundIndex = null;
+                                for ($i = count($stack) - 1; $i >= 0; $i--) {
+                                    if ($stack[$i]['tag'] === $closeName) {
+                                        $foundIndex = $i;
+                                        break;
+                                    }
+                                }
+                                if ($foundIndex !== null) {
+                                    // pop until foundIndex
+                                    while (count($stack) - 1 >= $foundIndex) {
+                                        $popped = array_pop($stack);
+                                    }
+                                } else {
+                                    // couldn't find match — skip
+                                    continue;
+                                }
+                            }
+
+                            // If the popped tag was 'slot' and its depth was 0, record its full range
+                            if ($popped['tag'] === 'slot' && $popped['depth'] === 0) {
+                                $start = $popped['pos'];
+                                $end = $offset + $len;
+                                $full = substr($innerRaw, $start, $end - $start);
+                                $slotRanges[] = ['start' => $start, 'end' => $end, 'full' => $full];
+                            }
                         }
                     }
-                    // remove slot tags contents from remaining default slot
-                    $innerRemaining = preg_replace('/<c-slot\b[^>]*>[\s\S]*?<\/c-slot>/i', '', $innerRaw);
+                }
+
+                // If we found top-level slot ranges, extract their names and contents
+                $slotsCode = '';
+                $extractedSlots = []; // list of arrays ['name'=>..., 'content'=>..., 'full'=>...]
+                if (!empty($slotRanges)) {
+                    // sort ranges by start ascending (should already be)
+                    usort($slotRanges, fn($a,$b) => $a['start'] <=> $b['start']);
+                    foreach ($slotRanges as $range) {
+                        $full = $range['full'];
+                        // parse this single slot fragment: capture attributes and inner HTML
+                        if (preg_match('/^<c-slot\b((?:[^"\'>]|"[^"]*"|\'[^\']*\')*)>([\s\S]*)<\/c-slot>$/i', $full, $sm)) {
+                            $slotAttrsRaw = $sm[1] ?? '';
+                            $slotInnerRaw = $sm[2] ?? '';
+
+                            // find name attribute
+                            if (preg_match('/\bname\s*=\s*(["\'])(.*?)\1/i', $slotAttrsRaw, $nm)) {
+                                $slotName = addslashes($nm[2]);
+                                $compiledSlot = $this->compile($slotInnerRaw);
+                                // buffer slot content into slots array with HtmlString wrapper
+                                $slotsCode .= "<?php ob_start(); ?>\n" . $compiledSlot . "\n<?php \${$slotsVar}['{$slotName}'] = new \\Library\\Framework\\View\\HtmlString(ob_get_clean()); ?>\n";
+                                $extractedSlots[] = ['name' => $slotName, 'full' => $full];
+                            }
+                        }
+                    }
+
+                    // build innerRemaining by removing these ranges from innerRaw
+                    $innerRemaining = '';
+                    $lastPos = 0;
+                    foreach ($slotRanges as $range) {
+                        $start = $range['start'];
+                        $innerRemaining .= substr($innerRaw, $lastPos, $start - $lastPos);
+                        $lastPos = $range['end'];
+                    }
+                    $innerRemaining .= substr($innerRaw, $lastPos);
                 } else {
                     $innerRemaining = $innerRaw;
                 }
@@ -380,6 +476,7 @@ class View
                 $code .= $slotsCode;
                 $code .= "<?php \${$attrsVar} = []; ?>\n";
 
+                // Now parse and handle attributes (bound / compiled / literal) - same logic as before
                 foreach ($pairs as $p) {
                     $rawKey = $p['key'];
                     $isBound = (substr($rawKey,0,1) === ':');
@@ -392,7 +489,6 @@ class View
                     }
 
                     if ($isBound) {
-                        // Bound attribute: evaluate expression as PHP and normalize numeric-ish strings
                         $expr = $v;
                         $code .= "<?php \${$attrsVar}['{$key}'] = ({$expr}); ";
                         $code .= "if (is_string(\${$attrsVar}['{$key}']) && is_numeric(\${$attrsVar}['{$key}'])) { ";
@@ -402,7 +498,6 @@ class View
                     }
 
                     if (preg_match('/\{\{|\@|<c-|<\/c-|<\?php/s', $v)) {
-                        // compiled attribute
                         $compiled = $this->compile($v);
                         $code .= "<?php ob_start(); ?>\n";
                         $code .= $compiled . "\n";
