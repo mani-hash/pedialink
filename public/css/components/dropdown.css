@@ -21,27 +21,8 @@
 }
 
 /* trigger button */
-.dropdown-trigger {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: .5rem;
-    border-radius: 8px;
-    padding: .35rem .45rem;
-    background: transparent;
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: background .12s ease, box-shadow .12s ease, transform .08s ease;
-    color: var(--accent);
-}
-
 .dropdown-trigger:hover {
     background: var(--surface);
-}
-
-.dropdown-trigger:focus {
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.06);
 }
 
 /* menu */
