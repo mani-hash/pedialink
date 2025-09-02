@@ -1,4 +1,4 @@
-@extends('layout/phm')
+@extends('layout/portal')
 
 @section('content')
     You are logged in as PHM
