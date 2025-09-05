@@ -5,7 +5,7 @@ PHM Dashboard
 @endsection
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('/css/pages/phm/phmdash.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/pages/phm/dashboard.css') }}">
 @endsection
 
 
