@@ -14,7 +14,7 @@
 <body>
     <div class="app-layout">
         <c-sidebar 
-            role="{{ auth()->check() ? auth()->user()->role : 'parent' }}"
+            type="{{ auth()->check() ? auth()->user()->role : 'admin' }}"
         />
         <c-navbar.portal />
         <div class="sidebar-overlay" onclick="document.body.classList.remove('show-sidebar')"></div>
