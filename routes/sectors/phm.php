@@ -7,6 +7,7 @@ use App\Controllers\PublicHealthMidwife\MaternalProfileController;
 use App\Controllers\TestController;
 use App\Controllers\PublicHealthMidwife\GrowthMonitorController;
 use App\Controllers\PublicHealthMidwife\VaccinationController;
+use App\Controllers\PublicHealthMidwife\AppointmentsController;
 
 return [
     ['GET', '/phm/dashboard', [DashboardController::class, 'index'], 'phm.dashboard', ['phm']],
@@ -15,7 +16,7 @@ return [
     ['GET', '/phm/growth-monitoring', [GrowthMonitorController::class, 'index'], 'phm.growth.monitoring', ['phm']],
     ['GET', '/phm/vaccination', [VaccinationController::class, 'index'], 'phm.vaccination', ['phm']],
     ['GET', '/phm/nutrition-tracking', [TestController::class, 'nutritionTracking'], 'phm.nutrition.tracking', ['phm']],
-    ['GET', '/phm/appointments', [TestController::class, 'appointments'], 'phm.appointments', ['phm']],
+    ['GET', '/phm/appointments', [AppointmentsController::class, 'index'], 'phm.appointments', ['phm']],
     ['GET', '/phm/notifications', [TestController::class, 'notifications'], 'phm.notifications', ['phm']],
     ['GET', '/phm/settings', [TestController::class, 'settings'], 'phm.settings', ['phm']],
 ];
