@@ -1,12 +1,9 @@
 name: Sync main into role branches (only for selected source branches)
 
-# Trigger only when PRs are closed (so we can check which branch got merged into main)
 on:
   pull_request:
     types: [closed]
 
-# Give the workflow enough privileges. If your org restricts GitHub Actions,
-# you may need to switch to a PAT (see notes below).
 permissions:
   contents: write
   pull-requests: write
@@ -16,7 +13,6 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Guard job: check that the closed PR was merged into main AND the source branch is allowed
   guard:
     runs-on: ubuntu-latest
     outputs:
@@ -27,7 +23,8 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const core = require('@actions/core');
+            // actions/github-script injects `core`, `github`, and `context` for you.
+            // Don't `require('@actions/core')` here — it causes "Identifier 'core' already declared".
             const pr = context.payload.pull_request;
 
             if (!pr) {
@@ -42,14 +39,12 @@ jobs:
               return;
             }
 
-            // We only care about merges into main
             if (pr.base.ref !== 'main') {
               core.setOutput('proceed','false');
               console.log(`PR base is ${pr.base.ref} (not main) — ignoring.`);
               return;
             }
 
-            // Allowed source branches that should trigger the sync
             const allowed = [
               'TASK-91-sync-branch-workflow',
               'TASK-89-database-migrations',
@@ -59,7 +54,6 @@ jobs:
             const head = pr.head.ref;
             console.log(`PR #${pr.number} merged from ${head} into main.`);
 
-            // Prevent loop: skip if merge performed by github-actions actor (adjust if you use a bot account)
             const mergedBy = pr.merged_by && pr.merged_by.login;
             if (mergedBy === 'github-actions') {
               core.setOutput('proceed','false');
@@ -76,7 +70,6 @@ jobs:
             core.setOutput('proceed','true');
             console.log('Allowed PR merge into main detected — proceeding with sync job.');
 
-  # Main sync job: only runs when guard.proceed == true
   sync-role-branches:
     needs: guard
     if: needs.guard.outputs.proceed == 'true'
@@ -98,11 +91,7 @@ jobs:
 
       - name: Create or update PR (main → role branch) and try robust auto-merge
         uses: actions/github-script@v7
-        # If your org blocks the default GITHUB_TOKEN from creating/merging PRs,
-        # you can replace this with:
-        # with:
-        #   github-token: ${{ secrets.SYNC_TOKEN }}
-        # and create a PAT in a machine/user account with repo scope and store it in secrets.SYNC_TOKEN.
+        # If you need a PAT, set secrets.SYNC_TOKEN and uncomment the line below:
         with:
           github-token: ${{ secrets.SYNC_TOKEN }}
           script: |
@@ -151,8 +140,7 @@ jobs:
 
             console.log(`After polling: pr.mergeable=${pr.mergeable} pr.mergeable_state=${pr.mergeable_state}`);
 
-            // If explicitly not mergeable or dirty (conflicts), bail out for manual resolution
-            const badStates = ['dirty', 'unknown']; // 'dirty' often indicates conflicts
+            const badStates = ['dirty', 'unknown'];
             if (pr.mergeable === false || badStates.includes(pr.mergeable_state)) {
               console.log(`PR #${pr.number} is not auto-mergeable (state=${pr.mergeable_state}). Leaving it open for manual resolution.`);
               return;
@@ -163,7 +151,6 @@ jobs:
             let checkAttempt = 0;
             const checkDelayMs = 15000; // 15s between checks
 
-            // Accept success/neutral/skipped as passing (tweak if you want only 'success')
             const acceptableConclusions = new Set(['success', 'neutral', 'skipped']);
 
             while (checkAttempt < maxCheckAttempts) {
@@ -180,7 +167,6 @@ jobs:
 
               console.log(`Status state = ${combinedStatus.data.state}, check_runs total=${checks.data.total_count}, running=${anyCheckRunning}, failed=${anyCheckFailed}`);
 
-              // If any check still running -> wait
               if (anyCheckRunning || combinedStatus.data.state === 'pending') {
                 console.log(`CI still running for commit ${pr.head.sha}. Waiting ${checkDelayMs}ms (attempt ${checkAttempt+1}/${maxCheckAttempts})...`);
                 await sleep(checkDelayMs);
@@ -188,13 +174,11 @@ jobs:
                 continue;
               }
 
-              // All checks completed: if combined status success OR no failed check runs -> proceed
               if (combinedStatus.data.state === 'success' || (!anyCheckFailed && checks.data.total_count > 0)) {
                 console.log('All checks complete and passing (or acceptable). Proceeding to merge attempt.');
                 break;
               }
 
-              // Combined status indicates failure or checks failed -> do not auto-merge
               console.log(`Checks indicate failure (combined state=${combinedStatus.data.state}). Not auto-merging PR #${pr.number}.`);
               return;
             }
@@ -215,9 +199,7 @@ jobs:
                 console.log(`Merge attempted but not merged: ${JSON.stringify(mergeResp.data)}`);
               }
             } catch (err) {
-              // Typical reasons: branch protection requires review or required status checks still preventing merge
               console.log(`Auto-merge failed for PR #${pr.number}: ${err.message}`);
-              // leave PR open for humans
             }
         env:
           TARGET_BRANCH: ${{ matrix.portal-branch }}
