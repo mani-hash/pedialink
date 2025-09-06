@@ -27,6 +27,13 @@
   margin-bottom: 32px;
 }
 
+.charts-grid-row {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
 .chart-card {
   background: white;
   border-radius: 12px;
