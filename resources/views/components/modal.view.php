@@ -177,9 +177,30 @@ $initAttr = $initOpen ? 'true' : 'false';
             closeModal();
         });
 
+        const onBackdropClick = (ev) => {
+            if (!closeOnOverlay) return;
+            closeModal(true);
+        };
+        portalBackdrop.addEventListener('click', onBackdropClick);
+        portalBackdrop._onBackdropClick = onBackdropClick;
+
+        // handle clicks on the portal root: if click target is portalRoot (i.e. outside dialog), close
+        const onPortalClick = (ev) => {
+            if (!closeOnOverlay) return;
+            // If the click target is the portal root itself (not inside dialog), close.
+            // This handles cases where portalRoot sits above the backdrop and intercepts clicks.
+            if (ev.target === portalRoot) {
+            closeModal(true);
+            }
+        };
+
+        portalRoot.addEventListener('click', onPortalClick);
+        portalRoot._onPortalClick = onPortalClick;
+
         cloned.querySelectorAll('[data-modal-close]').forEach(btn => {
             btn.addEventListener('click', (ev) => {
-                ev.preventDefault(); closeModal(true);
+                ev.preventDefault();
+                closeModal(true);
             });
         });
 
@@ -253,16 +274,31 @@ $initAttr = $initOpen ? 'true' : 'false';
 
         // cleanup after transition frame
         setTimeout(() => {
-            if (currentPortal && currentPortal.parentNode) {
-                currentPortal.parentNode.removeChild(currentPortal);
+            if (currentPortal) {
+                if (currentPortal._onPortalClick) {
+                    currentPortal.removeEventListener('click', currentPortal._onPortalClick);
+                    delete currentPortal._onPortalClick;
+                }
+                // remove keyboard handler if stored
+                if (currentPortal._modal_onKey) {
+                    document.removeEventListener('keydown', currentPortal._modal_onKey);
+                    delete currentPortal._modal_onKey;
+                }
+                // finally remove the portal node
+                if (currentPortal.parentNode) {
+                    currentPortal.parentNode.removeChild(currentPortal);
+                }
             }
 
-            if (currentBackdrop && currentBackdrop.parentNode) {
-                currentBackdrop.parentNode.removeChild(currentBackdrop);
-            }
-
-            if (currentPortal && currentPortal._modal_onKey) {
-                document.removeEventListener('keydown', currentPortal._modal_onKey);
+            // remove backdrop and its handler
+            if (currentBackdrop) {
+                if (currentBackdrop._onBackdropClick) {
+                    currentBackdrop.removeEventListener('click', currentBackdrop._onBackdropClick);
+                    delete currentBackdrop._onBackdropClick;
+                }
+                if (currentBackdrop.parentNode) {
+                    currentBackdrop.parentNode.removeChild(currentBackdrop);
+                }
             }
 
             document.body.classList.remove('modal-open');
