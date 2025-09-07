@@ -8,7 +8,6 @@
   /* Local variables for "button-like" link variants (tweak if needed) */
   --link-btn-height: 2.5rem;                       /* match .btn height */
   --link-btn-padding-x: 1rem;                      /* match .btn horizontal padding */
-  --link-btn-padding-y: .5rem;                     /* match .btn vertical padding */
   --link-btn-radius: calc(var(--radius-md));       /* match .btn radius */
   --link-btn-font-weight: var(--font-weight-medium);
   --link-btn-font-size: .875rem;
@@ -134,6 +133,65 @@
 .link-outline:active {
   transform: translateY(0);
   filter: brightness(.97);
+}
+
+.link-secondary,
+.link-secondary:visited {
+  display: inline-flex;
+  align-items: center;
+  height: var(--link-btn-height);                           /* match button height */
+  /* padding: var(--link-btn-padding-y) var(--link-btn-padding-x); */
+  padding-inline: var(--link-btn-padding-x);
+  border-radius: var(--link-btn-radius);
+  font-weight: var(--link-btn-font-weight);
+  font-size: var(--link-btn-font-size);
+  line-height: 1;
+  background: var(--secondary);                             /* same as btn-secondary */
+  color: var(--text-primary);
+  border: 1px solid transparent;
+  box-shadow: var(--link-btn-subtle-shadow);                /* soft shadow like other buttons */
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Hover: subtle lift and stronger background (same feel as btn-secondary) */
+.link-secondary:hover,
+.link-secondary:focus {
+  /* transform: translateY(-1px); */
+  background: var(--secondary-hover);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  text-decoration: none;
+  outline: none;
+}
+
+/* Active (press) */
+.link-secondary:active {
+  transform: translateY(0);
+  filter: brightness(.96);
+}
+
+/* Disabled state */
+.link-secondary[aria-disabled="true"],
+.link-secondary.disabled {
+  opacity: .5;
+  pointer-events: none;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Make sure focus uses your existing soft ring (inherited from .link:focus) */
+.link-secondary:focus {
+  box-shadow: var(--link-focus-ring);
+}
+
+/* Icon-only variant for secondary links (square) */
+.link-secondary.link-icon-only {
+  padding: .45rem;
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 8px;
+  justify-content: center;
 }
 
 /* ---- Secondary (subtle filled) ----
