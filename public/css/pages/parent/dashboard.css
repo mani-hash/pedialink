@@ -34,8 +34,8 @@ body {
 }
 .card{
     padding: 1.25rem 1rem;
-
 }
+
 .header{
     width: 100%;
     display: flex;
@@ -63,4 +63,13 @@ body {
     font-size: var(--text-sm);
     font-weight: var(--font-weight-normal);
     color: var(--text-muted);
+}
+
+.child-select{
+    width: fit-content;
+}
+
+.divider{
+    margin-block: 20px;
+    border: 0.8px solid var(--border);
 }
