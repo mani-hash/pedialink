@@ -1,9 +1,13 @@
-@extends('layout/admin')
+@extends('layout/portal')
+
+@section('title')
+    Dashboard
+@endsection
+
+@section('header')
+    Welcome, {{ auth()->user()->name }}
+@endsection
 
 @section('content')
-    You are logged in as admin
-
-    <form action="{{ route('logout') }}" method="post">
-        <button>Logout</button>
-    </form>
+    
 @endsection
