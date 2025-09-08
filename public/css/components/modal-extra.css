@@ -15,6 +15,7 @@
 .view-slot-item > .slot-icon {
     padding: var(--spacing);
     border-radius: var(--radius-md);
+    width: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,6 +35,6 @@
 
 .slot-content span:last-child {
     color: var(--text-strong);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-semibold);
     font-size: var(--text-md);
 }
