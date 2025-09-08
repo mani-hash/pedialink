@@ -8,7 +8,7 @@ $menuItems = [
         'Main' => [
             [
                 'name' => 'Dashboard',
-                'link' => '#',
+                'link' => route('admin.dashboard'),
                 'icon' => asset('/assets/icons/dashboard-square-02.svg'),
 
             ],
@@ -18,8 +18,9 @@ $menuItems = [
                 'icon' => asset('/assets/icons/user.svg'),
 
                 'children' => [
-                    ['name' => 'Overview', 'link' => '#'],
-                    ['name' => 'Admin', 'link' => '#'],
+                    ['name' => 'Overview', 'link' => route('admin.user.overview')],
+                    ['name' => 'Parent Account Approval', 'link' => route('admin.user.parent')],
+                    ['name' => 'Admin', 'link' => route('admin.user.admin')],
                 ]
             ],
             [
@@ -28,7 +29,7 @@ $menuItems = [
                 'icon' => asset('/assets/icons/baby-01.svg'),
 
                 'children' => [
-                    ['name' => 'Overview', 'link' => '#'],
+                    ['name' => 'Overview', 'link' => route('admin.child.overview')],
                     ['name' => 'Linkage Requests', 'link' => '#'],
                     ['name' => 'Access Requests', 'link' => '#'],
                 ]
