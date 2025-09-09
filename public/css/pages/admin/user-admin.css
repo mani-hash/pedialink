@@ -3,13 +3,13 @@
     justify-content: center;
 }
 
-#admin-register-form {
+#admin-register-form, #admin-edit-form {
     display: flex;
     flex-direction: column;
     gap: calc(var(--spacing) * 5);
 }
 
-#admin-register-form > * {
+#admin-register-form > *, #admin-edit-form > * {
     gap: calc(var(--spacing) * 2);
 
 }
