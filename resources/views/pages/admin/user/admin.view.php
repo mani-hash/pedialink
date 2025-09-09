@@ -220,7 +220,9 @@
                                                 <div>Delete Account</div>
                                             </c-slot>
 
-                                                                                 
+                                            <p class="delete-content">
+                                                Do you want to delete <span class="admin-type">{{ ucfirst($item['type']) }} Admin</span> account of user <span class="admin-id">A-1023</span>?
+                                            </p>                              
 
                                             <c-slot name="footer">
                                                 <c-button type="button" variant="outline" data-modal-close="delete-account-{{ $key }}">Cancel</c-button>
