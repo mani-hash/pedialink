@@ -43,6 +43,16 @@
     font-weight: var(--font-weight-medium);
 }
 
+.parent-name-approve, .parent-id-approve {
+    color: var(--success);
+    font-weight: var(--font-weight-semibold);
+}
+
+.parent-name-deny, .parent-id-deny {
+    color: var(--destructive);
+    font-weight: var(--font-weight-semibold);
+}
+
 @media (max-width: 1200px) {
     .parent-approval-content {
         grid-template-columns: repeat(1, minmax(0, 1fr));
