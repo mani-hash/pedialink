@@ -101,6 +101,9 @@ if (!empty($error) && trim($error) !== '') {
       for="{{ $uid . '_trigger' }}"
     >
       {{ $label }}
+      @if (isset($required))
+        <span class="asterik">*</span>
+      @endif
     </label>
   @endif
 
