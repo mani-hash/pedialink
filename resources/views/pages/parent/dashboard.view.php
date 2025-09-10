@@ -151,7 +151,7 @@ Parent Dashboard
                     <div class="primary-details">
                         <div class="name">Baby Sara - <span>Routine Checkup</span></div>
                         <div class="sub-details">
-                            Doctor Icon
+                            <!-- Doctor Icon -->
                             <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -168,8 +168,8 @@ Parent Dashboard
                         <div class="date">2025-06-01</div>
                         <c-badge type="primary">09.30 AM</c-badge>
                     </div>
-
                 </div>
+                <!-- Repeatable rows for other appoinments -->
                 <div class="row appoinment">
                     <div class="primary-details">
                         <div class="name">Baby Sara - <span>Routine Checkup</span></div>
@@ -220,7 +220,6 @@ Parent Dashboard
     </div>
 
     <div class="right-col">
-
         <!-- Growth Chart Card -->
         <c-card class="card growth-card">
             <div class="header">
@@ -228,6 +227,7 @@ Parent Dashboard
                     <span class="card-title">Child Growth Chart</span>
                     <span class="card-subtitle">Track Baby Sarah's BMI over time</span>
                 </div>
+                <!-- Child Selector -->
                 <c-select name='child' class="child-select" placeholder="Select Child">
                     <li class="select-item" data-value="baby-sara">Baby Sara</li>
                     <li class="select-item" data-value="baby-john">Baby John</li>
@@ -255,10 +255,12 @@ Parent Dashboard
             <hr class="divider">
 
             <div class="card-body">
+                <!-- Event Item -->
                 <div class="row event">
                     <div class="primary-details">
                         <div class="name">Maternal Health Seminar</div>
                         <div class="sub-details">
+                            <!-- Calender Icon-->
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18 2V4M6 2V4" stroke="#71717A" stroke-width="1.5" stroke-linecap="round"
@@ -279,6 +281,7 @@ Parent Dashboard
                             <div class="sub-name">2024-06-15 at 09.00 AM</div>
                         </div>
                         <div class="sub-details">
+                            <!-- Participants Icon-->
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -297,6 +300,7 @@ Parent Dashboard
                             </svg>
 
                             <div class="sub-name">45 Participants</div>
+                            <!-- Location Icon -->
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -317,6 +321,7 @@ Parent Dashboard
 
 
                 </div>
+                <!-- Repeatable rows for other events -->
                 <div class="row event">
                     <div class="primary-details">
                         <div class="name">Baby Care Seminar</div>

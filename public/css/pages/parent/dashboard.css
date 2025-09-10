@@ -153,6 +153,8 @@ body {
     border: 0.8px solid var(--border);
 }
 
+/* Responsive Design */
+
 @media (max-width: 900px) {
 
     .top-section {
