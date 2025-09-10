@@ -137,6 +137,10 @@
   color: var(--text-strong);
 }
 
+.select-field-label > .asterik {
+  color: var(--destructive);
+}
+
 /* Error styles */
 .select.select--error .select-trigger {
   border-color: var(--danger);
