@@ -1,9 +1,10 @@
 <?php
 
+use App\Controllers\Parent\DashboardController;
 use App\Controllers\ParentController;
 
 return [
-    ['GET', '/parent/dashboard', [ParentController::class, 'dashboard'], 'parent.dashboard', ['parent']],
+    ['GET', '/parent/dashboard', [DashboardController::class, 'index'], 'parent.dashboard', ['parent']],
     ['GET', '/parent/my-children', [ParentController::class, 'myChildren'], 'parent.my.children', ['parent']],
     ['GET', '/parent/vaccination', [ParentController::class, 'vaccination'], 'parent.vaccination', ['parent']],
     ['GET', '/parent/nutrition-tracking', [ParentController::class, 'nutritionTracking'], 'parent.nutrition.tracking', ['parent']],
