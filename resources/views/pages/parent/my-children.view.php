@@ -9,10 +9,18 @@ Parent - My Childern
 @endsection
 
 @section('header')
-<div class="top-section">
-   <span>My Children</span>
-   <div class="search-box"></div>
-</div>
+   My Children
+   
+@endsection
+
+@section('header_right')
+<div class="search-box">
+      <span class="search-icon" aria-hidden="true">
+         <img src="{{ asset('assets/icons/search.svg') }}" />
+
+      </span>
+      <input type="search" name="q" placeholder="Search" />
+   </div>
 @endsection
 
 @section('content')
@@ -86,7 +94,8 @@ $childDetails = [
                <p class="nickname">{{ $child['nickname'] }}</p>
             </div>
          </div>
-         <c-badge type="{{ strtolower($child['status']) == 'critical' ? 'red' : 'green' }}">{{$child['status']}}</c-badge>
+         <c-badge
+            type="{{ strtolower($child['status']) == 'critical' ? 'red' : 'green' }}">{{$child['status']}}</c-badge>
       </div>
       <div class="card-body">
          <div class="detail-row">

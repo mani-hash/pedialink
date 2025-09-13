@@ -22,6 +22,7 @@
             <div class="content-inner">
                 <header class="page-header">
                     <h1 class="page-title">@yield('header')</h1>
+                    <div class="header__right">@yield('header_right')</div>
                 </header>
                 <div>
                     @yield('content')
