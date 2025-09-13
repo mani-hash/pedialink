@@ -94,8 +94,9 @@ $childDetails = [
                <p class="nickname">{{ $child['nickname'] }}</p>
             </div>
          </div>
-         <c-badge
-            type="{{ strtolower($child['status']) == 'critical' ? 'red' : 'green' }}">{{$child['status']}}</c-badge>
+         <c-badge type="{{ strtolower($child['status']) == 'critical' ? 'red' : 'green' }}">
+            {{$child['status']}}
+         </c-badge>
       </div>
       <div class="card-body">
          <div class="detail-row">
