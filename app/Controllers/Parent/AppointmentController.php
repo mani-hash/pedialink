@@ -8,4 +8,6 @@ class AppointmentController
     {
         return view("parent/appointments");
     }
+
+ 
 }
