@@ -97,7 +97,7 @@
                                         {{ ucfirst($item['role']) }}
                                     </c-badge>
                                 @elseif (strtolower($item["role"]) === "doctor")
-                                    <c-badge class="role-badge" type="grenn">
+                                    <c-badge class="role-badge" type="green">
                                         {{ ucfirst($item['role']) }}
                                     </c-badge>
                                 @elseif (strtolower($item["role"]) === "phm")
