@@ -318,9 +318,9 @@ $appointments = [
                                     </c-card>
 
                                     <form id="reschedule-appointment-form" action="">
-                                        <c-input type="date" label="New Date" name="date" placeholder="Select Date"
+                                        <c-input type="date" label="New Date" name="date" placeholder="Select Date" value="{{$appointment['date']}}"
                                             required />
-                                        <c-select label="New Time" name="time" multiple="1" searchable="1" required>
+                                        <c-select label="New Time" name="time" multiple="1" searchable="1" value="{{$appointment['time']}}" required>
                                             <li class="select-item" data-value=" ">09.00 AM</li>
                                             <li class="select-item" data-value=" ">10.00 AM</li>
                                             <li class="select-item" data-value=" ">11.00 AM</li>
