@@ -8,9 +8,6 @@ class AppointmentController
     {
         return view("parent/appointments");
     }
-   public function requestAppointment()
-    {
-        return view("parent/request-appointment");
-    }
+   
  
 }

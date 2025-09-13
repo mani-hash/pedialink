@@ -11,7 +11,7 @@ return [
     ['GET', '/parent/vaccination', [ParentController::class, 'vaccination'], 'parent.vaccination', ['parent']],
     ['GET', '/parent/nutrition-tracking', [ParentController::class, 'nutritionTracking'], 'parent.nutrition.tracking', ['parent']],
     ['GET', '/parent/appointments', [AppointmentController::class, 'index'], 'parent.appointments', ['parent']],
-    ['GET', '/parent/request-appointment', [AppointmentController::class, 'requestAppointment'], 'parent.request.appointment', ['parent']],
+    ['POST', '/parent/request-appointment', [AppointmentController::class, 'requestAppointment'], 'parent.request.appointment', ['parent']],
 
     ['GET', '/parent/events-campaigns', [ParentController::class, 'eventsCampaigns'], 'parent.events.campaigns', ['parent']],
     ['GET', '/parent/notifications', [ParentController::class, 'notifications'], 'parent.notifications', ['parent']],
