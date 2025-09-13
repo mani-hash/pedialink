@@ -90,6 +90,16 @@ $appointments = [
 ?>
 
 <c-table.controls :columns='["Child","Date & Time ","Location","Doctor","Status"]'>
+    <c-slot name="filter">
+            <c-button variant="outline">
+                <img src="{{ asset('assets/icons/filter.svg') }}" />
+                Name
+            </c-button>
+            <c-button variant="outline">
+                <img src="{{ asset('assets/icons/filter.svg') }}" />
+                Doctor
+            </c-button>
+        </c-slot>
 
     <c-slot name="extrabtn">
         <c-link type="primary" href="{{ route('parent.request.appointment') }}">
