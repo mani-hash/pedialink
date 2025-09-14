@@ -224,7 +224,14 @@
     cursor: pointer;
 }
 
-.item{
+.drop-item{
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+
+}
+
+.logout{
   color: var(--destructive);
 }
 
