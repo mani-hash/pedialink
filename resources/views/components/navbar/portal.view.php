@@ -3,6 +3,21 @@
 // Attributes: $class (extra), $brand (logo path or HTML)
 $uid = 'navbar_' . bin2hex(random_bytes(6));
 $class = $class ?? '';
+
+$notifications = auth()->user()->notifications ?? [
+  [
+    'message' => 'New user registered',
+    'time' => '2 hours',
+    'read' => false,
+  ],
+  [
+    'message' => 'Server rebooted',
+    'time' => '1 day',
+    'read' => true,
+  ],
+
+];
+
 ?>
 <nav id="{{ $uid }}" class="app-navbar {{ $class }}">
   <div class="app-navbar__left">
@@ -35,7 +50,47 @@ $class = $class ?? '';
       </c-slot>
 
       <c-slot name="menu">
-       
+        <div class="notification-menu">
+          <div class="header-section">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M2.10831 12.308C1.9311 13.4697 2.72337 14.276 3.69342 14.6779C7.41238 16.2185 12.5877 16.2185 16.3067 14.6779C17.2767 14.276 18.069 13.4697 17.8918 12.308C17.7829 11.5941 17.2443 10.9996 16.8454 10.4191C16.3228 9.64941 16.2708 8.80988 16.2708 7.91669C16.2708 4.46491 13.4633 1.66669 10 1.66669C6.53681 1.66669 3.72931 4.46491 3.72931 7.91669C3.72924 8.80988 3.67731 9.64941 3.15471 10.4191C2.75574 10.9996 2.21722 11.5941 2.10831 12.308Z"
+                stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              <path
+                d="M6.66663 15.8333C7.0487 17.271 8.39624 18.3333 9.99996 18.3333C11.6037 18.3333 12.9512 17.271 13.3333 15.8333"
+                stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+
+            <div class="title">
+              Notifications
+            </div>
+          </div>
+
+          <div class="row-container">
+
+            @foreach($notifications as $notification)
+            <div class="row">
+              <div class="row__left">
+
+                <div class="notification-details">
+                  <div class="message">
+                    {{$notification['message']}}
+                  </div>
+                  <div class="time">
+                    {{$notification['time']}} ago
+                  </div>
+                </div>
+              </div>
+              <div class="row__right">
+
+                <c-button varient="primary" size="sm"> Mark as Read</c-button>
+                
+
+              </div>
+            </div>
+            @endforeach
+          </div>
+        </div>
       </c-slot>
 
     </c-dropdown.main>
