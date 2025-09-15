@@ -272,7 +272,7 @@ $appointments = [
                                             Cancel Appointment
                                         </c-button>
 
-                                        <c-button varient="primary">
+                                       <c-button  variant="primary">
                                             Reschedule Appointment
                                         </c-button>
                                     </c-slot>

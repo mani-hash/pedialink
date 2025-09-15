@@ -9,18 +9,18 @@ Parent - My Childern
 @endsection
 
 @section('header')
-   My Children
-   
+My Children
+
 @endsection
 
 @section('header_right')
 <div class="search-box">
-      <span class="search-icon" aria-hidden="true">
-         <img src="{{ asset('assets/icons/search.svg') }}" />
+   <span class="search-icon" aria-hidden="true">
+      <img src="{{ asset('assets/icons/search.svg') }}" />
 
-      </span>
-      <input type="search" name="q" placeholder="Search" />
-   </div>
+   </span>
+   <input type="search" name="q" placeholder="Search" />
+</div>
 @endsection
 
 @section('content')
@@ -174,8 +174,9 @@ $childDetails = [
          </div>
 
       </div>
-      <c-button varient="primary" size="lg">View Schedule</c-button>
-
+      <c-button variant="primary">
+         View Details
+      </c-button>
    </c-card>
 
    @endforeach
