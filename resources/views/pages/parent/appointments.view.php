@@ -147,10 +147,10 @@ $appointments = [
                 </c-select>
                 <c-input type="date" label="Preferred Date" name="date" placeholder="Select Date" required />
                 <c-select label="Preferred Time" name="time" multiple="1" searchable="1" required>
-                    <li class="select-item" data-value=" ">09.00 AM</li>
-                    <li class="select-item" data-value=" ">10.00 AM</li>
-                    <li class="select-item" data-value=" ">11.00 AM</li>
-                    <li class="select-item" data-value=" ">12.00 PM</li>
+                    <li class="select-item" data-value="09:00 AM">09.00 AM</li>
+                    <li class="select-item" data-value="10:00 AM">10.00 AM</li>
+                    <li class="select-item" data-value="11:00 AM">11.00 AM</li>
+                    <li class="select-item" data-value="12:00 PM">12.00 PM</li>
                 </c-select>
                 <c-input type="text" name="purpose" label="Appointment Purpose"
                     placeholder="Eanter your visit purpose" />
@@ -260,25 +260,38 @@ $appointments = [
                                             title="Location" info="{{ $appointment['location'] }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/doctor.svg') }}" title="Doctor"
                                             info="{{ $appointment['doctor'] }}" />
-
-
-
                                     </c-modal.viewcard>
 
 
 
+
+
+                                    <c-modal.viewlist title="Purpose">
+                                        <c-slot name="list">
+                                           <li>{{ $appointment['purpose'] }}</li> 
+                                        </c-slot>
+                                    </c-modal.viewlist>
+
+                                    <c-modal.viewlist title="Notes">
+                                        <c-slot name="list">
+                                            @foreach ($appointment['notes'] as $note)
+                                            <li>{{ $note }}</li>
+                                            @endforeach
+                                        </c-slot>
+                                    </c-modal.viewlist>
+
                                     <c-slot name="footer">
-                                        <c-button varient="primary">
+                                        <c-button variant="secondary">
                                             Cancel Appointment
                                         </c-button>
 
-                                       <c-button  variant="primary">
+                                        <c-button variant="primary">
                                             Reschedule Appointment
                                         </c-button>
                                     </c-slot>
                                 </c-modal>
                                 <c-dropdown.sep />
-                                <c-modal id="reschedule-appointmant-{{$key}}" size="md" :initOpen="false" >
+                                <c-modal id="reschedule-appointmant-{{$key}}" size="md" :initOpen="false">
                                     <c-slot name="trigger">
                                         <c-dropdown.item> Reschedule Appointment </c-dropdown.item>
                                     </c-slot>
@@ -318,9 +331,10 @@ $appointments = [
                                     </c-card>
 
                                     <form id="reschedule-appointment-form" action="">
-                                        <c-input type="date" label="New Date" name="date" placeholder="Select Date" value="{{$appointment['date']}}"
-                                            required />
-                                        <c-select label="New Time" name="time" multiple="1" searchable="1" value="{{$appointment['time']}}" required>
+                                        <c-input type="date" label="New Date" name="date" placeholder="Select Date"
+                                            value="{{$appointment['date']}}" required />
+                                        <c-select label="New Time" name="time" multiple="1" searchable="1"
+                                            value="{{$appointment['time']}}" required>
                                             <li class="select-item" data-value=" ">09.00 AM</li>
                                             <li class="select-item" data-value=" ">10.00 AM</li>
                                             <li class="select-item" data-value=" ">11.00 AM</li>
