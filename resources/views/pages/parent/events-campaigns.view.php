@@ -47,11 +47,11 @@ Parent - Event & Campaigns
 
 <?php
 $eventDetails = [
-   ['id' => 'EVT001', 'title' => 'Health Awareness Campaign', 'subtitle' => 'Join us for a day of health awareness activities and workshops.', 'status' => 'Upcoming', 'date' => '2024-07-15', 'time' => '10:00 AM - 4:00 PM', 'registeredParticipants' => 45, 'totalParticipants' => 100, 'location' => 'Community Center'],
-   ['id' => 'EVT002', 'title' => 'Nutrition Workshop', 'subtitle' => 'Learn about balanced diets and healthy eating habits.', 'status' => 'Completed', 'date' => '2024-06-10', 'time' => '1:00 PM - 3:00 PM', 'registeredParticipants' => 30, 'totalParticipants' => 30, 'location' => 'Health Clinic'],
-   ['id' => 'EVT003', 'title' => 'Vaccination Drive', 'subtitle' => 'Get your vaccinations done for a healthier community.', 'status' => 'Ongoing', 'date' => '2024-06-20', 'time' => '9:00 AM - 5:00 PM', 'registeredParticipants' => 75, 'totalParticipants' => 150, 'location' => 'Local School'],
-   ['id' => 'EVT004', 'title' => 'Mental Health Seminar', 'subtitle' => 'Discuss mental health topics with experts in the field.', 'status' => 'Upcoming', 'date' => '2024-08-05', 'time' => '11:00 AM - 2:00 PM', 'registeredParticipants' => 20, 'totalParticipants' => 50, 'location' => 'Library Conference Room'],
-   ['id' => 'EVT005', 'title' => 'First Aid Training', 'subtitle' => "Learn essential first aid skills to help in emergencies.",  'status' => 	'Completed',	'date' =>	'2024-05-25',	'time' =>	'2:00 PM - 6:00 PM',	'registeredParticipants' =>	25,	'totalParticipants' =>	25,	'location' =>	'Hospital Training Room'],
+   ['id' => 'EVT001', 'title' => 'Health Awareness Campaign', 'subtitle' => 'Join us for a day of health awareness activities and workshops.', 'status' => 'Upcoming', 'date' => '2024-07-15', 'time' => '10:00 AM - 4:00 PM', 'registeredParticipants' => 45, 'totalParticipants' => 100, 'location' => 'Community Center', 'isRegistered' => true, 'isFinished' => false],
+   ['id' => 'EVT002', 'title' => 'Nutrition Workshop', 'subtitle' => 'Learn about balanced diets and healthy eating habits.', 'status' => 'Completed', 'date' => '2024-06-10', 'time' => '1:00 PM - 3:00 PM', 'registeredParticipants' => 30, 'totalParticipants' => 30, 'location' => 'Health Clinic', 'isRegistered' => false, 'isFinished' => true],
+   ['id' => 'EVT003', 'title' => 'Vaccination Drive', 'subtitle' => 'Get your vaccinations done for a healthier community.', 'status' => 'Ongoing', 'date' => '2024-06-20', 'time' => '9:00 AM - 5:00 PM', 'registeredParticipants' => 75, 'totalParticipants' => 150, 'location' => 'Local School', 'isRegistered' => true, 'isFinished' => false],
+   ['id' => 'EVT004', 'title' => 'Mental Health Seminar', 'subtitle' => 'Discuss mental health topics with experts in the field.', 'status' => 'Upcoming', 'date' => '2024-08-05', 'time' => '11:00 AM - 2:00 PM', 'registeredParticipants' => 20, 'totalParticipants' => 50, 'location' => 'Library Conference Room', 'isRegistered' => false, 'isFinished' => false],
+   ['id' => 'EVT005', 'title' => 'First Aid Training', 'subtitle' => "Learn essential first aid skills to help in emergencies.", 'status' => 'Completed', 'date' => '2024-05-25', 'time' => '2:00 PM - 6:00 PM', 'registeredParticipants' => 25, 'totalParticipants' => 25, 'location' => 'Hospital Training Room', 'isRegistered' => false, 'isFinished' => true],
 ];
 
 ?>
@@ -66,7 +66,19 @@ $eventDetails = [
    else {
    $badgeType = 'red';
    }
+  
+
+   $buttonType = 'primary';
+   $buttonText = 'Book Now';
+
+   if($event['isRegistered'] && !$event['isFinished']){
+   $buttonType = 'destructive';
+   $buttonText = 'Cancel Booking';
+   }elseif($event['isFinished']){
+   $buttonType = 'disabled';
+   $buttonText = 'Event Finished';}
    }}
+
    <c-card class="card">
       <div class="card-header">
          <span class="event-title">
@@ -96,12 +108,16 @@ $eventDetails = [
 
       </div>
 
-      <c-slot name="footer">
+      <div class="card-footer">
          <c-button variant="secondary">
             View Details
          </c-button>
 
-      </c-slot>
+         <c-button variant="{{ $buttonType }}">
+            {{ $buttonText }}
+         </c-button>
+
+      </div>
 
 
    </c-card>
