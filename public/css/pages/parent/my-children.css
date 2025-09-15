@@ -9,6 +9,12 @@ body {
     color: var(--text-primary);
 }
 
+.title-section {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+
 
 
 .search-box {
