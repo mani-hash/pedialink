@@ -79,7 +79,7 @@ $eventDetails = [
    $buttonText = 'Event Finished';}
    }}
 
-   <c-card class="card">
+   <c-card class="event-card">
       <div class="card-header">
          <span class="event-title">
             {{$event['title']}}
@@ -89,6 +89,9 @@ $eventDetails = [
             {{$event['status']}}
          </c-badge>
       </div>
+
+      <hr>
+
 
       <span class="event-subtitle">
          {{$event['subtitle']}}
