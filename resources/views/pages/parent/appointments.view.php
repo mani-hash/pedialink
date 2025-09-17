@@ -152,9 +152,9 @@ $appointments = [
                     <li class="select-item" data-value="11:00 AM">11.00 AM</li>
                     <li class="select-item" data-value="12:00 PM">12.00 PM</li>
                 </c-select>
-                <c-input type="text" name="purpose" label="Appointment Purpose"
-                    placeholder="Eanter your visit purpose" />
-                <c-input type="text" name="notes" label="Additional Notes"
+                <c-textarea name="purpose" label="Appointment Purpose"
+                    placeholder="Enter your visit purpose" />
+                <c-textarea name="notes" label="Additional Notes"
                     placeholder="Any additional notes or others" />
 
 
@@ -333,16 +333,15 @@ $appointments = [
                                     <form id="reschedule-appointment-form" action="">
                                         <c-input type="date" label="New Date" name="date" placeholder="Select Date"
                                             value="{{$appointment['date']}}" required />
-                                        <c-select label="New Time" name="time" multiple="1" searchable="1"
-                                            value="{{$appointment['time']}}" required>
+                                        <c-select label="New Time" name="time" multiple="1" searchable="1" value="{{$appointment['time']}}" required>
                                             <li class="select-item" data-value=" ">09.00 AM</li>
                                             <li class="select-item" data-value=" ">10.00 AM</li>
                                             <li class="select-item" data-value=" ">11.00 AM</li>
                                             <li class="select-item" data-value=" ">12.00 PM</li>
                                         </c-select>
-                                        <c-input type="text" name="reason" label="Reason for Rescheduling"
+                                        <c-textarea name="reason" label="Reason for Rescheduling"
                                             placeholder="Enter your reason" required />
-                                        <c-input type="text" name="notes" label="Additional Notes"
+                                        <c-textarea name="notes" label="Additional Notes"
                                             placeholder="Any additional notes or others" />
                                     </form>
 
@@ -422,9 +421,9 @@ $appointments = [
                                     </c-card>
 
                                     <form id="cancel-appointment-form" action="">
-                                        <c-input type="text" name="reason" label="Reason for Cancellation"
+                                        <c-textarea name="reason" label="Reason for Cancellation"
                                             placeholder="Enter your reason" required />
-                                        <c-input type="text" name="notes" label="Additional Notes"
+                                        <c-textarea name="notes" label="Additional Notes"
                                             placeholder="Any additional notes or others" />
                                     </form>
 
