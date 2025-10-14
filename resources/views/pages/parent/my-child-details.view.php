@@ -12,6 +12,29 @@
 @section('content')
 
 <main class="container">
+
+<div class="left-col">
+      <!-- Height Chart Card -->
+        <c-card class="card height-card">
+            <div class="header">
+                <div class="title-section">
+                    <span class="card-title">Height Tracking</span>
+                    <span class="card-subtitle">Track {{$child['name']}}'s Height over time</span>
+                </div>
+                <c-button variant="secondary" size="sm">View All</c-button>
+
+            </div>
+            <hr class="divider">
+            <div class="card-body">
+                <canvas>
+                    
+                </canvas>
+            </div>
+        </c-card>
+
+
+
+</div>
     <div class="right-col">
         <c-card class="card appoinment-card">
             <div class="header">
@@ -19,7 +42,7 @@
                     <span class="card-title">Appoinments Timeline</span>
                     <span class="card-subtitle">Appointments details of {{$child['name']}}</span>
                 </div>
-                <c-button varient="secondary" size="sm">View All</c-button>
+                <c-button variant="secondary" size="sm">View All</c-button>
             </div>
             <hr class="divider">
             <div class="card-body">
@@ -103,6 +126,42 @@
                 </div>
             </div>
         </c-card>
+
+        <!-- BMI Chart Card -->
+        <c-card class="card bmi-card">
+            <div class="header">
+                <div class="title-section">
+                    <span class="card-title">BMI Tracking</span>
+                    <span class="card-subtitle">Track {{$child['name']}}'s BMI over time</span>
+                </div>
+                <c-button variant="secondary" size="sm">View All</c-button>
+
+            </div>
+            <hr class="divider">
+            <div class="card-body">
+                <canvas>
+
+                </canvas>
+            </div>
+        </c-card>
+        <!-- Weight Chart Card -->
+        <c-card class="card weight-card">
+            <div class="header">
+                <div class="title-section">
+                    <span class="card-title">Weight Tracking</span>
+                    <span class="card-subtitle">Track {{$child['name']}}'s Weight over time</span>
+                </div>
+                <c-button variant="secondary" size="sm">View All</c-button>
+
+            </div>
+            <hr class="divider">
+            <div class="card-body">
+                <canvas>
+                    
+                </canvas>
+            </div>
+        </c-card>
+
 
 
     </div>
