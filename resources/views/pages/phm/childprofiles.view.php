@@ -15,21 +15,21 @@
 @section('content')
     <?php
     $items = [
-        ['id' => 'C-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed'],
-        ['id' => 'D-123', 'name' => 'John peter',   'Age' => '7 months', 'Vaccination Status' => 'Over due'],
-        ['id' => 'B-123', 'name' => 'Daniel Parker',  'Age' => '5 months', 'Vaccination Status' => 'Completed'],
-        ['id' => 'C-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed'],
-        ['id' => 'F-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed'],
-        ['id' => 'J-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed'],
-        ['id' => 'L-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed'],
-        ['id' => 'T-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed'],
-        ['id' => 'K-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed'],
-        ['id' => 'A-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed'],
-        ['id' => 'L-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed'],
+        ['id' => 'C-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
+        ['id' => 'D-123', 'name' => 'John peter',   'Age' => '7 months', 'Vaccination Status' => 'Over due','GN Devision'=>'Borella'],
+        ['id' => 'B-123', 'name' => 'Daniel Parker',  'Age' => '5 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
+        ['id' => 'C-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
+        ['id' => 'F-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
+        ['id' => 'J-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
+        ['id' => 'L-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
+        ['id' => 'T-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
+        ['id' => 'K-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
+        ['id' => 'A-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
+        ['id' => 'L-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
     ];
     ?>
 
-    <c-table.controls :columns='["ID","Name","Age","Vaccination Status"]'>
+    <c-table.controls :columns='["ID","Name","Age","Vaccination Status","GN Devision"]'>
 
         <c-slot name="filter">
             <c-button variant="outline">
@@ -54,23 +54,23 @@
             <c-table.main sticky="1" size="comfortable">
                 <c-table.thead>
                     <c-table.tr>
-                        <c-table.th sortable="1" width="230px">ID</c-table.th>
-                        <c-table.th sortable="1" width="300px">Name</c-table.th>
-                        <c-table.th sortable="1" width="250px">Age</c-table.th>
+                        <c-table.th sortable="1" width="200px">ID</c-table.th>
+                        <c-table.th sortable="1" width="220px">Name</c-table.th>
+                        <c-table.th sortable="1" width="220px">Age</c-table.th>
                         <c-table.th align="left">Vaccination Status</c-table.th>
-                       <!-- <c-table.th align="center">Stock</c-table.th>-->
+                        <c-table.th align="left">GN Devision</c-table.th>
                         <c-table.th class="table-actions"></c-table.th>
                     </c-table.tr>
                 </c-table.thead>
 
                 <c-table.tbody>
-                    @foreach ($items as $item)
+                    @foreach ($items as $key => $item)
                         <c-table.tr>
                             <c-table.td col="id">{{ $item['id'] }}</c-table.td>
                             <c-table.td col="name">{{ $item['name'] }}</c-table.td>
                             <c-table.td col="Age">{{ $item['Age'] }}</c-table.td>
                             <c-table.td col="Vaccination Status">{{ $item['Vaccination Status'] }}</c-table.td>
-                            <!--<c-table.td col="stock" align="center">{{ $item['stock'] }}</c-table.td>-->
+                            <c-table.td col="stock" align="center">{{ $item['GN Devision'] }}</c-table.td>
                             <c-table.td class="table-actions" align="center">
                                 <c-dropdown.main>
                                     <c-slot name="trigger">
@@ -78,16 +78,94 @@
                                             <img src="{{ asset('assets/icons/horizontal-more.svg')}}" />
                                         </c-button>
                                     </c-slot>
-                                    <c-slot name="menu">
-                                        <c-dropdown.item>Copy Child ID</c-dropdown.item>
+                                        <c-slot name="menu">
+                                         <c-dropdown.item>Copy Child ID</c-dropdown.item>
+                                         <c-modal id="View-Child-{{ $key }}" size="sm" :initOpen="false">
+                                            <c-slot name="trigger">
+                                                <c-dropdown.item>View Child Profile</c-dropdown.item>
+                                            </c-slot>
+
+                                            <c-slot name="headerSuffix">
+                                                    <c-badge type="success">Good</c-badge>
+                                            </c-slot>
+
+                                            <c-slot name="header">
+                                                <div>Child Profile Details</div>
+                                            </c-slot>
+
+                                            <c-modal.viewcard>
+                                                <c-modal.viewitem
+                                                    icon="{{ asset('assets/icons/profile-02.svg') }}"
+                                                    title="Record ID"
+                                                    info="12000"
+                                                />
+                                                <c-modal.viewitem
+                                                    icon="{{ asset('assets/icons/user.svg') }}"
+                                                    title="Name"
+                                                    info="{{ $item['name'] }}"
+                                                />
+                                                <c-modal.viewitem
+                                                    icon="{{ asset('assets/icons/vaccine.svg') }}"
+                                                    title="Total Vaccinations"
+                                                    info="2"
+                                                />
+                                                <c-modal.viewitem
+                                                    icon="{{ asset('assets/icons/chart-evaluation.svg') }}"
+                                                    title="Age"
+                                                    info="{{ $item['Age'] }}"
+                                                />
+                                                <c-modal.viewitem
+                                                    icon="{{ asset('assets/icons/vaccine.svg') }}"
+                                                    title="Vaccination Status"
+                                                    info="{{ $item['Vaccination Status'] }}"
+                                                />
+                                                <c-modal.viewitem
+                                                    icon="{{ asset('assets/icons/student-card.svg') }}"
+                                                    title="Head Circumference"
+                                                    info="xhhj"
+                                                />
+                                            </c-modal.viewcard>
+                                            
+                                            <h4>Additional Information</h4>
+                                             <ul>
+                                              <li>Nutrition Facts: Good</li>
+                                              <li>Lorem Ipsum</li>
+                                            </ul>  
+                                            
+                                            <c-slot name="close">
+                                                Close
+                                            </c-slot>
+                                        </c-modal>
+                                        </c-slot>
                                         <c-dropdown.sep />
-                                        <c-dropdown.item>View Child Profile</c-dropdown.item>
-                                        <c-dropdown.item>Edit Child Profile</c-dropdown.item>
+                                    <c-modal id="edit-Health-Record-{{ $key }}" size="sm" :initOpen="false">
+                                    <c-slot name="trigger">
+                                     <c-dropdown.item>Edit Child Profile</c-dropdown.item>
+                                    </c-slot>
+
+                                    <c-slot name="header">
+                                            <div>Edit Child Profile</div>
+                                    </c-slot>
+
+                                          <form id="admin-register-form" action="">
+                                              <c-input type="text" label="Child Full Name:" placeholder="{{ $item['name'] }}" required /><br>
+                                              <c-input type="text" label="GN Devision:" placeholder="{{ $item['GN Devision'] }}" required /><br>
+                                              <c-input type="date" label="Date of Birth:" value="" required /><br>
+                                              <c-textarea label="Address:" placeholder="132,1/2,Lorem street" rows="1"></c-textarea>
+                                              <c-select label="Health Status:" multiple="1" Default="{{ $item['Health Status'] }}">
+                                              <option class="select-item" data-value="child">Good</option>
+                                              <option class="select-item" data-value="child">Good</option>
+                                              </c-select><br>
+                                              <c-textarea label="Additional Notes:" placeholder="Nutrition Facts." rows="4"></c-textarea>
+                                          </form>
+                                       <c-slot name="footer">
+                                       <c-button type="button" variant="outline" data-modal-close="registerAdmin">Save Changes</c-button>
+                                       </c-slot>
+                                    </c-modal>
                                         <c-dropdown.sep />
                                         <c-dropdown.item>View Growth Records</c-dropdown.item>
-                                        <c-dropdown.item>View Health Records</c-dropdown.item>
+                                        <c-dropdown.item href="{{ route('phm.child.health.records',['id'=>$key,])}}">View Health Records</c-dropdown.item>
                                         <c-dropdown.item>View Vaccination Records</c-dropdown.item>
-                                    </c-slot>
                                 </c-dropdown.main>
                             </c-table.td>
                         </c-table.tr>
