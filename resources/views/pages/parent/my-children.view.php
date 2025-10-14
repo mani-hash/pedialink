@@ -150,9 +150,9 @@ Parent - My Childern
          </div>
 
       </div>
-      <c-button variant="primary" href="{{ route('parent.child.details',['id' => $child['id']]) }}">
+      <c-link class="btn" type="primary" href="{{ route('parent.child.details',['id' => $child['id']]) }}">
          View Details
-      </c-button>
+      </c-link>
    </c-card>
 
    @endforeach
