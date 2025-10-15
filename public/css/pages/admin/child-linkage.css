@@ -43,12 +43,12 @@
     font-weight: var(--font-weight-medium);
 }
 
-.parent-name-approve, .parent-id-approve, .child-id-approve, .child-name-approve {
+.approve-text {
     color: var(--success);
     font-weight: var(--font-weight-semibold);
 }
 
-.parent-name-deny, .parent-id-deny, .child-id-deny, .child-name-deny {
+.deny-text {
     color: var(--destructive);
     font-weight: var(--font-weight-semibold);
 }
