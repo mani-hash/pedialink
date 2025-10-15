@@ -2,6 +2,7 @@
 
 use App\Controllers\Admin\ChildController;
 use App\Controllers\Admin\DashboardController;
+use App\Controllers\Admin\MaternalController;
 use App\Controllers\Admin\UserController;
 
 return [
@@ -13,5 +14,6 @@ return [
     ['GET', '/admin/child/{id}/access-control', [ChildController::class, 'accessControl'], 'admin.child.access.control', ['admin']],
     ['GET', '/admin/child-profiles/linkage-requests', [ChildController::class, 'linkageRequests'], 'admin.child.linkage.requests', ['admin']],
     ['GET', '/admin/child-profiles/access-requests', [ChildController::class, 'accessRequests'], 'admin.child.access.requests', ['admin']],
-
+    ['GET', '/admin/maternal-profiles/overview', [MaternalController::class, 'overview'], 'admin.maternal.overview', ['admin']],
+    ['GET', '/admin/maternal-profiles/access-requests', [MaternalController::class, 'accessRequests'], 'admin.maternal.access.requests', ['admin']],
 ];
