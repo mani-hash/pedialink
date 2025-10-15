@@ -40,52 +40,52 @@
 
             <div class="card-body info-body">
 
-            <div class="section">
+                <div class="section">
 
-            <span class="section-title">Quick Stats</span>
+                    <span class="section-title">Quick Stats</span>
 
-            
-                <c-modal.viewcard>
 
-                <c-modal.viewitem icon="{{ asset('assets/icons/calendar-03.svg') }}" title="Date of Birth"
-                        info="{{ $child['dob'] }}" />
+                    <c-modal.viewcard>
+
+                        <c-modal.viewitem icon="{{ asset('assets/icons/calendar-03.svg') }}" title="Date of Birth"
+                            info="{{ $child['dob'] }}" />
                         <c-modal.viewitem icon="{{ asset('assets/icons/baby-01.svg') }}" title="Age"
-                        info="{{ $child['age'] }}" />
+                            info="{{ $child['age'] }}" />
 
-                    <c-modal.viewitem icon="{{ asset('assets/icons/blood-type.svg') }}" title="Blood Type"
-                        info="{{ $child['blood'] }}" />
-                    <c-modal.viewitem icon="{{ asset('assets/icons/body-weight.svg') }}" title="Weight"
-                        info="{{ $child['weight'] }} kg" />
-                    <c-modal.viewitem icon="{{ asset('assets/icons/ruler.svg') }}" title="Height"
-                        info="{{ $child['height'] }} cm" />
-                    <c-modal.viewitem icon="{{ asset('assets/icons/chart.svg') }}" title="BMI"
-                        info="{{ $child['bmi'] }}" />
-                    <c-modal.viewitem icon="{{ asset('assets/icons/doctor.svg') }}" title="Assigned PHM"
-                        info="{{ $child['phm'] }}" />
+                        <c-modal.viewitem icon="{{ asset('assets/icons/blood-type.svg') }}" title="Blood Type"
+                            info="{{ $child['blood'] }}" />
+                        <c-modal.viewitem icon="{{ asset('assets/icons/body-weight.svg') }}" title="Weight"
+                            info="{{ $child['weight'] }} kg" />
+                        <c-modal.viewitem icon="{{ asset('assets/icons/ruler.svg') }}" title="Height"
+                            info="{{ $child['height'] }} cm" />
+                        <c-modal.viewitem icon="{{ asset('assets/icons/chart.svg') }}" title="BMI"
+                            info="{{ $child['bmi'] }}" />
+                        <c-modal.viewitem icon="{{ asset('assets/icons/doctor.svg') }}" title="Assigned PHM"
+                            info="{{ $child['phm'] }}" />
 
 
 
-                </c-modal.viewcard>
+                    </c-modal.viewcard>
 
                 </div>
-                 <div class="section">
+                <div class="section">
 
-            <span class="section-title">Emergency Contact</span>
-
-            
-                <c-modal.viewcard>
-
-                    <c-modal.viewitem icon="{{ asset('assets/icons/mother.svg') }}" title="Parent"
-                        info="{{ $child['parent_name'] }}" />
-                    <c-modal.viewitem icon="{{ asset('assets/icons/call.svg') }}" title="Phone Number"
-                        info="{{ $child['parent_phone'] }}" />
-                    <c-modal.viewitem icon="{{ asset('assets/icons/mail-01.svg') }}" title="Email Address"
-                        info="{{ $child['parent_email'] }}" />
-                    
+                    <span class="section-title">Emergency Contact</span>
 
 
+                    <c-modal.viewcard>
 
-                </c-modal.viewcard>
+                        <c-modal.viewitem icon="{{ asset('assets/icons/mother.svg') }}" title="Parent"
+                            info="{{ $child['parent_name'] }}" />
+                        <c-modal.viewitem icon="{{ asset('assets/icons/call.svg') }}" title="Phone Number"
+                            info="{{ $child['parent_phone'] }}" />
+                        <c-modal.viewitem icon="{{ asset('assets/icons/mail-01.svg') }}" title="Email Address"
+                            info="{{ $child['parent_email'] }}" />
+
+
+
+
+                    </c-modal.viewcard>
 
                 </div>
 
@@ -354,7 +354,7 @@
 
     new Chart(bmiCtx, {
         type: 'line',
-        data:{
+        data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             datasets: [{
                 label: 'BMI',
@@ -400,54 +400,106 @@
     });
 
 
-  const weightCtx = document.getElementById('weightChart').getContext('2d');
+    const weightCtx = document.getElementById('weightChart').getContext('2d');
 
-  const weightGradient = weightCtx.createLinearGradient(0, 0, 0, 300);
-  weightGradient.addColorStop(0, 'rgba(138, 255, 173, 0.3)');
-  weightGradient.addColorStop(1, 'rgba(138, 255, 173, 0)');
+    const weightGradient = weightCtx.createLinearGradient(0, 0, 0, 300);
+    weightGradient.addColorStop(0, 'rgba(138, 255, 173, 0.3)');
+    weightGradient.addColorStop(1, 'rgba(138, 255, 173, 0)');
 
-  new Chart(weightCtx, {
-    type: 'line',
-    data: {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-      datasets: [{
-        label: 'Weight',
-        data: [65, 66, 64, 67, 68, 70, 69, 71, 72, 70, 68, 69],
-        borderColor: '#8AFFAD',
-        backgroundColor: weightGradient,
-        fill: true,
-        tension: 0.3, 
-        pointBackgroundColor: '#fff',
-        pointBorderColor: '#8AFFAD',
-        pointRadius: 4,
-        pointHoverRadius: 5,
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        x: {
-          grid: { display: false }
+    new Chart(weightCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Weight',
+                data: [65, 66, 64, 67, 68, 70, 69, 71, 72, 70, 68, 69],
+                borderColor: '#8AFFAD',
+                backgroundColor: weightGradient,
+                fill: true,
+                tension: 0.2,
+                pointBackgroundColor: '#fff',
+                pointBorderColor: '#8AFFAD',
+                pointRadius: 4,
+                pointHoverRadius: 5,
+            }]
         },
-        y: {
-          beginAtZero: false,
-          grid: { color: 'rgba(0,0,0,0.05)' }
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    grid: { display: false }
+                },
+                y: {
+                    min:50,
+                    max:90,
+                    grid: { color: 'rgba(0,0,0,0.05)' }
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.7)',
+                    cornerRadius: 6,
+                    padding: 8
+                }
+            }
         }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: 'rgba(0,0,0,0.7)',
-          cornerRadius: 6,
-          padding: 8
+    });
+
+    const heightCtx = document.getElementById('heightChart').getContext('2d');
+
+    const heightGradient = heightCtx.createLinearGradient(0, 0, 0, 300);
+    heightGradient.addColorStop(0, 'rgba(100, 149, 237, 0.3)');
+    heightGradient.addColorStop(1, 'rgba(100, 149, 237, 0)');
+
+    new Chart(heightCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Height',
+                data: [170, 171, 170, 172, 173, 174, 174, 175, 176, 175, 173, 174],
+                borderColor: 'rgb(100, 149, 237)',
+                backgroundColor: heightGradient,
+                fill: true,
+                tension: 0.2,
+                pointBackgroundColor: '#fff',
+                pointBorderColor: 'rgb(100, 149, 237)',
+                pointRadius: 4,
+                pointHoverRadius: 5,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    grid: { display: false }
+                },
+                y: {
+                    min: 160,
+                    max: 180,
+                    grid: { color: 'rgba(0,0,0,0.05)' },
+                    ticks: {
+                        stepSize: 5
+                    }
+                }
+
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.7)',
+                    cornerRadius: 6,
+                    padding: 8
+                }
+            }
         }
-      }
-    }
-  });
+    });
 
 
-    
+
 
 </script>
 
