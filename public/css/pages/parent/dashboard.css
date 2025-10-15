@@ -146,12 +146,19 @@ body {
 }
 
 .child-select {
-    width: fit-content;
+    width: 10rem;
 }
 
 .divider {
     border: 0.8px solid var(--border);
 }
+
+canvas{
+    width: 100%;
+}
+
+
+
 
 /* Responsive Design */
 
@@ -171,7 +178,8 @@ body {
         flex-direction: column;
     }
 
-    .left-col, .right-col {
+    .left-col,
+    .right-col {
         flex: 1;
     }
 }

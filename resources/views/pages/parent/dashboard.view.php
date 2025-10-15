@@ -6,6 +6,8 @@ Parent Dashboard
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/pages/parent/dashboard.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 @endsection
 
 
@@ -235,10 +237,10 @@ Parent Dashboard
                 </c-select>
             </div>
             <hr class="divider">
-            <div class="card-body">
-                <div class="tab events-campaigns">
+            <div class="card-body growth-card">
+                <canvas id="bmiChart">
 
-                </div>
+                </canvas>
             </div>
         </c-card>
 
@@ -450,6 +452,66 @@ Parent Dashboard
     </div>
 
 </main>
+
+<!-- <script src="{{asset('js/pages/parent/dashboard.css')}}" defer></script> -->
+<script>
+    const ctx = document.getElementById('bmiChart').getContext('2d');
+
+
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, 'rgba(156, 39, 176, 0.3)');
+    gradient.addColorStop(1, 'rgba(156, 39, 176, 0)');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'BMI',
+                data: [70, 80, 65, 75, 90, 85, 30, 20, 95, 100, 60, 90],
+                borderColor: 'rgba(156, 39, 176, 1)',
+                backgroundColor: gradient,
+                fill: true,
+                tension: 0.2,
+                pointBackgroundColor: '#fff',
+                pointBorderColor: 'rgba(156, 39, 176, 1)',
+                pointRadius: 4,
+                pointHoverRadius: 5,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    grid: { display: false }
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(0,0,0,0.05)' },
+                    ticks: {
+                        stepSize: 20
+                    }
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(255,255,255)',
+                    titleColor: '#000',
+                    bodyColor: '#000',
+                    borderColor: 'rgba(0, 0, 0, 0.3)',
+                    borderWidth: 1,
+                    cornerRadius: 6,
+                    padding: 8
+                }
+            }
+        }
+    });
+
+    
+
+</script>
 
 
 @endsection
