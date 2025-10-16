@@ -9,7 +9,7 @@ Parent - Nutrition Tracking
 @endsection
 
 @section('header')
-<div class="title-section">
+<div class="top-section">
    
    <svg width="28" height="28" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M17.5 17.5H8.33333C5.58347 17.5 4.20854 17.5 3.35427 16.6457C2.5 15.7915 2.5 14.4165 2.5 11.6667V2.5" stroke="#18181B" stroke-width="1.5" stroke-linecap="round"/>
@@ -21,3 +21,33 @@ Parent - Nutrition Tracking
    <span>Nutrition Tracking</span>
 </div>
 @endsection
+
+@section('content')
+
+<main class="container">
+
+<!-- BMI Chart -->
+        <c-card class="card bmi-card">
+            <div class="header">
+                <div class="title-section">
+                    <span class="card-title">Child BMI Tracking</span>
+                    <span class="card-subtitle">Track Baby Sarah's BMI over time</span>
+                </div>
+                <!-- Child Selector -->
+                <c-select name='child' class="child-select" placeholder="Select Child">
+                    <li class="select-item" data-value="all-children">All Children</li>
+                    <li class="select-item " data-value="baby-sara">Baby Sara</li>
+                    <li class="select-item" data-value="baby-john">Baby John</li>
+                </c-select>
+            </div>
+            <hr class="divider">
+            <div class="card-body growth-card">
+                <canvas id="bmiChart">
+
+                </canvas>
+            </div>
+        </c-card>
+</main>
+
+@endsection
+
