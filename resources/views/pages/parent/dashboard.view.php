@@ -81,7 +81,7 @@ Parent Dashboard
                         </div>
                     </div>
                     <!-- Vaccine Type -->
-                    <c-badge type="primary">BCG</c-badge>
+                    <c-badge type="blue">BCG</c-badge>
                     <div class="secondary-deatails">
                         <div class="date">2025-06-01</div>
                     </div>
@@ -105,7 +105,7 @@ Parent Dashboard
                             <div class="sub-name">RHU Center C</div>
                         </div>
                     </div>
-                    <c-badge type="primary">OPV</c-badge>
+                    <c-badge type="green">OPV</c-badge>
                     <div class="secondary-deatails">
                         <div class="date">2025-06-08</div>
                     </div>
@@ -129,7 +129,7 @@ Parent Dashboard
                             <div class="sub-name">RHU Center A</div>
                         </div>
                     </div>
-                    <c-badge type="primary">MMR</c-badge>
+                    <c-badge type="yellow">MMR</c-badge>
                     <div class="secondary-deatails">
                         <div class="date">2025-06-10</div>
                     </div>
@@ -319,7 +319,7 @@ Parent Dashboard
                         </div>
                     </div>
                     <div class="secondary-deatails">
-                        <c-badge type="primary">Upcoming</c-badge>
+                        <c-badge type="purple">Upcoming</c-badge>
                     </div>
 
 
@@ -382,7 +382,7 @@ Parent Dashboard
                         </div>
                     </div>
                     <div class="secondary-deatails">
-                        <c-badge type="primary">Upcoming</c-badge>
+                        <c-badge type="purple">Upcoming</c-badge>
                     </div>
 
                 </div>
@@ -443,7 +443,7 @@ Parent Dashboard
                         </div>
                     </div>
                     <div class="secondary-deatails">
-                        <c-badge type="secondary">Registerd</c-badge>
+                        <c-badge type="green">Registerd</c-badge>
                     </div>
 
                 </div>
@@ -472,7 +472,7 @@ Parent Dashboard
                 borderColor: 'rgba(156, 39, 176, 1)',
                 backgroundColor: gradient,
                 fill: true,
-                tension: 0.2,
+                tension: 0.3,
                 pointBackgroundColor: '#fff',
                 pointBorderColor: 'rgba(156, 39, 176, 1)',
                 pointRadius: 4,
@@ -509,7 +509,7 @@ Parent Dashboard
         }
     });
 
-    
+
 
 </script>
 
