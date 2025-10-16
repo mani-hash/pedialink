@@ -47,6 +47,28 @@ Parent - Nutrition Tracking
                 </canvas>
             </div>
         </c-card>
+
+        <!-- Height Chart -->
+        <c-card class="card height-card">
+            <div class="header">
+                <div class="title-section">
+                    <span class="card-title">Child Height Tracking</span>
+                    <span class="card-subtitle">Track Baby Sarah's Height over time</span>
+                </div>
+                <!-- Child Selector -->
+                <c-select name='child' class="child-select" placeholder="Select Child">
+                    <li class="select-item" data-value="all-children">All Children</li>
+                    <li class="select-item " data-value="baby-sara">Baby Sara</li>
+                    <li class="select-item" data-value="baby-john">Baby John</li>
+                </c-select>
+            </div>
+            <hr class="divider">
+            <div class="card-body growth-card">
+                <canvas id="bmiChart">
+
+                </canvas>
+            </div>
+        </c-card>
 </main>
 
 @endsection
