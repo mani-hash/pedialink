@@ -15,17 +15,17 @@
 @section('content')
     <?php
     $items = [
-        ['id' => 'C-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
-        ['id' => 'D-123', 'name' => 'John peter',   'Age' => '7 months', 'Vaccination Status' => 'Over due','GN Devision'=>'Borella'],
-        ['id' => 'B-123', 'name' => 'Daniel Parker',  'Age' => '5 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
-        ['id' => 'C-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
-        ['id' => 'F-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
-        ['id' => 'J-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
-        ['id' => 'L-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
-        ['id' => 'T-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
-        ['id' => 'K-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
-        ['id' => 'A-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
-        ['id' => 'L-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','GN Devision'=>'Borella'],
+        ['id' => 'C-123', 'name' => 'Sarah Peter',  'Age' => '4 months', 'Vaccination Status' => 'Completed','gs_devision'=>'Borella'],
+        ['id' => 'D-123', 'name' => 'John Peter',   'Age' => '7 months', 'Vaccination Status' => 'Over due','gs_devision'=>'Borella'],
+        ['id' => 'B-123', 'name' => 'Daniel Parker',  'Age' => '5 months', 'Vaccination Status' => 'Completed','gs_devision'=>'Borella'],
+        ['id' => 'C-124', 'name' => 'Emily Stone',  'Age' => '6 months', 'Vaccination Status' => 'Pending','gs_devision'=>'Dehiwala'],
+        ['id' => 'F-125', 'name' => 'Michael Lee',  'Age' => '8 months', 'Vaccination Status' => 'Completed','gs_devision'=>'Moratuwa'],
+        ['id' => 'J-126', 'name' => 'Olivia Brown',  'Age' => '3 months', 'Vaccination Status' => 'Completed','gs_devision'=>'Ratmalana'],
+        ['id' => 'L-127', 'name' => 'Liam Smith',  'Age' => '9 months', 'Vaccination Status' => 'Over due','gs_devision'=>'Wellawatta'],
+        ['id' => 'T-128', 'name' => 'Sophia Green',  'Age' => '2 months', 'Vaccination Status' => 'Completed','gs_devision'=>'Other'],
+        ['id' => 'K-129', 'name' => 'Noah White',  'Age' => '10 months', 'Vaccination Status' => 'Pending','gs_devision'=>'Borella'],
+        ['id' => 'A-130', 'name' => 'Ava Black',  'Age' => '5 months', 'Vaccination Status' => 'Completed','gs_devision'=>'Dehiwala'],
+        ['id' => 'L-131', 'name' => 'Mason Gray',  'Age' => '7 months', 'Vaccination Status' => 'Completed','gs_devision'=>'Moratuwa'],
     ];
     ?>
 
@@ -50,7 +50,7 @@
                     </c-button>
                 </c-slot>
                 <c-slot name="headerPrefix">
-                    <img src="{{ asset('assets/icons/profile-02.svg' )}}"/>
+                    <img src="{{ asset('assets/icons/user-add--01.svg' )}}"/>
                 </c-slot>
                 <c-slot name="header">
                     <div>Add Child Profile</div>
@@ -103,7 +103,7 @@
                             <c-table.td col="name">{{ $item['name'] }}</c-table.td>
                             <c-table.td col="Age">{{ $item['Age'] }}</c-table.td>
                             <c-table.td col="Vaccination Status">{{ $item['Vaccination Status'] }}</c-table.td>
-                            <c-table.td col="stock" align="center">{{ $item['GN Devision'] }}</c-table.td>
+                            <c-table.td col="GN Devision" align="center">{{ $item['gs_devision'] }}</c-table.td>
                             <c-table.td class="table-actions" align="center">
                                 <c-dropdown.main>
                                     <c-slot name="trigger">
@@ -187,7 +187,7 @@
 
                                           <form id="admin-register-form" action="">
                                               <c-input type="text" label="Child Full Name:" placeholder="{{ $item['name'] }}" required /><br>
-                                              <c-input type="text" label="GN Devision:" placeholder="{{ $item['GN Devision'] }}" required /><br>
+                                              <c-input type="text" label="GN Devision:" placeholder="{{ $item['gs_devision'] }}" required /><br>
                                               <c-input type="date" label="Date of Birth:" value="" required /><br>
                                               <c-textarea label="Address:" placeholder="132,1/2,Lorem street" rows="1"></c-textarea>
                                               <c-select label="Health Status:" multiple="1" Default="{{ $item['Health Status'] }}">
@@ -196,6 +196,9 @@
                                               </c-select><br>
                                               <c-textarea label="Additional Notes:" placeholder="Nutrition Facts." rows="4"></c-textarea>
                                           </form>
+                                          <c-slot name="close">
+                                                Close
+                                            </c-slot>
                                        <c-slot name="footer">
                                        <c-button type="button" variant="outline" data-modal-close="registerAdmin">Save Changes</c-button>
                                        </c-slot>

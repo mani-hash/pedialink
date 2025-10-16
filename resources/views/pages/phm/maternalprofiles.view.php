@@ -52,7 +52,7 @@
                 </c-slot>
 
                 <c-slot name="headerPrefix">
-                    <img src="{{ asset('assets/icons/profile-02.svg' )}}"/>
+                    <img src="{{ asset('assets/icons/user-add--01.svg' )}}"/>
                 </c-slot>
 
                 <c-slot name="header">
@@ -175,7 +175,7 @@
                                                 <c-modal.viewitem
                                                     icon="{{ asset('assets/icons/user.svg') }}"
                                                     title="Pregnancy Duration"
-                                                    info="5 weeka 2 days"
+                                                    info="5 weeks and 2 days"
                                                 />
                                             </c-modal.viewcard>
                                              <h4>Medical Records</h4>

@@ -119,7 +119,7 @@
                                             </c-slot>
 
                                             <c-slot name="headerSuffix">
-                                                    <c-badge type="success">Good</c-badge>
+                                                    <c-badge type="success">{{$item['Health Status']}}</c-badge>
                                             </c-slot>
 
                                             <c-slot name="header">
@@ -148,7 +148,7 @@
                                                     info="{{ $item['Weight'] }}"
                                                 />
                                                 <c-modal.viewitem
-                                                    icon="{{ asset('assets/icons/user-add--01.svg') }}"
+                                                    icon="{{ asset('assets/icons/calendar-02.svg') }}"
                                                     title="Recorded At"
                                                     info="{{ $item['Recorded at'] }}"
                                                 />
@@ -189,16 +189,41 @@
                              <c-input type="text" label="Head Circumference:" placeholder="{{ $item['Head Circumference'] }}" required /><br>
                              <c-select label="Health Status:" multiple="1" Default="{{ $item['Health Status'] }}">
                               <option class="select-item" data-value="child">Good</option>
-                              <option class="select-item" data-value="child">Good</option>
+                              <option class="select-item" data-value="child">Bad</option>
                             </c-select><br>
                             <c-textarea label="Additional Notes:" placeholder="Nutrition Facts." rows="4"></c-textarea>
                         </form>
+
+                        <c-slot name="close">
+                        Close
+                        </c-slot>
                         <c-slot name="footer">
                           <c-button type="button" variant="outline" data-modal-close="registerAdmin">Save Changes</c-button>
                         </c-slot>
                     </c-modal>
                 <c-dropdown.sep />
-                    <c-dropdown.item>Mark as Invalid</c-dropdown.item>
+                    <c-modal id="mark-as-invalid-{{ $key }}" size="sm" :initOpen="false">
+                                    <c-slot name="trigger">
+                                     <c-dropdown.item>Mark as Invalid</c-dropdown.item>
+                                    </c-slot>
+                                     <c-slot name="headerPrefix">
+                                           <img src="{{ asset('assets/icons/configuration-02.svg' )}}"/>
+                                     </c-slot>
+ 
+                                    <c-slot name="header">
+                                            <div>Mark as Invalid</div>
+                                    </c-slot>
+
+                                    <p>Are you sure you want to mark this record as invalid?</p>
+
+                         <c-slot name="close">
+                          cancel
+                        </c-slot>
+                        <c-slot name="footer">
+                          <c-button type="button" variant="destructive" data-modal-close="registerAdmin">Mark</c-button>
+                        </c-slot>
+                    </c-modal>
+                <c-dropdown.sep />
             </c-dropdown.main>
         </c-table.td>
     </c-table.tr>

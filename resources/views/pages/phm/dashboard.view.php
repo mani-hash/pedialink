@@ -67,25 +67,11 @@ PHM Dashboard
                     <p>Tracking vaccination completion rates over time</p>
                 </div>
                 <div class="chart-container">
-                    <canvas id="vaccinationChart"></canvas>
-                    <div class="chart-center-text">
+                    <canvas id="vaccChart"></canvas>
+                    <!-- <div class="chart-center-text">
                         <span class="center-number">254</span>
                         <span class="center-label">children</span>
-                    </div>
-                </div>
-                <div class="chart-legend">
-                    <div class="legend-item">
-                        <span class="legend-color completed"></span>
-                        <span>Completed</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color pending"></span>
-                        <span>Pending</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color missed"></span>
-                        <span>Missed</span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -217,4 +203,135 @@ PHM Dashboard
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // ---------- Stacked Bar (Antenatal Risk Cases) ----------
+        const riskCtx = document.getElementById('riskChart').getContext('2d');
+
+        const riskData = {
+        labels: ['18 - 25', '25 - 30', '30 - 40', '40 - 50', '50+'],
+        datasets: [
+            {
+            label: 'Normal',
+            data: [7, 11, 13, 2, 3],
+            backgroundColor: '#10B981', // green
+            borderRadius: 6,
+            barThickness: 28
+            },
+            {
+            label: 'Moderate',
+            data: [5, 11, 16, 3, 4],
+            backgroundColor: '#F59E0B', // amber
+            borderRadius: 6,
+            barThickness: 28
+            },
+            {
+            label: 'High',
+            data: [1, 12, 6, 7, 4],
+            backgroundColor: '#EF4444', // red
+            borderRadius: 6,
+            barThickness: 28
+            }
+        ]
+        };
+
+        const riskConfig = {
+        type: 'bar',
+        data: riskData,
+        options: {
+            maintainAspectRatio: false,
+            plugins: {
+            legend: {
+                display: true,
+                labels: { boxWidth: 12, boxHeight: 12, padding: 12 }
+            },
+            tooltip: { mode: 'index', intersect: false }
+            },
+            scales: {
+            x: {
+                stacked: true,
+                grid: { display: false },
+                ticks: { color: '#374151', font: { size: 12 } }
+            },
+            y: {
+                stacked: true,
+                beginAtZero: true,
+                max: 50,
+                ticks: {
+                stepSize: 10,
+                color: '#6b7280',
+                font: { size: 12 }
+                },
+                grid: {
+                borderDash: [4, 4],
+                color: 'rgba(15, 23, 42, 0.06)'
+                }
+            }
+            }
+        }
+        };
+
+        new Chart(riskCtx, riskConfig);
+
+        // ---------- Doughnut (Monthly Vaccinations Completed) ----------
+        const vaccCtx = document.getElementById('vaccChart').getContext('2d');
+
+        // Values chosen to total 254 (so the center text matches)
+        const vaccData = {
+        labels: ['Completed', 'Pending', 'Upcoming'],
+        datasets: [{
+            data: [150, 80, 24], // sums to 254
+            backgroundColor: ['#0EA5A4', '#FBC88D', '#F08B77'],
+            hoverOffset: 8
+        }]
+        };
+
+        // small plugin to draw centered text (value + label)
+        const centerTextPlugin = {
+        id: 'centerText',
+        beforeDraw(chart) {
+            if (chart.config.type !== 'doughnut') return;
+            const { ctx, chartArea } = chart;
+            const centerX = (chartArea.left + chartArea.right) / 2;
+            const centerY = (chartArea.top + chartArea.bottom) / 2;
+
+            ctx.save();
+            // number (bold)
+            ctx.font = '700 30px Inter, Arial';
+            ctx.fillStyle = '#111827';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('254', centerX, centerY - 8);
+
+            // label (lighter)
+            ctx.font = '400 13px Inter, Arial';
+            ctx.fillStyle = '#6b7280';
+            ctx.fillText('Children', centerX, centerY + 20);
+            ctx.restore();
+        }
+        };
+
+        const vaccConfig = {
+        type: 'doughnut',
+        data: vaccData,
+        options: {
+            maintainAspectRatio: false,
+            cutout: '64%',
+            plugins: {
+            legend: {
+                position: 'right',
+                labels: { usePointStyle: true, pointStyle: 'circle', padding: 12 }
+            },
+            tooltip: {
+                callbacks: {
+                label: ctx => `${ctx.label}: ${ctx.formattedValue}`
+                }
+            }
+            }
+        },
+            plugins: [centerTextPlugin]
+        };
+
+        new Chart(vaccCtx, vaccConfig);
+    </script>
 @endsection

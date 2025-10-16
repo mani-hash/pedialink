@@ -114,7 +114,7 @@
                                                 <c-dropdown.item>View Record</c-dropdown.item>
                                             </c-slot>
                                             <c-slot name="headerSuffix">
-                                                    <c-badge type="success">Good</c-badge>
+                                                    <c-badge type="purple">{{$item['Health Status']}}</c-badge>
                                             </c-slot>
 
                                             <c-slot name="headerPrefix">
@@ -212,7 +212,27 @@
                         </c-slot>
                     </c-modal>
                 <c-dropdown.sep />
-                    <c-dropdown.item>Mark as Invalid</c-dropdown.item>
+                    <c-modal id="mark-as-invalid-{{ $key }}" size="sm" :initOpen="false">
+                                    <c-slot name="trigger">
+                                     <c-dropdown.item>Mark as Invalid</c-dropdown.item>
+                                    </c-slot>
+                                     <c-slot name="headerPrefix">
+                                           <img src="{{ asset('assets/icons/configuration-02.svg' )}}"/>
+                                     </c-slot>
+ 
+                                    <c-slot name="header">
+                                            <div>Mark as Invalid</div>
+                                    </c-slot>
+
+                                    <p>Are you sure you want to mark this record as invalid?</p>
+
+                         <c-slot name="close">
+                          cancel
+                        </c-slot>
+                        <c-slot name="footer">
+                          <c-button type="button" variant="destructive" data-modal-close="registerAdmin">Mark</c-button>
+                        </c-slot>
+                    </c-modal>
             </c-dropdown.main>
         </c-table.td>
     </c-table.tr>
