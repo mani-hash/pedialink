@@ -100,24 +100,26 @@ Parent - Nutrition Tracking
 <script>
   const bmiCtx = document.getElementById("bmiChart").getContext("2d");
 
+
+
   const bmiData = [
     { name: "Sara", values: [0, 2, 1, 0, 0, 1, 10, 20, 15, 13, 11, 14], color: "rgba(168,85,247,1)" },
     { name: "John", values: [10, 15, 28, 40, 33, 36, 42, 39, 45, 50, 48, 49], color: "rgba(239,68,68,1)" },
     { name: "Alex", values: [0, 1, 0, 10, 15, 13, 12, 8, 4, 1, 0, 3], color: "rgba(6,182,212,1)" },
   ];
 
-  function createGradient(color) {
-    const gradient = bmiCtx.createLinearGradient(0, 0, 0, 400);
+  function createGradient(color,chart) {
+    const gradient = chart.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, color.replace("1)", "0.1)"));
     gradient.addColorStop(1, color.replace("1)", "0)"));
     return gradient;
   }
 
-  const datasets = bmiData.map(item => ({
+  const bmiDatasets = bmiData.map(item => ({
     label: item.name,
     data: item.values,
     borderColor: item.color,
-    backgroundColor: createGradient(item.color),
+    backgroundColor: createGradient(item.color,bmiCtx),
     tension: 0.4,
     fill: true,
     pointRadius: 4,
@@ -128,7 +130,7 @@ Parent - Nutrition Tracking
     type: "line",
     data: {
       labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-      datasets: datasets
+      datasets: bmiDatasets
     },
     options: {
       responsive: true,
@@ -144,6 +146,67 @@ Parent - Nutrition Tracking
           beginAtZero: true,
           grid: { color: "rgba(0, 0, 0, 0.05)" },
           ticks: { stepSize: 10 },
+        },
+        x: {
+          grid: { color: "rgba(0, 0, 0, 0.05)" },
+        },
+      },
+    },
+  });
+
+
+  const heightCtx = document.getElementById("heightChart").getContext("2d");
+
+  const heightData = [
+  {
+    name: "Sara",
+    values: [75, 76, 77, 78, 78.5, 79, 79.5, 80, 80.5, 81, 81.5, 82],
+    color: "rgba(59,130,246,1)",
+  },
+  {
+    name: "John",
+    values: [95, 95.5, 96, 96.5, 97, 97.5, 98, 98.5, 99, 99.5, 100, 100.5],
+    color: "rgba(236,72,153,1)",
+  },
+  {
+    name: "Alex",
+    values: [120, 120.5, 121, 121.5, 122, 122.5, 123, 123.5, 124, 124.5, 125, 125.5],
+    color: "rgba(34,197,94,1)",
+  }
+];
+
+
+  const heightDatasets = heightData.map(item => ({
+    label: item.name,
+    data: item.values,
+    borderColor: item.color,
+    backgroundColor: createGradient(item.color,heightCtx),
+    tension: 0.4,
+    fill: true,
+    pointRadius: 4,
+    pointHoverRadius: 6,
+  }));
+
+  new Chart(heightCtx, {
+    type: "line",
+    data: {
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      datasets: heightDatasets
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: "bottom",
+          labels: { usePointStyle: true, pointStyle: "rectRounded", boxWidth: 12 }
+        }
+      },
+      scales: {
+        y: {
+            min:70,
+          grid: { color: "rgba(0, 0, 0, 0.05)" },
+          ticks: { stepSize: 5 },
         },
         x: {
           grid: { color: "rgba(0, 0, 0, 0.05)" },
