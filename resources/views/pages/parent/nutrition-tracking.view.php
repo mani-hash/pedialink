@@ -6,6 +6,8 @@ Parent - Nutrition Tracking
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/pages/parent/nutrition-tracking.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 @endsection
 
 @section('header')
@@ -41,7 +43,7 @@ Parent - Nutrition Tracking
                 </c-select>
             </div>
             <hr class="divider">
-            <div class="card-body growth-card">
+            <div class="card-body">
                 <canvas id="bmiChart">
 
                 </canvas>
@@ -63,13 +65,94 @@ Parent - Nutrition Tracking
                 </c-select>
             </div>
             <hr class="divider">
-            <div class="card-body growth-card">
-                <canvas id="bmiChart">
+            <div class="card-body">
+                <canvas id="heightChart">
 
                 </canvas>
             </div>
         </c-card>
+
+        <!-- Weight Chart -->
+        <c-card class="card weight-card">
+            <div class="header">
+                <div class="title-section">
+                    <span class="card-title">Child Weight Tracking</span>
+                    <span class="card-subtitle">Track Baby Sarah's Weight over time</span>
+                </div>
+                <!-- Child Selector -->
+                <c-select name='child' class="child-select" placeholder="Select Child">
+                    <li class="select-item" data-value="all-children">All Children</li>
+                    <li class="select-item " data-value="baby-sara">Baby Sara</li>
+                    <li class="select-item" data-value="baby-john">Baby John</li>
+                </c-select>
+            </div>
+            <hr class="divider">
+            <div class="card-body">
+                <canvas id="weightChart">
+
+                </canvas>
+            </div>
+        </c-card>
+
 </main>
+
+
+<script>
+  const bmiCtx = document.getElementById("bmiChart").getContext("2d");
+
+  const bmiData = [
+    { name: "Sara", values: [0, 2, 1, 0, 0, 1, 10, 20, 15, 13, 11, 14], color: "rgba(168,85,247,1)" },
+    { name: "John", values: [10, 15, 28, 40, 33, 36, 42, 39, 45, 50, 48, 49], color: "rgba(239,68,68,1)" },
+    { name: "Alex", values: [0, 1, 0, 10, 15, 13, 12, 8, 4, 1, 0, 3], color: "rgba(6,182,212,1)" },
+  ];
+
+  function createGradient(color) {
+    const gradient = bmiCtx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, color.replace("1)", "0.1)"));
+    gradient.addColorStop(1, color.replace("1)", "0)"));
+    return gradient;
+  }
+
+  const datasets = bmiData.map(item => ({
+    label: item.name,
+    data: item.values,
+    borderColor: item.color,
+    backgroundColor: createGradient(item.color),
+    tension: 0.4,
+    fill: true,
+    pointRadius: 4,
+    pointHoverRadius: 6,
+  }));
+
+  new Chart(bmiCtx, {
+    type: "line",
+    data: {
+      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      datasets: datasets
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: "bottom",
+          labels: { usePointStyle: true, pointStyle: "rectRounded", boxWidth: 12 }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: "rgba(0, 0, 0, 0.05)" },
+          ticks: { stepSize: 10 },
+        },
+        x: {
+          grid: { color: "rgba(0, 0, 0, 0.05)" },
+        },
+      },
+    },
+  });
+</script>
+
 
 @endsection
 
