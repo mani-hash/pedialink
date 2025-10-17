@@ -88,11 +88,11 @@ $items = [
         <c-table.main sticky="1" size="comfortable">
             <c-table.thead>
                 <c-table.tr>
-                    <c-table.th sortable="1" width="200px">ID</c-table.th>
-                    <c-table.th sortable="1" width="220px">Name</c-table.th>
-                    <c-table.th sortable="1" width="220px">Age</c-table.th>
-                    <c-table.th align="left">Vaccination Status</c-table.th>
-                    <c-table.th align="left">GN Devision</c-table.th>
+                    <c-table.th sortable="1" >ID</c-table.th>
+                    <c-table.th sortable="1">Name</c-table.th>
+                    <c-table.th sortable="1">Age</c-table.th>
+                    <c-table.th >Vaccination Status</c-table.th>
+                    <c-table.th >GS Devision</c-table.th>
                     <c-table.th class="table-actions"></c-table.th>
                 </c-table.tr>
             </c-table.thead>
@@ -115,11 +115,11 @@ elseif (strtolower($item['Vaccination Status']) === "pending")
                     <c-table.td col="id">{{ $item['id'] }}</c-table.td>
                     <c-table.td col="name">{{ $item['name'] }}</c-table.td>
                     <c-table.td col="Age">{{ $item['Age'] }}</c-table.td>
-                    <c-table.td col="Vaccination Status" align>
+                    <c-table.td col="Vaccination Status">
                         <c-badge class="status-vaccination" type="{{ $badgeType }}">{{ ucfirst($item['Vaccination Status']) }}</c-badge>
 
                     </c-table.td>
-                    <c-table.td col="GN Devision" align="center">{{ $item['gs_devision'] }}</c-table.td>
+                    <c-table.td col="GN Devision" >{{ $item['gs_devision'] }}</c-table.td>
                     <c-table.td class="table-actions" align="center">
                         <c-dropdown.main>
                             <c-slot name="trigger">
@@ -147,15 +147,15 @@ elseif (strtolower($item['Vaccination Status']) === "pending")
 
                                     <c-modal.viewcard>
                                         <c-modal.viewitem icon="{{ asset('assets/icons/profile.svg') }}"
-                                            title="Record ID" info="12000" />
+                                            title="Child ID" info="{{ $item['id'] }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/baby-01.svg') }}" title="Name"
                                             info="{{ $item['name'] }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/vaccine.svg') }}"
                                             title="Total Vaccinations" info="2" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/chart-evaluation.svg') }}"
                                             title="Age" info="{{ $item['Age'] }}" />
-                                        <c-modal.viewitem icon="{{ asset('assets/icons/ruler.svg') }}"
-                                            title="Head Circumference" info="32 cm" />
+                                        <c-modal.viewitem icon="{{ asset('assets/icons/location-05.svg') }}"
+                                            title="GS Devision" info="{{ $item['gs_devision'] }}" />
                                     </c-modal.viewcard>
 
                                     <h4>Additional Information</h4>
@@ -170,30 +170,32 @@ elseif (strtolower($item['Vaccination Status']) === "pending")
                                 </c-modal>
                             </c-slot>
                             <c-dropdown.sep />
-                            <c-modal id="edit-Health-Record-{{ $key }}" size="sm" :initOpen="false">
+                            <c-modal id="edit-child-profile-{{ $key }}" size="md" :initOpen="false">
                                 <c-slot name="trigger">
                                     <c-dropdown.item>Edit Child Profile</c-dropdown.item>
                                 </c-slot>
                                 <c-slot name="headerPrefix">
-                                    <img src="{{ asset('assets/icons/configuration-02.svg' )}}" />
+                                    <img src="{{ asset('assets/icons/baby-01.svg' )}}" />
                                 </c-slot>
                                 <c-slot name="header">
                                     <div>Edit Child Profile</div>
                                 </c-slot>
 
-                                <form id="admin-register-form" action="">
+                                <form id="edit-child-profile-form" action="">
                                     <c-input type="text" label="Child Full Name:" placeholder="{{ $item['name'] }}"
                                         required /><br>
                                     <c-input type="text" label="GN Devision:" placeholder="{{ $item['gs_devision'] }}"
                                         required /><br>
                                     <c-input type="date" label="Date of Birth:" value="" required /><br>
                                     <c-textarea label="Address:" placeholder="132,1/2,Lorem street"
-                                        rows="1"></c-textarea>
+                                        rows="1">
+                                    </c-textarea>
                                     <c-select label="Health Status:" multiple="1"
                                         Default="{{ $item['Health Status'] }}">
                                         <option class="select-item" data-value="child">Good</option>
-                                        <option class="select-item" data-value="child">Good</option>
-                                    </c-select><br>
+                                        <option class="select-item" data-value="child">Crtical</option>
+                                    </c-select>
+                                    <br>
                                     <c-textarea label="Additional Notes:" placeholder="Nutrition Facts."
                                         rows="4"></c-textarea>
                                 </form>
