@@ -36,3 +36,25 @@ Parent - Vaccination
 </div>
 
 @endsection
+
+
+@section('content')
+
+
+<c-table.controls :columns='["Child","Vaccine Name","Date & Time ","Location","Administerd By","Status"]'>
+    <c-slot name="filter">
+        <c-button variant="outline">
+            <img src="{{ asset('assets/icons/filter.svg') }}" />
+            Name
+        </c-button>
+        <c-button variant="outline">
+            <img src="{{ asset('assets/icons/filter.svg') }}" />
+            Vaccine
+        </c-button>
+    </c-slot>
+</c-table.controls>
+
+
+
+
+@endsection
