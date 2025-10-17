@@ -143,12 +143,12 @@ elseif (strtolower($item['Health Status']) === "bad")
 
                                             <c-modal.viewcard>
                                                 <c-modal.viewitem
-                                                    icon="{{ asset('assets/icons/profile-02.svg') }}"
+                                                    icon="{{ asset('assets/icons/profile.svg') }}"
                                                     title="Record ID"
-                                                    info="12000"
+                                                    info="REC001"
                                                 />
                                                 <c-modal.viewitem
-                                                    icon="{{ asset('assets/icons/user.svg') }}"
+                                                    icon="{{ asset('assets/icons/ruler.svg') }}"
                                                     title="Height"
                                                     info="{{ $item['Height'] }}"
                                                 />
@@ -158,7 +158,7 @@ elseif (strtolower($item['Health Status']) === "bad")
                                                     info="2"
                                                 />
                                                 <c-modal.viewitem
-                                                    icon="{{ asset('assets/icons/chart-evaluation.svg') }}"
+                                                    icon="{{ asset('assets/icons/body-weight.svg') }}"
                                                     title="Weight"
                                                     info="{{ $item['Weight'] }}"
                                                 />
@@ -168,7 +168,7 @@ elseif (strtolower($item['Health Status']) === "bad")
                                                     info="{{ $item['Recorded at'] }}"
                                                 />
                                                 <c-modal.viewitem
-                                                    icon="{{ asset('assets/icons/student-card.svg') }}"
+                                                    icon="{{ asset('assets/icons/ruler.svg') }}"
                                                     title="Head Circumference"
                                                     info="{{ $item['Head Circumference'] }} "
                                                 />
@@ -186,7 +186,7 @@ elseif (strtolower($item['Health Status']) === "bad")
                                         </c-modal>
                                         </c-slot>
                                         <c-dropdown.sep />
-                                    <c-modal id="edit-Health-Record-{{ $key }}" size="sm" :initOpen="false">
+                                    <c-modal id="edit-health-record-{{ $key }}" size="sm" :initOpen="false">
                                     <c-slot name="trigger">
                                      <c-dropdown.item>Edit Health Records</c-dropdown.item>
                                     </c-slot>
@@ -198,7 +198,7 @@ elseif (strtolower($item['Health Status']) === "bad")
                                             <div>Edit Health Records</div>
                                     </c-slot>
 
-                        <form id="admin-register-form" action="">
+                        <form id="edit-health-record-form" action="">
                              <c-input type="text" label="Height:" placeholder="{{ $item['Height'] }}" required /><br>
                              <c-input type="text" label="Weight:" placeholder="{{ $item['Weight'] }}" required /><br>
                              <c-input type="text" label="Head Circumference:" placeholder="{{ $item['Head Circumference'] }}" required /><br>
