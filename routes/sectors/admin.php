@@ -3,6 +3,7 @@
 use App\Controllers\Admin\AppointmentController;
 use App\Controllers\Admin\ChildController;
 use App\Controllers\Admin\DashboardController;
+use App\Controllers\Admin\EventController;
 use App\Controllers\Admin\MaternalController;
 use App\Controllers\Admin\UserController;
 
@@ -18,4 +19,5 @@ return [
     ['GET', '/admin/maternal-profiles/overview', [MaternalController::class, 'overview'], 'admin.maternal.overview', ['admin']],
     ['GET', '/admin/maternal-profiles/access-requests', [MaternalController::class, 'accessRequests'], 'admin.maternal.access.requests', ['admin']],
     ['GET', '/admin/appointment', [AppointmentController::class, 'index'], 'admin.appointment', ['admin']],
+    ['GET', '/admin/events-and-campaigns', [EventController::class, 'index'], 'admin.event', ['admin']],
 ];
