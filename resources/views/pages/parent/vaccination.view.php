@@ -47,7 +47,7 @@ $vaccinations = [
     [
         'id' => 'VAC001',
         'name' => 'Sara Johnson',
-        'vaccine_type' => 'MMR',
+        'vaccine_name' => 'MMR',
         'date' => '2024-07-15',
         'time' => '10:00 AM',
         'location' => 'City Clinic',
@@ -62,7 +62,7 @@ $vaccinations = [
     [
         'id' => 'VAC002',
         'name' => 'Liam Brown',
-        'vaccine_type' => 'DTaP',
+        'vaccine_name' => 'DTaP',
         'date' => '2024-06-20',
         'time' => '2:30 PM',
         'location' => 'Health Center',
@@ -79,7 +79,7 @@ $vaccinations = [
     [
         'id' => 'VAC003',
         'name' => 'Emma Wilson',
-        'vaccine_type' => 'Polio',
+        'vaccine_name' => 'Polio',
         'date' => '2024-08-05',
         'time' => '11:15 AM',
         'location' => 'Downtown Hospital',
@@ -94,7 +94,7 @@ $vaccinations = [
     [
         'id' => 'VAC004',
         'name' => 'Noah Anderson',
-        'vaccine_type' => 'Hepatitis B',
+        'vaccine_name' => 'Hepatitis B',
         'date' => '2024-05-12',
         'time' => '9:30 AM',
         'location' => 'Community Health Clinic',
@@ -111,7 +111,7 @@ $vaccinations = [
     [
         'id' => 'VAC005',
         'name' => 'Ava Martinez',
-        'vaccine_type' => 'Influenza',
+        'vaccine_name' => 'Influenza',
         'date' => '2024-10-10',
         'time' => '1:00 PM',
         'location' => 'Green Valley Hospital',
@@ -126,7 +126,7 @@ $vaccinations = [
     [
         'id' => 'VAC006',
         'name' => 'James Parker',
-        'vaccine_type' => 'Varicella',
+        'vaccine_name' => 'Varicella',
         'date' => '2024-04-18',
         'time' => '11:00 AM',
         'location' => 'City Hospital',
@@ -143,7 +143,7 @@ $vaccinations = [
     [
         'id' => 'VAC007',
         'name' => 'Olivia Davis',
-        'vaccine_type' => 'HPV',
+        'vaccine_name' => 'HPV',
         'date' => '2024-09-22',
         'time' => '3:45 PM',
         'location' => 'Central Health Unit',
@@ -158,7 +158,7 @@ $vaccinations = [
     [
         'id' => 'VAC008',
         'name' => 'William Clark',
-        'vaccine_type' => 'COVID-19',
+        'vaccine_name' => 'COVID-19',
         'date' => '2024-03-05',
         'time' => '10:45 AM',
         'location' => 'Town Medical Center',
@@ -201,24 +201,23 @@ $vaccinations = [
                     <c-table.th sortable="1">Location</c-table.th>
                     <c-table.th sortable="1">Administerd By</c-table.th>
                     <c-table.th sortable="1">Status</c-table.th>
-
                     <c-table.th class="table-actions"></c-table.th>
                 </c-table.tr>
             </c-table.thead>
             <c-table.tbody>
-                @foreach ($vaccinations as $vaccination)
-                    <c-table.tr>
-                        <c-table.td col="name">{{ $vaccination['name'] }}</c-table.td>
-                        <c-table.td col="vaccine-type">{{ $vaccination['vaccine_type'] }}</c-table.td>
-                        <c-table.td col="date-time" >{{ $vaccination['date'] }} {{ $vaccination['time'] }}</c-table.td>
-                        <c-table.td col="location" >{{ $vaccination['location'] }}</c-table.td>
-                        <c-table.td col="administered_by">{{ $vaccination['administered_by'] }}</c-table.td>
-                        <c-table.td col="status">
-                            {{
-                            $badgeType = '';
-                            if(strtolower($vaccination['status']) == 'completed') {
-                            $badgeType = 'green';
-                            } elseif (strtolower($vaccination['status']) == 'upcoming') {
+                @foreach ($vaccinations as $key => $vaccination)
+                <c-table.tr>
+                    <c-table.td col="name">{{ $vaccination['name'] }}</c-table.td>
+                    <c-table.td col="vaccine-name">{{ $vaccination['vaccine_name'] }}</c-table.td>
+                    <c-table.td col="date-time">{{ $vaccination['date'] }} {{ $vaccination['time'] }}</c-table.td>
+                    <c-table.td col="location">{{ $vaccination['location'] }}</c-table.td>
+                    <c-table.td col="administered_by">{{ $vaccination['administered_by'] }}</c-table.td>
+                    <c-table.td col="status">
+                        {{
+                        $badgeType = '';
+                        if(strtolower($vaccination['status']) == 'completed') {
+                        $badgeType = 'green';
+                        } elseif (strtolower($vaccination['status']) == 'upcoming') {
                         $badgeType = 'purple';
                         } elseif (strtolower($vaccination['status']) == 'pending') {
                         $badgeType = 'yellow';
@@ -232,8 +231,96 @@ $vaccinations = [
                             {{$vaccination['status']}}
                         </c-badge>
                     </c-table.td>
-                        <c-table.th class="table-actions"></c-table.th>
-                    </c-table.tr>
+                    <c-table.td class="table-actions">
+                        <c-dropdown.main>
+                            <c-slot name="trigger">
+                                <c-button variant="ghost" class="dropdown-trigger">
+                                    <img src="{{ asset('assets/icons/horizontal-more.svg')}}" />
+                                </c-button>
+                            </c-slot>
+                            <c-slot name="menu">
+                                <c-modal id="view-vaccination-{{$key}}" size="md" :initOpen="false">
+                                    <c-slot name="trigger">
+                                        <c-dropdown.item>
+                                            View Details
+                                        </c-dropdown.item>
+                                    </c-slot>
+                                    <c-slot name="headerPrefix">
+                                        <img src="{{ asset('assets/icons/vaccine.svg' )}}" />
+                                    </c-slot>
+
+                                    <c-slot name="header">
+                                        <div>Vaccination Details</div>
+                                    </c-slot>
+
+                                    <c-slot name="headerSuffix">
+
+                                        <c-badge type="{{ $badgeType }}">
+                                            {{$vaccination['status']}}
+                                        </c-badge>
+                                    </c-slot>
+
+
+
+                                    <c-modal.viewcard>
+                                        <c-modal.viewitem icon="{{ asset('assets/icons/vaccine.svg') }}"
+                                            title="Vaccination ID" info="{{ $vaccination['id'] }}" />
+                                        <c-modal.viewitem icon="{{ asset('assets/icons/vaccine.svg') }}"
+                                            title="Vaccine Name" info="{{ $vaccination['vaccine_name'] }}" />
+                                        <c-modal.viewitem icon="{{ asset('assets/icons/baby-01.svg') }}" title="Name"
+                                            info="{{ $vaccination['name'] }}" />
+                                        <c-modal.viewitem icon="{{ asset('assets/icons/calendar-03.svg') }}"
+                                            title="Date" info="{{ $vaccination['date'] }} " />
+                                        <c-modal.viewitem icon="{{ asset('assets/icons/clock-01.svg') }}" title="Time"
+                                            info="{{ $vaccination['time'] }}" />
+                                        <c-modal.viewitem icon="{{ asset('assets/icons/location-05.svg') }}"
+                                            title="Location" info="{{ $vaccination['location'] }}" />
+                                        <c-modal.viewitem icon="{{ asset('assets/icons/doctor.svg') }}"
+                                            title="Administered By" info="{{ $vaccination['administered_by'] }}" />
+                                    </c-modal.viewcard>
+
+
+
+
+
+                                    <c-modal.viewlist title="Details">
+                                        <c-slot name="list">
+                                            <li>{{ $vaccination['details'] }}</li>
+                                        </c-slot>
+                                    </c-modal.viewlist>
+                                    @if(!empty($vaccination['notes']))
+                                    <c-modal.viewlist title="Notes">
+                                        <c-slot name="list">
+
+                                            @foreach ($vaccination['notes'] as $note)
+                                            <li>{{ $note }}</li>
+                                            @endforeach
+                                        </c-slot>
+                                    </c-modal.viewlist>
+                                    @else
+                                    <c-modal.viewlist title="Records">
+                                        <c-slot name="list">
+
+                                            @foreach ($vaccination['records'] as $record)
+                                            <li>{{ $record }}</li>
+                                            @endforeach
+                                        </c-slot>
+                                    </c-modal.viewlist>
+                                    @endif
+
+                                    <c-slot name="close">
+                                        Close
+
+                                    </c-slot>
+
+
+                                </c-modal>
+
+                            </c-slot>
+                        </c-dropdown.main>
+                    </c-table.td>
+
+                </c-table.tr>
                 @endforeach
             </c-table.tbody>
 
