@@ -65,7 +65,7 @@ $menuItems = [
             ],
             [
                 'name' => 'Events & Campaigns',
-                'link' => '#',
+                'link' => route('admin.event'),
                 'icon' => asset('/assets/icons/megaphone-02.svg'),
             ],
             [
