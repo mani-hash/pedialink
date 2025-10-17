@@ -42,48 +42,6 @@
                 Stage
             </c-button>
         </c-slot>
-
-        <c-slot name="extrabtn">
-            <c-modal id="registerStaff" size="sm" :initOpen="false">
-                <c-slot name="trigger">
-                    <c-button variant="primary">
-                        Add Maternal Profile
-                    </c-button>
-                </c-slot>
-
-                <c-slot name="headerPrefix">
-                    <img src="{{ asset('assets/icons/user-add--01.svg' )}}"/>
-                </c-slot>
-
-                <c-slot name="header">
-                    <div>Add Maternal Profile</div>
-                </c-slot>
-
-                <form id="admin-register-form" action="">
-                    <c-input type="text" label="Maternal Full Name:" placeholder="Enter Full Name" required /><br>
-                    <c-select label="GS Devision" name="options" multiple="1" searchable="1" required>
-                        <li class="select-item" data-value="option1">Borella</li>
-                        <li class="select-item" data-value="option2">Dehiwala</li>
-                        <li class="select-item" data-value="option3">Moratuwa</li>
-                        <li class="select-item" data-value="option4">Ratmalana</li>
-                        <li class="select-item" data-value="option5">Wellawatta</li>
-                        <li class="select-item" data-value="option6">Other</li>
-                    </c-select><br>
-                    <c-input type="text" label="Age:" required /><br>
-                    <c-textarea label="Address:" placeholder="Enter Address" rows="4" required></c-textarea><br>
-                    <c-input type="file" label="Birth Certificate" required/><br>
-                    <c-input type="file" label="Marriage Certificate" required/><br>
-                    <c-input type="file" label="Antenatal/Postnatal Card" /><br>
-                    <c-textarea label="Additional Notes:" placeholder="Enter any additional notes here..." rows="4"></c-textarea>
-                </form>
-                <c-slot name="close">
-                        Close
-                </c-slot>
-                <c-slot name="footer">
-                    <c-button type="submit" form="admin-register-form" variant="primary">Create Maternal Proile</c-button>
-                </c-slot>
-            </c-modal>
-        </c-slot>
     </c-table.controls>
 
     <c-table.wrapper card="1">
