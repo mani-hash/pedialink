@@ -67,6 +67,8 @@ class UserController
                 ->with("edit", $id);
         }
 
+        $this->adminUserService->editAdminUser($id, $name, $email, $type);
+
         return redirect(route("admin.user.admin"))
             ->withMessage("success");
     }
