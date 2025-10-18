@@ -92,10 +92,15 @@ $items = [
                                 </c-button>
                             </c-slot>
                             <c-slot name="menu">
-                                <c-modal id="View-vaccination-{{ $key }}" size="sm" :initOpen="false">
+                                <c-modal id="view-vaccination-{{ $key }}" size="sm" :initOpen="false">
                                     <c-slot name="trigger">
                                         <c-dropdown.item>View Vaccination Details</c-dropdown.item>
                                     </c-slot>
+
+                                    <c-slot name="headerPrefix">
+                                    <img src="{{ asset('assets/icons/vaccine.svg' )}}" />
+                                </c-slot>
+
 
                                     <c-slot name="headerSuffix">
                                         <c-badge type="{{$badgeType}}">
@@ -135,20 +140,20 @@ $items = [
                                 </c-modal>
                             </c-slot>
                             <c-dropdown.sep />
-                            <c-modal id="edit-Health-Record-{{ $key }}" size="sm" :initOpen="false">
+                            <c-modal id="edit-vaccination-record-{{ $key }}" size="sm" :initOpen="false">
                                 <c-slot name="trigger">
                                     <c-dropdown.item>Edit Vaccination Details</c-dropdown.item>
                                 </c-slot>
 
                                 <c-slot name="headerPrefix">
-                                    <img src="{{ asset('assets/icons/configuration-02.svg' )}}" />
+                                    <img src="{{ asset('assets/icons/vaccine.svg' )}}" />
                                 </c-slot>
 
                                 <c-slot name="header">
                                     <div>Edit Vaccination Details</div>
                                 </c-slot>
 
-                                <form id="admin-register-form" action="">
+                                <form id="edit-vaccination-form" action="">
                                     <c-input type="text" label="ID:" placeholder="{{ $item['id'] }}" required /><br>
                                     <c-input type="text" label="Name:" placeholder="{{ $item['name'] }}" required /><br>
                                     <c-input type="text" label="Age:" placeholder="{{ $item['Age'] }}" required /><br>
@@ -163,7 +168,7 @@ $items = [
                                         placeholder="{{ $item['Vaccination Date'] }}" required /><br>
                                 </form>
                                 <c-slot name="footer">
-                                    <c-button type="button" variant="outline" data-modal-close="registerAdmin">Save
+                                    <c-button type="button" variant="primary" form="edit-vaccination-form" >Save
                                         Changes</c-button>
                                 </c-slot>
                             </c-modal>
