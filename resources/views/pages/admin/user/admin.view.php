@@ -13,7 +13,6 @@
 @endsection
 
 @section('content')
-
     <c-table.controls :columns='["ID","Name","Email", "Admin Type"]'>
 
         <c-slot name="filter">
@@ -236,6 +235,8 @@
                                             <p class="delete-content">
                                                 Do you want to delete <span class="admin-type">{{ ucfirst($admin['type']) }} Admin</span> account of user <span class="admin-id">A-{{ $admin['id'] }}</span>?
                                             </p>
+
+                                            <form id="delete-form-{{ $admin['id'] }}" action="{{ route('admin.user.admin.delete', ['id' => $admin['id']]) }}" class="hidden" method="POST"></form>
                                             
                                             <form id="admin-delete-form" action="" class="hidden"></form>
                                             <c-slot name="close">
@@ -243,7 +244,7 @@
                                             </c-slot>
 
                                             <c-slot name="footer">
-                                                <c-button type="submit" form="admin-delete-from" variant="primary">Delete Account</c-button>
+                                                <c-button type="submit" form="delete-form-{{ $admin['id'] }}" variant="destructive">Delete Account</c-button>
 
                                             </c-slot>
                                         </c-modal>
