@@ -40,7 +40,7 @@
                 </c-slot>
 
                 <form id="admin-register-form" action="">
-                    <c-input type="text" label="Name" placeholder="Enter email" required />
+                    <c-input type="text" label="Name" placeholder="Enter name" required />
                     <c-input type="email" label="Email" placeholder="Enter email" required />
                     <c-select label="Role:" name="role">
                         <li class="select-item" data-value="super">Super Admin</li>
