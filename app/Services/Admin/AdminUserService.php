@@ -223,4 +223,14 @@ class AdminUserService
         $admin->admin_type_id = $adminType->id;
         $admin->save();
     }
+
+    public function deleteAdminUser(int $id)
+    {
+        $admin = Admin::find($id);
+        $admin->delete();
+
+        $user = User::find($id);
+        $user->delete();
+
+    }
 }
