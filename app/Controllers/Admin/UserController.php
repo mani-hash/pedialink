@@ -42,6 +42,8 @@ class UserController
                 ->with("create", true);
         }
 
+        $this->adminUserService->createAdminUser($name, $email, $type);
+
         return redirect(route("admin.user.admin"))
             ->withMessage("success");
     }
