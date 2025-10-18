@@ -91,6 +91,11 @@ flex-wrap: wrap;
   gap: .75rem;
 }
 
+.page-title{
+    display:flex; align-items:center; gap:.75rem; 
+
+}
+
 /* ---------- Mobile: sidebar becomes off-canvas under the navbar ----------
    Sidebar should be off-canvas starting under the navbar, not covering it. */
 @media (max-width: 920px) {

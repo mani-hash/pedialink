@@ -9,6 +9,28 @@
 @endsection
 
 @section('header')
+<svg width="28" height="28" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_474_12888)">
+        <circle cx="9.99996" cy="10" r="8.33333" stroke="#141B34" stroke-width="1.5" />
+        <path
+            d="M11.6667 13.3333C11.1893 13.8599 10.6163 14.1667 10 14.1667C9.3838 14.1667 8.81075 13.8599 8.33337 13.3333"
+            stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round" />
+        <path
+            d="M7.50004 9.58333C7.26135 9.32006 6.97483 9.16666 6.66671 9.16666C6.35859 9.16666 6.07206 9.32006 5.83337 9.58333"
+            stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round" />
+        <path
+            d="M14.1667 9.58333C13.928 9.32006 13.6415 9.16666 13.3333 9.16666C13.0252 9.16666 12.7387 9.32006 12.5 9.58333"
+            stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round" />
+        <path
+            d="M10 1.66667C8.61929 1.66667 7.5 2.78596 7.5 4.16667C7.5 5.54738 8.61929 6.66667 10 6.66667C10.6403 6.66667 11.2244 6.42596 11.6667 6.03009"
+            stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round" />
+    </g>
+    <defs>
+        <clipPath id="clip0_474_12888">
+            <rect width="20" height="20" fill="white" />
+        </clipPath>
+    </defs>
+</svg>
     Health Records View
 @endsection
 
@@ -44,7 +66,7 @@
         </c-slot>
 
         <c-slot name="extrabtn">
-            <c-modal id="registerStaff" size="sm" :initOpen="false">
+            <c-modal id="add-health-record-modal" size="sm" :initOpen="false">
                 <c-slot name="trigger">
                     <c-button variant="primary">
                         Add Record
@@ -59,7 +81,7 @@
                     <div>Add Health Records</div>
                 </c-slot>
 
-                <form id="admin-register-form" action="">
+                <form id="add-health-record-form" action="">
                     <c-input type="text" label="Height:" placeholder="Enter Height of the Child (in cm)" required /><br>
                     <c-input type="text" label="Weight:" placeholder="Enter Weight of the Child (in kg)" required /><br>
                     <c-input type="text" label="Head Circumference:" placeholder="Enter Head Circumference of the Child (in cm)" required /><br>
@@ -84,10 +106,10 @@
             <c-table.main sticky="1" size="comfortable">
                 <c-table.thead>
                     <c-table.tr>
-                        <c-table.th sortable="1" width="230px">Recorded at</c-table.th>
-                        <c-table.th sortable="1" width="220px">Height</c-table.th>
-                        <c-table.th sortable="1" width="220px">Weight</c-table.th>
-                        <c-table.th align="left" sortable="1" width="220px">Head Circumference</c-table.th>
+                        <c-table.th sortable="1" >Recorded at</c-table.th>
+                        <c-table.th sortable="1">Height</c-table.th>
+                        <c-table.th sortable="1">Weight</c-table.th>
+                        <c-table.th align="left" sortable="1">Head Circumference</c-table.th>
                         <c-table.th align="left">Health Status</c-table.th>
                         <c-table.th class="table-actions"></c-table.th>
                     </c-table.tr>
@@ -95,12 +117,27 @@
 
                 <c-table.tbody>
                     @foreach ($items as $key=>$item)
+
+                                  <?php
+$badgeType = '';
+if (strtolower($item['Health Status']) === "good")
+    $badgeType = 'green';
+elseif (strtolower($item['Health Status']) === "critical")
+    $badgeType = 'purple';
+elseif (strtolower($item['Health Status']) === "bad")
+    $badgeType = 'red';
+
+?>
                         <c-table.tr>
                             <c-table.td col="Recorded at">{{ $item['Recorded at'] }}</c-table.td>
                             <c-table.td col="Height">{{ $item['Height'] }}</c-table.td>
                             <c-table.td col="Weight">{{ $item['Weight'] }}</c-table.td>
                             <c-table.td col="Head Circumference">{{ $item['Head Circumference'] }}</c-table.td>
-                            <c-table.td col="Health Status">{{ $item['Health Status'] }}</c-table.td>
+                            <c-table.td col="Health Status">
+                                <c-badge type="{{ $badgeType }}">
+                                    {{ $item['Health Status'] }}
+                                </c-badge>
+                            </c-table.td>
                             <c-table.td class="table-actions" align="center">
                                 <c-dropdown.main>
                                     <c-slot name="trigger">
@@ -128,12 +165,12 @@
 
                                             <c-modal.viewcard>
                                                 <c-modal.viewitem
-                                                    icon="{{ asset('assets/icons/profile-02.svg') }}"
+                                                    icon="{{ asset('assets/icons/profile.svg') }}"
                                                     title="Record ID"
-                                                    info="12000"
+                                                    info="REC001"
                                                 />
                                                 <c-modal.viewitem
-                                                    icon="{{ asset('assets/icons/user.svg') }}"
+                                                    icon="{{ asset('assets/icons/ruler.svg') }}"
                                                     title="Height"
                                                     info="{{ $item['Height'] }}"
                                                 />
@@ -143,7 +180,7 @@
                                                     info="2"
                                                 />
                                                 <c-modal.viewitem
-                                                    icon="{{ asset('assets/icons/chart-evaluation.svg') }}"
+                                                    icon="{{ asset('assets/icons/body-weight.svg') }}"
                                                     title="Weight"
                                                     info="{{ $item['Weight'] }}"
                                                 />
@@ -153,7 +190,7 @@
                                                     info="{{ $item['Recorded at'] }}"
                                                 />
                                                 <c-modal.viewitem
-                                                    icon="{{ asset('assets/icons/student-card.svg') }}"
+                                                    icon="{{ asset('assets/icons/ruler.svg') }}"
                                                     title="Head Circumference"
                                                     info="{{ $item['Head Circumference'] }} "
                                                 />
@@ -171,19 +208,19 @@
                                         </c-modal>
                                         </c-slot>
                                         <c-dropdown.sep />
-                                    <c-modal id="edit-Health-Record-{{ $key }}" size="sm" :initOpen="false">
+                                    <c-modal id="edit-health-record-{{ $key }}" size="sm" :initOpen="false">
                                     <c-slot name="trigger">
                                      <c-dropdown.item>Edit Health Records</c-dropdown.item>
                                     </c-slot>
                                      <c-slot name="headerPrefix">
-                                           <img src="{{ asset('assets/icons/configuration-02.svg' )}}"/>
+                                           <img src="{{ asset('assets/icons/profile.svg' )}}"/>
                                      </c-slot>
  
                                     <c-slot name="header">
                                             <div>Edit Health Records</div>
                                     </c-slot>
 
-                        <form id="admin-register-form" action="">
+                        <form id="edit-health-record-form" action="">
                              <c-input type="text" label="Height:" placeholder="{{ $item['Height'] }}" required /><br>
                              <c-input type="text" label="Weight:" placeholder="{{ $item['Weight'] }}" required /><br>
                              <c-input type="text" label="Head Circumference:" placeholder="{{ $item['Head Circumference'] }}" required /><br>
@@ -198,16 +235,16 @@
                         Close
                         </c-slot>
                         <c-slot name="footer">
-                          <c-button type="button" variant="outline" data-modal-close="registerAdmin">Save Changes</c-button>
+                          <c-button type="submit" variant="primary" form="edit-health-record-form">Save Changes</c-button>
                         </c-slot>
                     </c-modal>
                 <c-dropdown.sep />
-                    <c-modal id="mark-as-invalid-{{ $key }}" size="sm" :initOpen="false">
+                    <c-modal id="mark-as-invalid-record-{{ $key }}" size="sm" :initOpen="false">
                                     <c-slot name="trigger">
                                      <c-dropdown.item>Mark as Invalid</c-dropdown.item>
                                     </c-slot>
                                      <c-slot name="headerPrefix">
-                                           <img src="{{ asset('assets/icons/configuration-02.svg' )}}"/>
+                                           <img src="{{ asset('assets/icons/profile.svg' )}}"/>
                                      </c-slot>
  
                                     <c-slot name="header">
@@ -220,7 +257,7 @@
                           cancel
                         </c-slot>
                         <c-slot name="footer">
-                          <c-button type="button" variant="destructive" data-modal-close="registerAdmin">Mark</c-button>
+                          <c-button  size="sm" variant="destructive">Mark</c-button>
                         </c-slot>
                     </c-modal>
                 <c-dropdown.sep />
