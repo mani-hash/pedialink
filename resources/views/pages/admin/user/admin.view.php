@@ -28,7 +28,7 @@
         </c-slot>
 
         <c-slot name="extrabtn">
-            <c-modal id="registerStaff" size="sm" :initOpen="false">
+            <c-modal id="registerStaff" size="sm" :initOpen="flash('create') ? true : false">
                 <c-slot name="trigger">
                     <c-button variant="primary">
                         Register Admin Role
@@ -39,10 +39,24 @@
                     <div>Register Admin</div>
                 </c-slot>
 
-                <form id="admin-register-form" action="">
-                    <c-input type="text" label="Name" placeholder="Enter name" required />
-                    <c-input type="email" label="Email" placeholder="Enter email" required />
-                    <c-select label="Role:" name="role">
+                <form id="admin-register-form" action="{{ route('admin.user.admin.create') }}" method="POST">
+                    <c-input
+                        type="text"
+                        label="Name"
+                        name="name"
+                        placeholder="Enter name"
+                        value="{{ old('name') ?? '' }}"
+                        error="{{ errors('name') ?? '' }}"
+                        required />
+                    <c-input
+                        type="email"
+                        label="Email"
+                        name="email"
+                        placeholder="Enter email"
+                        value="{{ old('email') ?? '' }}"
+                        error="{{ errors('email') ?? '' }}"
+                        required />
+                    <c-select label="Role" name="type" error="{{ errors('type') ?? '' }}" required>
                         <li class="select-item" data-value="super">Super Admin</li>
                         <li class="select-item" data-value="data">Data Admin</li>
                         <li class="select-item" data-value="user">User Admin</li>
