@@ -185,4 +185,18 @@ class AdminUserService
         $admin->admin_type_id = $adminType->id;
         $admin->save();
     }
+
+    public function editAdminUser(int $id, string $name, string $email, string $type)
+    {
+        $user = User::find($id);
+        $user->name = $name;
+        $user->email = $email;
+        $user->save();
+
+        $adminType = AdminType::query()->where("type", "=", $type)->first();
+        
+        $admin = Admin::find($id);
+        $admin->admin_type_id = $adminType->id;
+        $admin->save();
+    }
 }
