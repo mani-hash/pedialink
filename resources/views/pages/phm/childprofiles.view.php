@@ -95,8 +95,7 @@ $items = [
                 <c-textarea label="Address:" placeholder="Enter Address" rows="4" required></c-textarea><br>
                 <c-input type="file" label="Birth Certificate" required /><br>
                 <c-input type="file" label="Additional Documents" /><br>
-                <c-textarea label="Additional Notes:" placeholder="Enter any additional notes here..."
-                    rows="4"></c-textarea>
+                <c-textarea label="Additional Notes:" placeholder="Enter any additional notes here..." rows="4"></c-textarea>
             </form>
             <c-slot name="close">
                 Close
@@ -214,14 +213,12 @@ $items = [
                                     <c-input type="date" label="Date of Birth:" value="" required /><br>
                                     <c-textarea label="Address:" placeholder="132,1/2,Lorem street" rows="1">
                                     </c-textarea>
-                                    <c-select label="Health Status:" multiple="1"
-                                        Default="{{ $item['Health Status'] }}">
+                                    <c-select label="Health Status:" multiple="1" default="{{ $item['Health Status'] }}">
                                         <option class="select-item" data-value="child">Good</option>
                                         <option class="select-item" data-value="child">Crtical</option>
                                     </c-select>
                                     <br>
-                                    <c-textarea label="Additional Notes:" placeholder="Nutrition Facts."
-                                        rows="4"></c-textarea>
+                                    <c-textarea label="Additional Notes:" placeholder="Nutrition Facts." rows="4"></c-textarea>
                                 </form>
                                 <c-slot name="close">
                                     Close
