@@ -255,9 +255,7 @@ private function formatNotes(string $notes)
     return json_encode($notesArray, JSON_UNESCAPED_UNICODE);
 }
 
-     
-
-    public function createAppointment($patient, $staff, $date, $time, $purpose, $notes, $requester)
+       public function createAppointment($patient, $staff, $date, $time,$location, $purpose, $notes, $requester)
     {
 
         $appointmentDateTime = $date . ' ' . $time;
@@ -265,14 +263,104 @@ private function formatNotes(string $notes)
         $appointment = new Appointment();
         $appointment->patient_id = $patient;
         $appointment->staff_id = $staff;
-        $appointment->requested_by = $requester;
+        $appointment->location = $location;
+        $appointment->status = "confirmed";
+        $appointment->requested_by = "staff";
         $appointment->datetime = $appointmentDateTime;
         $appointment->purpose = $purpose;
         $appointment->notes = $this->formatNotes($notes);
         $appointment->save();
 
     }
-}
 
+    public function requestAppointment($patient, $staff, $date, $time, $purpose, $notes)
+    {
+
+        $appointmentDateTime = $date . ' ' . $time;
+
+        $appointment = new Appointment();
+        $appointment->patient_id = $patient;
+        $appointment->staff_id = $staff;
+        $appointment->requested_by = "parent";
+        $appointment->datetime = $appointmentDateTime;
+        $appointment->purpose = $purpose;
+        $appointment->notes = $this->formatNotes($notes);
+        $appointment->save();
+
+    }
+
+    
+    public function getAppointmentById($appointmentId)
+    {
+        return Appointment::query()->where('id', '=', $appointmentId)->first();
+    }
+
+    public function requestRescheduleAppointment($appointmentId, $date, $time,$reason, $notes)
+    {
+        $appointment = Appointment::find($appointmentId);
+
+            $appointmentDateTime = $date . ' ' . $time;
+            $appointment->datetime = $appointmentDateTime;
+            $appointment->status = 'reschedule_requested';
+            $appointment->reschedule_reason = $reason;
+            $appointment->notes = $this->formatNotes($notes);
+            $appointment->save();
+    
+    }
+
+
+
+    public function rescheduleAppointment($appointmentId, $date, $time,$reason, $notes)
+    {
+        $appointment = Appointment::find($appointmentId);
+
+            $appointmentDateTime = $date . ' ' . $time;
+            $appointment->datetime = $appointmentDateTime;
+            $appointment->status = 'rescheduled';
+            $appointment->reschedule_reason = $reason;
+            $appointment->notes = $this->formatNotes($notes);
+            $appointment->save();
+    
+    }
+
+
+
+    public function cancelAppointment($appointmentId)
+    {
+        $appointment = Appointment::find($appointmentId);
+            $appointment->status = 'cancelled';
+                    $appointment->save();
+                
+    }
+
+
+    public function requestCancelAppointment($appointmentId,$reason)
+    {
+        $appointment = Appointment::find($appointmentId);
+            $appointment->status = 'cancel_requested';
+                    $appointment->cancel_reason = $reason;
+                    $appointment->save();
+
+    }
+
+
+
+    public function completeAppointment($appointmentId)
+    {
+        $appointment = Appointment::find($appointmentId);
+        if ($appointment) {
+            $appointment->status = 'completed';
+            $appointment->save();
+        }
+    }
+
+    public function deleteAppointment($appointmentId)
+    {
+        $appointment = Appointment::find($appointmentId);
+        if ($appointment) {
+            $appointment->delete();
+        }
+    }
+}   
 
 ?>
