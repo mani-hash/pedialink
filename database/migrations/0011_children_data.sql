@@ -67,8 +67,7 @@ VALUES (
                 email = 'nirmal@gmail.com'
             LIMIT 1
         ),
-        'Alex',
-        'Hales',
+        'Alex Hales',
         '2025-05-12',
         'male',
         'good'
