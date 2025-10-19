@@ -42,7 +42,7 @@ PHM - Growth Monitorinng
                 <span class="card-subtitle">Track Baby Sarah's BMI over time</span>
             </div>
             <!-- Child Selector -->
-            <c-select name='child' class="child-select" placeholder="Select Child">
+            <c-select name='child' class="child-select" searchable="1" placeholder="Select Child">
                 <li class="select-item" data-value="all-children">All Children</li>
                 <li class="select-item " data-value="baby-sara">Baby Sara</li>
                 <li class="select-item" data-value="baby-john">Baby John</li>
@@ -61,10 +61,10 @@ PHM - Growth Monitorinng
         <div class="header">
             <div class="title-section">
                 <span class="card-title">Child Height Tracking</span>
-                <span class="card-subtitle">Track Baby Sarah's Height over time</span>
+                <span class="card-subtitle">Track Baby Sarah's Height over time</span>
             </div>
             <!-- Child Selector -->
-            <c-select name='child' class="child-select" placeholder="Select Child">
+            <c-select name='child' class="child-select" searchable="1" placeholder="Select Child">
                 <li class="select-item" data-value="all-children">All Children</li>
                 <li class="select-item " data-value="baby-sara">Baby Sara</li>
                 <li class="select-item" data-value="baby-john">Baby John</li>
@@ -83,10 +83,10 @@ PHM - Growth Monitorinng
         <div class="header">
             <div class="title-section">
                 <span class="card-title">Child Weight Tracking</span>
-                <span class="card-subtitle">Track Baby Sarah's Weight over time</span>
+                <span class="card-subtitle">Track Baby Sarah's Weight over time</span>
             </div>
             <!-- Child Selector -->
-            <c-select name='child' class="child-select" placeholder="Select Child">
+            <c-select name='child' class="child-select" searchable="1" placeholder="Select Child">
                 <li class="select-item" data-value="all-children">All Children</li>
                 <li class="select-item " data-value="baby-sara">Baby Sara</li>
                 <li class="select-item" data-value="baby-john">Baby John</li>
