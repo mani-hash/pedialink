@@ -5,7 +5,7 @@ PHM Maternal Health
 @endsection
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/pages/phm/childprofiles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/phm/maternal-health.css') }}">
 @endsection
 
 @section('header')
@@ -80,7 +80,7 @@ $items = [
                 <div>Add Health Records</div>
             </c-slot>
 
-            <form id="add-health-record-form" action="">
+            <form id="add-health-record-form" class="maternal-health-form" action="">
                 <c-input type="text" label="Recorded at:" placeholder="Enter Recorded Date & Time" required />
                 <c-input type="text" label="BMI:" placeholder="Enter BMI of the Mother" required />
                 <c-input type="text" label="Blood Pressure:" placeholder="Enter Blood Pressure of the Mother (in mmHg)"
@@ -175,74 +175,73 @@ $items = [
                                                 title="Fundal Height" info="5 cm" />
                                         </c-modal.viewcard>
 
-                                        <h4>Additional Information</h4>
-                                        <ul>
-                                            <li>Nutrition Facts: Good</li>
-                                            <li>Lorem Ipsum</li>
-                                        </ul>
+                                        <c-modal.viewlist title="Additional Information">
+                                            <c-slot name="list">
+                                                <li>Nutrition Facts: Good</li>
+                                                <li>Lorem Ipsum</li>
+                                            </c-slot>
+                                        </c-modal.viewlist>
 
                                         <c-slot name="close">
                                             Close
                                         </c-slot>
                                         
                                     </c-modal>
+                                    <c-modal id="edit-health-record-{{ $key }}" size="sm" :initOpen="false">
+                                        <c-slot name="trigger">
+                                            <c-dropdown.item>Edit Health Records</c-dropdown.item>
+                                        </c-slot>
+
+                                        <c-slot name="headerPrefix">
+                                            <img src="{{ asset('assets/icons/profile.svg' )}}" />
+                                        </c-slot>
+
+                                        <c-slot name="header">
+                                            <div>Edit Health Records</div>
+                                        </c-slot>
+
+                                        <form id="edit-health-record-form" class="maternal-health-form" action="">
+                                            <c-input type="text" label="Recorded at:" placeholder="{{ $item['Recorded at'] }}"
+                                                required />
+                                            <c-input type="text" label="BMI:" placeholder="{{ $item['BMI'] }}" required />
+                                            <c-input type="text" label="Blood Pressure:"
+                                                placeholder="{{ $item['Blood Pressure'] }}" required />
+                                            <c-input type="text" label="Blood Sugar:" placeholder="{{ $item['Blood Sugar'] }}"
+                                                required />
+                                            <c-select label="Blood :" multiple="1" Default="{{ $item['Health Status'] }}">
+                                                <option class="select-item" data-value="child">Good</option>
+                                                <option class="select-item" data-value="child">Bad</option>
+                                            </c-select>
+                                            <c-textarea label="Additional Notes:" placeholder="Nutrition Facts." rows="4"></c-textarea>
+                                        </form>
+                                        <c-slot name="close">Close</c-slot>
+                                        <c-slot name="footer">
+                                            <c-button type="submit" variant="primary" form="edit-health-record-form">Save
+                                                Changes</c-button>
+                                        </c-slot>
+                                    </c-modal>
+                                    <c-modal id="mark-as-invalid-{{ $key }}" size="sm" :initOpen="false">
+                                        <c-slot name="trigger">
+                                            <c-dropdown.item>Mark as Invalid</c-dropdown.item>
+                                        </c-slot>
+                                        <c-slot name="headerPrefix">
+                                            <img src="{{ asset('assets/icons/profile.svg' )}}" />
+                                        </c-slot>
+
+                                        <c-slot name="header">
+                                            <div>Mark as Invalid</div>
+                                        </c-slot>
+
+                                        <p>Are you sure you want to mark this record as invalid?</p>
+
+                                        <c-slot name="close">
+                                            cancel
+                                        </c-slot>
+                                        <c-slot name="footer">
+                                            <c-button type="button" variant="destructive">Mark</c-button>
+                                        </c-slot>
+                                    </c-modal>
                                 </c-slot>
-                                <c-dropdown.sep />
-                                <c-modal id="edit-health-record-{{ $key }}" size="sm" :initOpen="false">
-                                    <c-slot name="trigger">
-                                        <c-dropdown.item>Edit Health Records</c-dropdown.item>
-                                    </c-slot>
-
-                                    <c-slot name="headerPrefix">
-                                        <img src="{{ asset('assets/icons/profile.svg' )}}" />
-                                    </c-slot>
-
-                                    <c-slot name="header">
-                                        <div>Edit Health Records</div>
-                                    </c-slot>
-
-                                    <form id="edit-health-record-form" action="">
-                                        <c-input type="text" label="Recorded at:" placeholder="{{ $item['Recorded at'] }}"
-                                            required />
-                                        <c-input type="text" label="BMI:" placeholder="{{ $item['BMI'] }}" required />
-                                        <c-input type="text" label="Blood Pressure:"
-                                            placeholder="{{ $item['Blood Pressure'] }}" required />
-                                        <c-input type="text" label="Blood Sugar:" placeholder="{{ $item['Blood Sugar'] }}"
-                                            required />
-                                        <c-select label="Blood :" multiple="1" Default="{{ $item['Health Status'] }}">
-                                            <option class="select-item" data-value="child">Good</option>
-                                            <option class="select-item" data-value="child">Bad</option>
-                                        </c-select>
-                                        <c-textarea label="Additional Notes:" placeholder="Nutrition Facts." rows="4"></c-textarea>
-                                    </form>
-                                    <c-slot name="close">Close</c-slot>
-                                    <c-slot name="footer">
-                                        <c-button type="submit" variant="primary" form="edit-health-record-form">Save
-                                            Changes</c-button>
-                                    </c-slot>
-                                </c-modal>
-                                <c-dropdown.sep />
-                                <c-modal id="mark-as-invalid-{{ $key }}" size="sm" :initOpen="false">
-                                    <c-slot name="trigger">
-                                        <c-dropdown.item>Mark as Invalid</c-dropdown.item>
-                                    </c-slot>
-                                    <c-slot name="headerPrefix">
-                                        <img src="{{ asset('assets/icons/profile.svg' )}}" />
-                                    </c-slot>
-
-                                    <c-slot name="header">
-                                        <div>Mark as Invalid</div>
-                                    </c-slot>
-
-                                    <p>Are you sure you want to mark this record as invalid?</p>
-
-                                    <c-slot name="close">
-                                        cancel
-                                    </c-slot>
-                                    <c-slot name="footer">
-                                        <c-button type="button" variant="destructive">Mark</c-button>
-                                    </c-slot>
-                                </c-modal>
                             </c-dropdown.main>
                         </c-table.td>
                     </c-table.tr>
