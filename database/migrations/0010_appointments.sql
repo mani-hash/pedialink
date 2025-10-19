@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS appointments (
     staff_id INT REFERENCES staffs (id) ON DELETE SET NULL,
     requested_by appointment_requested_by NOT NULL,
     datetime TIMESTAMP NOT NULL,
-    location VARCHAR(255),
+    location VARCHAR(255) DEFAULT 'Not Allocated',
     status appointment_status DEFAULT 'pending',
     purpose VARCHAR(255),
     notes JSON,
