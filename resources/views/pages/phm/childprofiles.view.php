@@ -293,7 +293,7 @@ $items = [
                                         </c-slot>
                                     </c-modal>
                                     <c-dropdown.sep />
-                                    <c-dropdown.item href="{{ route('phm.growth.monitoring',['id'=>$key,])}}">
+                                    <c-dropdown.item href="{{ route('phm.growth.monitoring.child',['id'=>$key,])}}">
                                         View Growth Records
                                     </c-dropdown.item>
                                     <c-dropdown.item href="{{ route('phm.child.health.records',['id'=>$key,])}}">
