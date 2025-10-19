@@ -51,7 +51,7 @@ class AppointmentService
         }
         $currentDate = new \DateTime();
 
-        if ($appointmentDate <= $currentDate) {
+        if ($appointmentDate < $currentDate) {
 
             $error = "Appointment date must be in the future";
             return $error;
@@ -110,20 +110,20 @@ class AppointmentService
             return $error;
         }
 
-        $staffs = Staff::all();
-        $validType = false;
+        // $staffs = Staff::all();
+        // $validType = false;
 
-        foreach ($staffs as $staff) {
-            if ($staff === $staff->id) {
-                $validType = true;
-                break;
-            }
-        }
+        // foreach ($staffs as $staff) {
+        //     if ($staff === $staff->id) {
+        //         $validType = true;
+        //         break;
+        //     }
+        // }
 
-        if (!$validType) {
-            $error = "Invalid Staff type";
-            return $error;
-        }
+        // if (!$validType) {
+        //     $error = "Invalid Staff type";
+        //     return $error;
+        // }
 
         return $error;
     }
@@ -136,20 +136,20 @@ class AppointmentService
             return $error;
         }
 
-        $patients = Patient::all();
-        $validPatient = false;
+        // $patients = Patient::all();
+        // $validPatient = false;
 
-        foreach ($patients as $p) {
-            if ($patient === $p->parent_id) {
-                $validPatient = true;
-                break;
-            }
-        }
+        // foreach ($patients as $p) {
+        //     if ($patient === $p->parent_id) {
+        //         $validPatient = true;
+        //         break;
+        //     }
+        // }
 
-        if (!$validPatient) {
-            $error = "Invalid Patient";
-            return $error;
-        }
+        // if (!$validPatient) {
+        //     $error = "Invalid Patient";
+        //     return $error;
+        // }
 
         return $error;
     }
@@ -182,18 +182,18 @@ class AppointmentService
         return $errors;
     }
 
-    public function createAppointment($patient, $staff, $time, $date, $purpose, $notes)
+    public function createAppointment($patient, $staff, $date, $time, $purpose, $notes,$requester)
     {
 
-
+        $appointmentDateTime = $date.' '.$time;
 
         $appointment = new Appointment();
         $appointment->patient_id = $patient;
         $appointment->staff_id = $staff;
-        $appointment->time = $time;
-        $appointment->date = $date;
+        $appointment->requested_by = $requester;
+        $appointment->datetime = $appointmentDateTime;
         $appointment->purpose = $purpose;
-        $appointment->notes = $notes;
+        $appointment->notes = json_encode($notes);
         $appointment->save();
 
     }

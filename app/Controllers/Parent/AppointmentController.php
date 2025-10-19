@@ -42,7 +42,7 @@ class AppointmentController
                 ->with("create", true);
         }
 
-        $this->appointmentService->createAppointment($patient,$staff,$date,$time,$purpose,$notes);
+        $this->appointmentService->createAppointment($patient,$staff,$date,$time,$purpose,$notes,$requester = "parent");
 
         return redirect(route("parent.appointments"))
             ->withMessage("success");

@@ -140,7 +140,7 @@ $appointments = [
 
                 </c-select>
                 <c-select label="Staff Preference" name="staff" searchable="1" error="{{ errors('staff') ?? '' }}" value="{{ old('staff')??''}}" required>
-                    <li class="select-item" data-value="2">Dr.Smith</li>
+                    <li class="select-item" data-value="2">Sarah</li>
 
                 </c-select>
                 <c-input type="date" label="Preferred Date" name="date" placeholder="Select Date" error="{{ errors('date') ?? '' }}" value="{{ old('date')??'' }}"/>
