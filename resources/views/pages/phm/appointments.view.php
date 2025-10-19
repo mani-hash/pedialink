@@ -255,7 +255,7 @@
                                             </c-slot>
         
                                             <c-slot name="header">
-                                                    <div style="color: red;">Cancel Appointment</div>
+                                                Cancel Appointment
                                             </c-slot>
 
                                             <form id="admin-register-form" action="">
@@ -266,7 +266,7 @@
                                                 Close
                                             </c-slot>
                                             <c-slot name="footer">
-                                                <c-button type="submit" variant="secondary">Cancel Appointment</c-button>
+                                                <c-button type="submit" variant="destructive">Cancel Appointment</c-button>
                                             </c-slot>
                                         </c-modal>
                                     </c-slot>
