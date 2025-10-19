@@ -1,28 +1,20 @@
-CREATE TYPE patient_type AS ENUM ('maternal','child');
+CREATE TYPE appointment_status AS ENUM ('pending','confirmed','cancelled','reschedule_requested','rescheduled');
 
-CREATE TABLE IF NOT EXISTS patients (
+CREATE TYPE appointment_requested_by AS ENUM ('staff','parent');
+
+CREATE TYPE appointment_cancelled_by AS ENUM ('parent', 'staff');
+
+CREATE TABLE IF NOT EXISTS appointments (
     id SERIAL PRIMARY KEY,
-    type patient_type NOT NULL,
+    patient_id INT REFERENCES patients (id) ON DELETE SET NULL,
+    staff_id INT REFERENCES staffs (id) ON DELETE SET NULL,
+    requested_by appointment_requested_by NOT NULL,
+    datetime TIMESTAMP NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    status appointment_status DEFAULT 'pending',
+    purpose VARCHAR(255),
+    notes JSON,
+    cancelled_by appointment_cancelled_by
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS maternal (
-    id INT PRIMARY KEY REFERENCES patients(id) ON DELETE CASCADE,
-    parent_id INT REFERENCES parents (id) ON DELETE SET NULL
-);
-
-CREATE TYPE child_status AS ENUM ('good','critical');
-
-CREATE TYPE child_gender AS ENUM ('male','female');
-
-CREATE TABLE IF NOT EXISTS children (
-    id INT PRIMARY KEY REFERENCES patients(id) ON DELETE CASCADE,
-    parent_id INT REFERENCES parents (id) ON DELETE CASCADE,
-    phm_id INT REFERENCES public_health_midwives (id) ON DELETE SET NULL,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    date_of_birth DATE NOT NULL,
-    gender child_gender NOT NULL,
-    health_status child_status
-);
+    );
