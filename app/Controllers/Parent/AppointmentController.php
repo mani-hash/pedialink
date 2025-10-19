@@ -69,7 +69,7 @@ class AppointmentController
                     "time" => $time
                 ])
                 ->withErrors($errors)
-                ->with("create", true);
+                ->with("reschedule", $appointment);
         }
 
         $this->appointmentService->requestRescheduleAppointment($appointment, $date, $time, $reason, $notes);
@@ -87,7 +87,9 @@ class AppointmentController
         $this->appointmentService->requestCancelAppointment($appointment, $reason, $notes);
 
         return redirect(route("parent.appointments"))
-            ->withMessage("success");
+            ->withMessage("success")
+            ->with("cancel", $appointment);
+
     }
 
 

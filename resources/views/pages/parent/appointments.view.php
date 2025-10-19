@@ -142,33 +142,27 @@ Parent - Appointments
             </c-slot>
 
             <form id="request-appointment-form" action="{{ route('parent.appointment.request') }}" method="POST">
-                <c-select label="Appointment For" name="patient" placeholder="Select Child or Parent"
-                    error="{{ errors('patient') ?? '' }}" value="{{ old('patient') ?? '' }}" required>
+                <c-select label="Appointment For" name="patient" placeholder="Select Child or Parent" error="{{ errors('patient') ?? '' }}" value="{{ old('patient') ?? '' }}" required>
                     <li class="select-item" data-value="1">Keeththi</li>
                     <li class="select-item" data-value="2">Alex Hales</li>
-
-
                 </c-select>
-                <c-select label="Staff Preference" name="staff" searchable="1" error="{{ errors('staff') ?? '' }}"
-                    value="{{ old('staff')??''}}" required>
+                
+                <c-select label="Staff Preference" name="staff" searchable="1" error="{{ errors('staff') ?? '' }}" value="{{ old('staff')??''}}" required>
                     <li class="select-item" data-value="2">Sarah</li>
                     <li class="select-item" data-value="1">Nimal</li>
-
-
                 </c-select>
+
                 <c-input type="date" label="Preferred Date" name="date" placeholder="Select Date"
                     error="{{ errors('date') ?? '' }}" value="{{ old('date')??'' }}" />
-                <c-select label="Preferred Time" name="time" error="{{ errors('time') ?? '' }}"
-                    value="{{ old('time')??'' }}" required>
+                <c-select label="Preferred Time" name="time" error="{{ errors('time') ?? '' }}" value="{{ old('time')??'' }}" required>
                     <li class="select-item" data-value="09:00">09.00 AM</li>
                     <li class="select-item" data-value="10:00">10.00 AM</li>
                     <li class="select-item" data-value="11:00">11.00 AM</li>
                     <li class="select-item" data-value="12:00">12.00 PM</li>
                 </c-select>
-                <c-textarea name="purpose" label="Appointment Purpose" placeholder="Enter your visit purpose"
-                    value="{{ old('purpose')??'' }}" />
-                <c-textarea name="notes" label="Additional Notes" placeholder="Any additional notes or others"
-                    value="{{ old('notes')??'' }}" />
+
+                <c-textarea name="purpose" label="Appointment Purpose" placeholder="Enter your visit purpose" value="{{ old('purpose')??'' }}" />
+                <c-textarea name="notes" label="Additional Notes" placeholder="Any additional notes or others" value="{{ old('notes')??'' }}" />
 
 
 
@@ -321,7 +315,7 @@ Parent - Appointments
                                     </c-slot>
                                 </c-modal>
                                 <c-dropdown.sep />
-                                <c-modal id="reschedule-appointmant-{{$key}}" size="md" :initOpen="false">
+                                <c-modal id="reschedule-appointmant-{{$key}}" size="md" :initOpen="flash('reschedule') === $appointment['id'] ? true : false">
                                     <c-slot name="trigger">
                                         <c-dropdown.item> Reschedule Appointment </c-dropdown.item>
                                     </c-slot>
@@ -360,13 +354,11 @@ Parent - Appointments
 
                                     </c-card>
 
-                                    <form id="reschedule-appointment-form-{{$appointment['id']}}"
-                                        action="{{ route('parent.appointment.reschedule', ['id' => $appointment['id']]) }}"
+                                    <form id="reschedule-appointment-form-{{$appointment['id']}}" action="{{ route('parent.appointment.reschedule', ['id' => $appointment['id']]) }}"
                                         method="POST">
                                         <c-input type="date" label="New Date" name="date" placeholder="Select Date"
                                             value="{{$appointment['date']}}" required />
-                                        <c-select label="New Time" name="time" multiple="1" searchable="1"
-                                            value="{{$appointment['time']}}" required>
+                                        <c-select label="New Time" name="time" value="{{$appointment['time']}}" required>
                                             <li class="select-item" data-value="09:00">09.00 AM</li>
                                             <li class="select-item" data-value="10:00">10.00 AM</li>
                                             <li class="select-item" data-value="11:00">11.00 AM</li>
@@ -383,14 +375,13 @@ Parent - Appointments
                                     </c-slot>
 
                                     <c-slot name="footer">
-                                        <c-button type="submit"
-                                            form="reschedule-appointment-form-{{$appointment['id']}}" variant="primary">
+                                        <c-button type="submit" form="reschedule-appointment-form-{{$appointment['id']}}" variant="primary">
                                             Submit Request
                                         </c-button>
                                     </c-slot>
                                 </c-modal>
 
-                                <c-modal id="cancel-appointmant-{{$key}}" size="sm" :initOpen="false">
+                                <c-modal id="cancel-appointmant-{{$key}}" size="sm" :initOpen="flash('cancel') === $appointment['id'] ? true : false">
                                     <c-slot name="trigger">
                                         <c-dropdown.item> Cancel Appointment </c-dropdown.item>
                                     </c-slot>
@@ -468,8 +459,7 @@ Parent - Appointments
                                     </c-slot>
 
                                     <c-slot name="footer">
-                                        <c-button type="submit" form="cancel-appointment-form-{{$appointment['id']}}"
-                                            variant="destructive">
+                                        <c-button type="submit" form="cancel-appointment-form-{{$appointment['id']}}" variant="destructive">
                                             Cancel Appointment
                                         </c-button>
 
