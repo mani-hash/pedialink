@@ -5,15 +5,15 @@
 @endsection
 
 @section('header')
-<svg width="28" height="28" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M2.08337 10C2.08337 6.26806 2.08337 4.40208 3.24274 3.24271C4.40211 2.08334 6.26809 2.08334 10 2.08334C13.732 2.08334 15.598 2.08334 16.7573 3.24271C17.9167 4.40208 17.9167 6.26806 17.9167 10C17.9167 13.732 17.9167 15.5979 16.7573 16.7573C15.598 17.9167 13.732 17.9167 10 17.9167C6.26809 17.9167 4.40211 17.9167 3.24274 16.7573C2.08337 15.5979 2.08337 13.732 2.08337 10Z" stroke="#3A3C41" stroke-width="1.5"/>
-<path d="M9.16663 5.83334L14.1666 5.83334" stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M5.83337 5.83334L6.66671 5.83334" stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M5.83337 10L6.66671 10" stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M5.83337 14.1667L6.66671 14.1667" stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M9.16663 10L14.1666 10" stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M9.16663 14.1667L14.1666 14.1667" stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round"/>
-</svg>
+    <svg width="28" height="28" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2.08337 10C2.08337 6.26806 2.08337 4.40208 3.24274 3.24271C4.40211 2.08334 6.26809 2.08334 10 2.08334C13.732 2.08334 15.598 2.08334 16.7573 3.24271C17.9167 4.40208 17.9167 6.26806 17.9167 10C17.9167 13.732 17.9167 15.5979 16.7573 16.7573C15.598 17.9167 13.732 17.9167 10 17.9167C6.26809 17.9167 4.40211 17.9167 3.24274 16.7573C2.08337 15.5979 2.08337 13.732 2.08337 10Z" stroke="#3A3C41" stroke-width="1.5"/>
+        <path d="M9.16663 5.83334L14.1666 5.83334" stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M5.83337 5.83334L6.66671 5.83334" stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M5.83337 10L6.66671 10" stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M5.83337 14.1667L6.66671 14.1667" stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M9.16663 10L14.1666 10" stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M9.16663 14.1667L14.1666 14.1667" stroke="#3A3C41" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
    Appointments Details
 @endsection
 
@@ -65,17 +65,17 @@
                 </c-slot>
 
                 <form id="admin-register-form" action="">
-                    <c-input type="text" label="ID:" placeholder="Enter ID" required /><br>
-                    <c-input type="text" label="Name:" placeholder="Enter Name of the Mother/Child" required /><br>
-                    <c-input type="text" label="Age(yrs):" placeholder="Enter Age" required /><br>
-                    <c-input type="text" label="Category:" placeholder="Enter the Category" required /><br>
-                    <c-input type="text" label="Date & Time:" placeholder="Enter Date & Time" required /><br>
+                    <c-input type="text" label="ID:" placeholder="Enter ID" required />
+                    <c-input type="text" label="Name:" placeholder="Enter Name of the Mother/Child" required />
+                    <c-input type="text" label="Age(yrs):" placeholder="Enter Age" required />
+                    <c-input type="text" label="Category:" placeholder="Enter the Category" required />
+                    <c-input type="text" label="Date & Time:" placeholder="Enter Date & Time" required />
                     <c-select label="Status:" name="permissions" multiple="1" searchable="1">
                         <li class="select-item" data-value="child">Upcoming</li>
                         <li class="select-item" data-value="maternal">Pending</li>
                         <li class="select-item" data-value="infant">Completed</li>
                         <li class="select-item" data-value="toddler">Overdue</li>
-                    </c-select><br>
+                    </c-select>
                 </form>
                 <c-slot name="close">
                         Close
@@ -221,20 +221,20 @@
                                     </c-slot>
 
                         <form id="admin-register-form" action="">
-                             <c-input type="text" label="ID:" placeholder="{{ $item['id'] }}" required /><br>
-                             <c-input type="text" label="Name:" placeholder="{{ $item['name'] }}" required /><br>
-                             <c-input type="text" label="Age:" placeholder="{{ $item['Age'] }}" required /><br>
+                             <c-input type="text" label="ID:" placeholder="{{ $item['id'] }}" required />
+                             <c-input type="text" label="Name:" placeholder="{{ $item['name'] }}" required />
+                             <c-input type="text" label="Age:" placeholder="{{ $item['Age'] }}" required />
                              <c-select label="Category:" name="permissions" multiple="1" searchable="1">
                                     <li class="select-item" data-value="child">Mother</li>
                                     <li class="select-item" data-value="maternal">Baby</li>
-                             </c-select><br>
-                             <c-input type="text" label="Date & Time:" placeholder="{{ $item['Date & Time'] }}" required /><br>
+                             </c-select>
+                             <c-input type="text" label="Date & Time:" placeholder="{{ $item['Date & Time'] }}" required />
                              <c-select label="Status:" name="permissions" multiple="1" searchable="1">
                                     <li class="select-item" data-value="child">Upcoming</li>
                                     <li class="select-item" data-value="maternal">Pending</li>
                                     <li class="select-item" data-value="infant">Completed</li>
                                     <li class="select-item" data-value="toddler">Overdue</li>
-                             </c-select><br>
+                             </c-select>
                         </form>
                         <c-slot name="close">
                         Close
