@@ -223,7 +223,7 @@
                                                     <div>Edit Appointment Details</div>
                                             </c-slot>
 
-                                            <form id="admin-register-form" action="">
+                                            <form action="">
                                                 <c-input type="text" label="ID:" placeholder="{{ $item['id'] }}" required />
                                                 <c-input type="text" label="Name:" placeholder="{{ $item['name'] }}" required />
                                                 <c-input type="text" label="Age:" placeholder="{{ $item['Age'] }}" required />
@@ -243,7 +243,7 @@
                                                 Close
                                             </c-slot>
                                             <c-slot name="footer">
-                                                <c-button type="submit" form="admin-register-form" variant="primary">Save Changes</c-button>
+                                                <c-button type="submit" variant="primary">Save Changes</c-button>
                                             </c-slot>
                                         </c-modal>
                                         <c-modal id="cancel-appointment-{{ $key }}" size="sm" :initOpen="false">
@@ -266,7 +266,7 @@
                                                 Close
                                             </c-slot>
                                             <c-slot name="footer">
-                                                <c-button type="submit" form="admin-register-form" variant="secondary">Cancel Appointment</c-button>
+                                                <c-button type="submit" variant="secondary">Cancel Appointment</c-button>
                                             </c-slot>
                                         </c-modal>
                                     </c-slot>
