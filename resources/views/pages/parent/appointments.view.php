@@ -27,67 +27,74 @@ Parent - Appointments
 @endsection
 
 @section('content')
+
 <?php
 
-$appointments = [
-    [
-        'id' => 'APT001',
-        'name' => 'John Doe',
-        'date' => '2024-07-15',
-        'time' => '10:00 AM',
-        'location' => 'City Clinic',
-        'doctor' => 'Dr. Smith',
-        'status' => 'Upcoming',
-        'purpose' => 'Regular Checkup',
-        'notes' => [
-            'Bring previous medical records.',
-            'Fasting required for blood test.'
-        ]
-    ],
-    [
-        'id' => 'APT002',
-        'name' => 'Jane Doe',
-        'date' => '2024-06-20',
-        'time' => '02:00 PM',
-        'location' => 'Downtown Hospital',
-        'doctor' => 'Dr. Adams',
-        'status' => 'Completed',
-        'purpose' => 'Dental Cleaning',
-        'notes' => [
-            'No special preparation needed.'
-        ]
-    ],
-    [
-        'id' => 'APT003',
-        'name' => 'Sam Doe',
-        'date' => '2024-08-05',
-        'time' => '11:30 AM',
-        'location' => 'HealthCare Center',
-        'doctor' => 'Dr. Lee',
-        'status' => 'Pending',
-        'purpose' => 'Eye Examination',
-        'notes' => [
-            'Avoid wearing contact lenses on the day of the appointment.'
-        ]
-    ],
-    [
-        'id' => 'APT004',
-        'name' => 'Sam Doe',
-        'date' => '2024-08-05',
-        'time' => '11:30 AM',
-        'location' => 'MOH Center',
-        'doctor' => 'Dr. Lee',
-        'status' => 'Overdue',
-        'purpose' => 'Eye Examination',
-        'notes' => [
-            'Avoid wearing contact lenses on the day of the appointment.'
-        ]
-    ],
-
-
-];
+// $appointments = [
+//     [
+//         'id' => 'APP-001',
+//         'patient_name' => 'Keeththi Perera',
+//         'date' => '2025-10-21',
+//         'time' => '09:00',
+//         'datetime' => '2025-10-21 09:00',
+//         'location' => 'City Hospital, Colombo',
+//         'staff_name' => 'Dr. Sarah Fernando',
+//         'status' => 'Upcoming',
+//         'purpose' => 'Routine Checkup',
+//         'notes' => ['Bring previous medical reports', 'Fasting required']
+//     ],
+//     [
+//         'id' => 'APP-002',
+//         'patient_name' => 'Nimali Jayawardena',
+//         'date' => '2025-10-22',
+//         'time' => '11:00',
+//         'datetime' => '2025-10-22 11:00',
+//         'location' => 'Green Valley Clinic, Kandy',
+//         'staff_name' => 'Dr. Michael Silva',
+//         'status' => 'Pending',
+//         'purpose' => 'Vaccination',
+//         'notes' => ['Child should not have fever', 'Bring vaccination card']
+//     ],
+//     [
+//         'id' => 'APP-003',
+//         'patient_name' => 'Arjun Perera',
+//         'date' => '2025-10-19',
+//         'time' => '10:00',
+//         'datetime' => '2025-10-19 10:00',
+//         'location' => 'City Hospital, Colombo',
+//         'staff_name' => 'Dr. Priya Kumar',
+//         'status' => 'Completed',
+//         'purpose' => 'Follow-up Consultation',
+//         'notes' => ['Follow-up in 2 weeks if needed']
+//     ],
+//     [
+//         'id' => 'APP-004',
+//         'patient_name' => 'Samantha Wijesinghe',
+//         'date' => '2025-10-25',
+//         'time' => '12:00',
+//         'datetime' => '2025-10-25 12:00',
+//         'location' => 'Sunrise Clinic, Galle',
+//         'staff_name' => 'Dr. Anura Perera',
+//         'status' => 'Cancelled',
+//         'purpose' => 'Dental Checkup',
+//         'notes' => ['Patient unavailable on original date']
+//     ],
+//     [
+//         'id' => 'APP-005',
+//         'patient_name' => 'Dilan Fernando',
+//         'date' => '2025-10-23',
+//         'time' => '09:00',
+//         'datetime' => '2025-10-23 09:00',
+//         'location' => 'City Hospital, Colombo',
+//         'staff_name' => 'Dr. Sarah Fernando',
+//         'status' => 'Upcoming',
+//         'purpose' => 'Pediatric Consultation',
+//         'notes' => ['Bring growth chart']
+//     ],
+// ];
 
 ?>
+
 
 <c-table.controls :columns='["Child","Date & Time ","Location","Doctor","Status"]'>
     <c-slot name="filter">
@@ -97,12 +104,12 @@ $appointments = [
         </c-button>
         <c-button variant="outline">
             <img src="{{ asset('assets/icons/filter.svg') }}" />
-            Doctor
+            Staff
         </c-button>
     </c-slot>
 
     <c-slot name="extrabtn">
-        <c-modal id="requestAppointment" :initOpen="false">
+        <c-modal id="requestAppointment" :initOpen="flash('create') ? true : false">
             <c-slot name="trigger">
                 <c-link type="primary">
                     <c-slot name="icon">
@@ -134,28 +141,28 @@ $appointments = [
                 Request Appointment
             </c-slot>
 
-            <form id="request-appointment-form" action="">
-                <c-select label="Appointment For" name="requester" placeholder="Select Child or Parent" required>
-                    <li class="select-item" data-value="P001">John - Parent</li>
-                    <li class="select-item" data-value="C001">Sara - Child</li>
-                    <li class="select-item" data-value="C002">Doe - Child</li>
+            <form id="request-appointment-form" action="{{ route('parent.appointment.request') }}" method="POST">
+                <c-select label="Appointment For" name="patient" placeholder="Select Child or Parent" error="{{ errors('patient') ?? '' }}" value="{{ old('patient') ?? '' }}" required>
+                    <li class="select-item" data-value="1">Keeththi</li>
+                    <li class="select-item" data-value="2">Alex Hales</li>
                 </c-select>
-                <c-select label="Doctor Preference" name="doctor" multiple="1" searchable="1">
-                    <li class="select-item" data-value="D001">Dr.Smith</li>
-                    <li class="select-item" data-value="D002">Dr.John</li>
-                    <li class="select-item" data-value="D003">Dr.Alex</li>
+                
+                <c-select label="Staff Preference" name="staff" searchable="1" error="{{ errors('staff') ?? '' }}" value="{{ old('staff')??''}}" required>
+                    <li class="select-item" data-value="2">Sarah</li>
+                    <li class="select-item" data-value="1">Nimal</li>
                 </c-select>
-                <c-input type="date" label="Preferred Date" name="date" placeholder="Select Date" required />
-                <c-select label="Preferred Time" name="time" multiple="1" searchable="1" required>
-                    <li class="select-item" data-value="09:00 AM">09.00 AM</li>
-                    <li class="select-item" data-value="10:00 AM">10.00 AM</li>
-                    <li class="select-item" data-value="11:00 AM">11.00 AM</li>
-                    <li class="select-item" data-value="12:00 PM">12.00 PM</li>
+
+                <c-input type="date" label="Preferred Date" name="date" placeholder="Select Date"
+                    error="{{ errors('date') ?? '' }}" value="{{ old('date')??'' }}" />
+                <c-select label="Preferred Time" name="time" error="{{ errors('time') ?? '' }}" value="{{ old('time')??'' }}" required>
+                    <li class="select-item" data-value="09:00">09.00 AM</li>
+                    <li class="select-item" data-value="10:00">10.00 AM</li>
+                    <li class="select-item" data-value="11:00">11.00 AM</li>
+                    <li class="select-item" data-value="12:00">12.00 PM</li>
                 </c-select>
-                <c-textarea name="purpose" label="Appointment Purpose"
-                    placeholder="Enter your visit purpose" />
-                <c-textarea name="notes" label="Additional Notes"
-                    placeholder="Any additional notes or others" />
+
+                <c-textarea name="purpose" label="Appointment Purpose" placeholder="Enter your visit purpose" value="{{ old('purpose')??'' }}" />
+                <c-textarea name="notes" label="Additional Notes" placeholder="Any additional notes or others" value="{{ old('notes')??'' }}" />
 
 
 
@@ -193,28 +200,41 @@ $appointments = [
             <c-table.tbody>
                 @foreach ($appointments as $key => $appointment)
                 <c-table.tr>
-                    <c-table.td col="name">{{$appointment['name']}}</c-table.td>
+                    <c-table.td col="name">{{$appointment['patient_name']}}</c-table.td>
                     <c-table.td col="date-time" width="200px">{{$appointment['date']}} at
                         {{$appointment['time']}}</c-table.td>
                     <c-table.td col="location" width="200px">{{$appointment['location']}}</c-table.td>
-                    <c-table.td col="doctor">{{$appointment['doctor']}}</c-table.td>
+                    <c-table.td col="doctor">{{$appointment['staff_name']}}</c-table.td>
                     <c-table.td col="status">
                         {{
                         $badgeType = '';
-                        if(strtolower($appointment['status']) == 'completed') {
-                        $badgeType = 'green';
-                        } elseif (strtolower($appointment['status']) == 'upcoming') {
-                        $badgeType = 'purple';
-                        } elseif (strtolower($appointment['status']) == 'pending') {
+
+                        switch (strtolower($appointment['status'])) {
+                        case 'pending':
                         $badgeType = 'yellow';
-                        }
-                        else {
+                        break;
+                        case 'confirmed':
+                        $badgeType = 'green';
+                        break;
+                        case 'cancelled':
+                        case 'cancel_requested':
                         $badgeType = 'red';
+                        break;
+                        case 'reschedule_requested':
+                        $badgeType = 'blue';
+                        break;
+                        case 'rescheduled':
+                        $badgeType = 'purple';
+                        break;
+                        default:
+                        $badgeType = 'primary';
                         }
+                        $badgeText = ucwords(str_replace('_', ' ', $appointment['status']));
+
 
                         }}
                         <c-badge type="{{ $badgeType }}">
-                            {{$appointment['status']}}
+                            {{$badgeText}}
                         </c-badge>
                     </c-table.td>
                     <c-table.td class="table-actions" align="center">
@@ -241,7 +261,7 @@ $appointments = [
                                     <c-slot name="headerSuffix">
 
                                         <c-badge type="{{ $badgeType }}">
-                                            {{$appointment['status']}}
+                                            {{$badgeText}}
                                         </c-badge>
                                     </c-slot>
 
@@ -251,7 +271,7 @@ $appointments = [
                                         <c-modal.viewitem icon="{{ asset('assets/icons/profile.svg') }}"
                                             title="Appointment ID" info="{{ $appointment['id'] }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/baby-01.svg') }}"
-                                            title="Requester Name" info="{{ $appointment['name'] }}" />
+                                            title="Requester Name" info="{{ $appointment['patient_name'] }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/calendar-03.svg') }}"
                                             title="Date" info="{{ $appointment['date'] }} " />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/clock-01.svg') }}" title="Time"
@@ -259,39 +279,39 @@ $appointments = [
                                         <c-modal.viewitem icon="{{ asset('assets/icons/location-05.svg') }}"
                                             title="Location" info="{{ $appointment['location'] }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/doctor.svg') }}" title="Doctor"
-                                            info="{{ $appointment['doctor'] }}" />
+                                            info="{{ $appointment['staff_name'] }}" />
                                     </c-modal.viewcard>
 
 
 
 
-
+                                    @if($appointment['purpose'])
                                     <c-modal.viewlist title="Purpose">
                                         <c-slot name="list">
-                                           <li>{{ $appointment['purpose'] }}</li> 
+                                            <li>{{ $appointment['purpose'] }}</li>
                                         </c-slot>
                                     </c-modal.viewlist>
+                                    @endif
 
+                                    @if($appointment['notes'])
                                     <c-modal.viewlist title="Notes">
                                         <c-slot name="list">
-                                            @foreach ($appointment['notes'] as $note)
-                                            <li>{{ $note }}</li>
+                                            @foreach($appointment['notes'] as $note)
+                                            <li>{{ $note->note }}</li>
                                             @endforeach
+
                                         </c-slot>
                                     </c-modal.viewlist>
+                                    @endif
 
-                                    <c-slot name="footer">
-                                        <c-button variant="secondary">
-                                            Cancel Appointment
-                                        </c-button>
-
-                                        <c-button variant="primary">
-                                            Reschedule Appointment
-                                        </c-button>
+                                    <c-slot name="close">
+                                        Close
                                     </c-slot>
+
+                                      
                                 </c-modal>
                                 <c-dropdown.sep />
-                                <c-modal id="reschedule-appointmant-{{$key}}" size="md" :initOpen="false">
+                                <c-modal id="reschedule-appointmant-{{$key}}" size="md" :initOpen="flash('reschedule') === $appointment['id'] ? true : false">
                                     <c-slot name="trigger">
                                         <c-dropdown.item> Reschedule Appointment </c-dropdown.item>
                                     </c-slot>
@@ -313,7 +333,7 @@ $appointments = [
                                         <c-modal.viewcard>
 
                                             <c-modal.viewitem icon="{{ asset('assets/icons/baby-01.svg') }}"
-                                                title="Requester Name" info="{{ $appointment['name'] }}" />
+                                                title="Requester Name" info="{{ $appointment['patient_name'] }}" />
                                             <c-modal.viewitem icon="{{ asset('assets/icons/calendar-03.svg') }}"
                                                 title="Date" info="{{ $appointment['date'] }} " />
                                             <c-modal.viewitem icon="{{ asset('assets/icons/clock-01.svg') }}"
@@ -321,7 +341,7 @@ $appointments = [
                                             <c-modal.viewitem icon="{{ asset('assets/icons/location-05.svg') }}"
                                                 title="Location" info="{{ $appointment['location'] }}" />
                                             <c-modal.viewitem icon="{{ asset('assets/icons/doctor.svg') }}"
-                                                title="Doctor" info="{{ $appointment['doctor'] }}" />
+                                                title="Doctor" info="{{ $appointment['staff_name'] }}" />
 
 
 
@@ -330,14 +350,15 @@ $appointments = [
 
                                     </c-card>
 
-                                    <form id="reschedule-appointment-form" action="">
+                                    <form id="reschedule-appointment-form-{{$appointment['id']}}" action="{{ route('parent.appointment.reschedule', ['id' => $appointment['id']]) }}"
+                                        method="POST">
                                         <c-input type="date" label="New Date" name="date" placeholder="Select Date"
                                             value="{{$appointment['date']}}" required />
-                                        <c-select label="New Time" name="time" multiple="1" searchable="1" value="{{$appointment['time']}}" required>
-                                            <li class="select-item" data-value=" ">09.00 AM</li>
-                                            <li class="select-item" data-value=" ">10.00 AM</li>
-                                            <li class="select-item" data-value=" ">11.00 AM</li>
-                                            <li class="select-item" data-value=" ">12.00 PM</li>
+                                        <c-select label="New Time" name="time" value="{{$appointment['time']}}" required>
+                                            <li class="select-item" data-value="09:00">09.00 AM</li>
+                                            <li class="select-item" data-value="10:00">10.00 AM</li>
+                                            <li class="select-item" data-value="11:00">11.00 AM</li>
+                                            <li class="select-item" data-value="12:00">12.00 PM</li>
                                         </c-select>
                                         <c-textarea name="reason" label="Reason for Rescheduling"
                                             placeholder="Enter your reason" required />
@@ -350,13 +371,13 @@ $appointments = [
                                     </c-slot>
 
                                     <c-slot name="footer">
-                                        <c-button type="submit" form="reschedule-appointment-form" variant="primary">
+                                        <c-button type="submit" form="reschedule-appointment-form-{{$appointment['id']}}" variant="primary">
                                             Submit Request
                                         </c-button>
                                     </c-slot>
                                 </c-modal>
 
-                                <c-modal id="cancel-appointmant-{{$key}}" size="sm" :initOpen="false">
+                                <c-modal id="cancel-appointmant-{{$key}}" size="sm" :initOpen="flash('cancel') === $appointment['id'] ? true : false">
                                     <c-slot name="trigger">
                                         <c-dropdown.item> Cancel Appointment </c-dropdown.item>
                                     </c-slot>
@@ -403,7 +424,7 @@ $appointments = [
                                         <c-modal.viewcard>
 
                                             <c-modal.viewitem icon="{{ asset('assets/icons/baby-01.svg') }}"
-                                                title="Requester Name" info="{{ $appointment['name'] }}" />
+                                                title="Requester Name" info="{{ $appointment['patient_name'] }}" />
                                             <c-modal.viewitem icon="{{ asset('assets/icons/calendar-03.svg') }}"
                                                 title="Date" info="{{ $appointment['date'] }} " />
                                             <c-modal.viewitem icon="{{ asset('assets/icons/clock-01.svg') }}"
@@ -411,7 +432,7 @@ $appointments = [
                                             <c-modal.viewitem icon="{{ asset('assets/icons/location-05.svg') }}"
                                                 title="Location" info="{{ $appointment['location'] }}" />
                                             <c-modal.viewitem icon="{{ asset('assets/icons/doctor.svg') }}"
-                                                title="Doctor" info="{{ $appointment['doctor'] }}" />
+                                                title="Doctor" info="{{ $appointment['staff_name'] }}" />
 
 
 
@@ -420,7 +441,9 @@ $appointments = [
 
                                     </c-card>
 
-                                    <form id="cancel-appointment-form" action="">
+                                    <form id="cancel-appointment-form-{{$appointment['id']}}"
+                                        action="{{ route('parent.appointment.cancel', ['id' => $appointment['id']]) }}"
+                                        method="POST">
                                         <c-textarea name="reason" label="Reason for Cancellation"
                                             placeholder="Enter your reason" required />
                                         <c-textarea name="notes" label="Additional Notes"
@@ -432,7 +455,7 @@ $appointments = [
                                     </c-slot>
 
                                     <c-slot name="footer">
-                                        <c-button type="submit" form="cancel-appointment-form" variant="destructive">
+                                        <c-button type="submit" form="cancel-appointment-form-{{$appointment['id']}}" variant="destructive">
                                             Cancel Appointment
                                         </c-button>
 
@@ -447,7 +470,7 @@ $appointments = [
                     </c-table.td>
                 </c-table.tr>
                 @endforeach
-                @if(count($appointment) === 0)
+                @if(count($appointments) === 0)
                 <tr>
                     <td colspan="6">
                         <div class="table-empty">No items found</div>
