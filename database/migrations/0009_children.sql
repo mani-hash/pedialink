@@ -20,8 +20,7 @@ CREATE TABLE IF NOT EXISTS children (
     id INT PRIMARY KEY REFERENCES patients(id) ON DELETE CASCADE,
     parent_id INT REFERENCES parents (id) ON DELETE CASCADE,
     phm_id INT REFERENCES public_health_midwives (id) ON DELETE SET NULL,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     date_of_birth DATE NOT NULL,
     gender child_gender NOT NULL,
     health_status child_status
