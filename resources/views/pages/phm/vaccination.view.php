@@ -154,18 +154,18 @@ $items = [
                                 </c-slot>
 
                                 <form id="edit-vaccination-form" action="">
-                                    <c-input type="text" label="ID:" placeholder="{{ $item['id'] }}" required /><br>
-                                    <c-input type="text" label="Name:" placeholder="{{ $item['name'] }}" required /><br>
-                                    <c-input type="text" label="Age:" placeholder="{{ $item['Age'] }}" required /><br>
+                                    <c-input type="text" label="ID:" placeholder="{{ $item['id'] }}" required />
+                                    <c-input type="text" label="Name:" placeholder="{{ $item['name'] }}" required />
+                                    <c-input type="text" label="Age:" placeholder="{{ $item['Age'] }}" required />
                                     <c-select label="Vaccination Status:" name="permissions" multiple="1"
                                         searchable="1">
                                         <li class="select-item" data-value="child">Upcoming</li>
                                         <li class="select-item" data-value="maternal">Pending</li>
                                         <li class="select-item" data-value="infant">Completed</li>
                                         <li class="select-item" data-value="toddler">Overdue</li>
-                                    </c-select><br>
+                                    </c-select>
                                     <c-input type="text" label="Vaccination Date:"
-                                        placeholder="{{ $item['Vaccination Date'] }}" required /><br>
+                                        placeholder="{{ $item['Vaccination Date'] }}" required />
                                 </form>
                                 <c-slot name="footer">
                                     <c-button type="button" variant="primary" form="edit-vaccination-form" >Save

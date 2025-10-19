@@ -81,16 +81,16 @@ $items = [
             </c-slot>
 
             <form id="add-health-record-form" action="">
-                <c-input type="text" label="Recorded at:" placeholder="Enter Recorded Date & Time" required /><br>
-                <c-input type="text" label="BMI:" placeholder="Enter BMI of the Mother" required /><br>
+                <c-input type="text" label="Recorded at:" placeholder="Enter Recorded Date & Time" required />
+                <c-input type="text" label="BMI:" placeholder="Enter BMI of the Mother" required />
                 <c-input type="text" label="Blood Pressure:" placeholder="Enter Blood Pressure of the Mother (in mmHg)"
-                    required /><br>
+                    required />
                 <c-input type="text" label="Blood Sugar:" placeholder="Enter Blood Sugar of the Mother (in mg/dL )"
-                    required /><br>
+                    required />
                 <c-select label="Status:" name="permissions" multiple="1" searchable="1">
                     <li class="select-item" data-value="child">Good</li>
                     <li class="select-item" data-value="maternal">Bad</li>
-                </c-select><br>
+                </c-select>
             </form>
             <c-slot name="close">
                 Close
@@ -207,16 +207,16 @@ elseif (strtolower($item['Health Status']) === "bad")
 
                                 <form id="edit-health-record-form" action="">
                                     <c-input type="text" label="Recorded at:" placeholder="{{ $item['Recorded at'] }}"
-                                        required /><br>
-                                    <c-input type="text" label="BMI:" placeholder="{{ $item['BMI'] }}" required /><br>
+                                        required />
+                                    <c-input type="text" label="BMI:" placeholder="{{ $item['BMI'] }}" required />
                                     <c-input type="text" label="Blood Pressure:"
-                                        placeholder="{{ $item['Blood Pressure'] }}" required /><br>
+                                        placeholder="{{ $item['Blood Pressure'] }}" required />
                                     <c-input type="text" label="Blood Sugar:" placeholder="{{ $item['Blood Sugar'] }}"
-                                        required /><br>
+                                        required />
                                     <c-select label="Blood :" multiple="1" Default="{{ $item['Health Status'] }}">
                                         <option class="select-item" data-value="child">Good</option>
                                         <option class="select-item" data-value="child">Bad</option>
-                                    </c-select><br>
+                                    </c-select>
                                     <c-textarea label="Additional Notes:" placeholder="Nutrition Facts."
                                         rows="4"></c-textarea>
                                 </form>
