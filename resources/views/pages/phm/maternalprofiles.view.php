@@ -52,7 +52,7 @@ $items = [
 ];
 ?>
 
-<c-table.controls :columns='["ID","Name","Age","Address","Type","Stage"]'>
+<c-table.controls :columns='["ID","Name","Age","Type","Stage"]'>
 
     <c-slot name="filter">
         <c-button variant="outline">
@@ -74,7 +74,6 @@ $items = [
                     <c-table.th sortable="1" width="160px">ID</c-table.th>
                     <c-table.th sortable="1" width="210px">Name</c-table.th>
                     <c-table.th sortable="1" width="200px">Age</c-table.th>
-                    <c-table.th sortable="1" width="270px">Address</c-table.th>
                     <c-table.th align="left" sortable="1" width="220px">Type</c-table.th>
                     <c-table.th align="left" sortable="1">Stage</c-table.th>
                     <c-table.th class="table-actions"></c-table.th>
@@ -87,7 +86,6 @@ $items = [
                     <c-table.td col="id">{{ $item['id'] }}</c-table.td>
                     <c-table.td col="name">{{ $item['name'] }}</c-table.td>
                     <c-table.td col="age">{{ $item['Age'] }}</c-table.td>
-                    <c-table.td col="address">{{ $item['Address'] }}</c-table.td>
                     <c-table.td col="type">{{ $item['Type'] }}</c-table.td>
                     <c-table.td col="stage">{{ $item['Stage'] }}</c-table.td>
                     <c-table.td class="table-actions" align="center">
