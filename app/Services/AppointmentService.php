@@ -44,11 +44,10 @@ class AppointmentService
         }
 
 
-        $appointmentDate = new \DateTime($date);
-
-        if (!$appointmentDate) {
-            $error = "Invalid time format (expected HH:MM, 24-hour format)";
-            return $error;
+        $appointmentDate = \DateTime::createFromFormat('Y-m-d', $date);
+        $errors = \DateTime::getLastErrors();
+        if (!$appointmentDate || $errors['warning_count'] > 0 || $errors['error_count'] > 0) {
+            return "Invalid date format. Expected YYYY-MM-DD.";
         }
         $currentDate = new \DateTime();
 
@@ -84,9 +83,9 @@ class AppointmentService
 
 
         $appointmentTime = \DateTime::createFromFormat('H:i', $time);
-
-        if (!$appointmentTime) {
-            return "Invalid time format (expected HH:MM, 24-hour format)";
+        $errors = \DateTime::getLastErrors();
+        if (!$appointmentTime || $errors['warning_count'] > 0 || $errors['error_count'] > 0) {
+            return "Invalid time format. Expected HH:MM, 24-hour format.";
         }
         $startTime = \DateTime::createFromFormat('H:i', '09:00');
         $endTime = \DateTime::createFromFormat('H:i', '17:00');
@@ -111,11 +110,11 @@ class AppointmentService
             return $error;
         }
 
-        $staffTypes = Staff::all();
+        $staffs = Staff::all();
         $validType = false;
 
-        foreach ($staffTypes as $staffType) {
-            if (strtolower($$staff) === strtolower($staffType->type)) {
+        foreach ($staffs as $staff) {
+            if ($staff === $staff->id) {
                 $validType = true;
                 break;
             }
@@ -141,7 +140,7 @@ class AppointmentService
         $validPatient = false;
 
         foreach ($patients as $p) {
-            if (strtolower($patient) === strtolower($p->name)) {
+            if ($patient === $p->parent_id) {
                 $validPatient = true;
                 break;
             }
@@ -155,7 +154,7 @@ class AppointmentService
         return $error;
     }
 
-    public function validateAppointment($patient,$staff,$date, $time)
+    public function validateAppointment($patient, $staff, $date, $time)
     {
 
         $errors = [];
@@ -186,7 +185,7 @@ class AppointmentService
     public function createAppointment($patient, $staff, $time, $date, $purpose, $notes)
     {
 
-        
+
 
         $appointment = new Appointment();
         $appointment->patient_id = $patient;
@@ -196,9 +195,6 @@ class AppointmentService
         $appointment->purpose = $purpose;
         $appointment->notes = $notes;
         $appointment->save();
-
-
-
 
     }
 }

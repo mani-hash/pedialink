@@ -97,12 +97,12 @@ $appointments = [
         </c-button>
         <c-button variant="outline">
             <img src="{{ asset('assets/icons/filter.svg') }}" />
-            Doctor
+            Staff
         </c-button>
     </c-slot>
 
     <c-slot name="extrabtn">
-        <c-modal id="requestAppointment" :initOpen="false">
+        <c-modal id="requestAppointment" :initOpen="flash('create') ? true : false">
             <c-slot name="trigger">
                 <c-link type="primary">
                     <c-slot name="icon">
@@ -134,28 +134,24 @@ $appointments = [
                 Request Appointment
             </c-slot>
 
-            <form id="request-appointment-form" action="{{route(" parent.appointment.request")}}">
-                <c-select label="Appointment For" name="patient" placeholder="Select Child or Parent"
-                    value="{{ old('patient') ?? '' }}" error="{{ errors('patient') ?? '' }}" required>
+            <form id="request-appointment-form" action="{{ route('parent.appointment.request') }}" method="POST">
+                <c-select label="Appointment For" name="patient" placeholder="Select Child or Parent" error="{{ errors('patient') ?? '' }}" value="{{ old('patient') ?? '' }}" required>
                     <li class="select-item" data-value="3">Keeththi</li>
 
                 </c-select>
-                <c-select label="Staff Preference" name="staff" multiple="1" searchable="1"
-                    value="{{ old('staff') ?? '' }}" error="{{ errors('staff') ?? '' }}" required>
+                <c-select label="Staff Preference" name="staff" searchable="1" error="{{ errors('staff') ?? '' }}" value="{{ old('staff')??''}}" required>
                     <li class="select-item" data-value="2">Dr.Smith</li>
 
                 </c-select>
-                <c-input type="date" label="Preferred Date" name="date" placeholder="Select Date"
-                    value="{{ old('date') ?? '' }}" error="{{ errors('date') ?? '' }}" required />
-                <c-select label="Preferred Time" name="time" multiple="1" searchable="1" value="{{ old('time') ?? '' }}"
-                    error="{{ errors('time') ?? '' }}" required>
-                    <li class="select-item" data-value="09:00 AM">09.00 AM</li>
-                    <li class="select-item" data-value="10:00 AM">10.00 AM</li>
-                    <li class="select-item" data-value="11:00 AM">11.00 AM</li>
-                    <li class="select-item" data-value="12:00 PM">12.00 PM</li>
+                <c-input type="date" label="Preferred Date" name="date" placeholder="Select Date" error="{{ errors('date') ?? '' }}" value="{{ old('date')??'' }}"/>
+                <c-select label="Preferred Time" name="time" error="{{ errors('time') ?? '' }}" value="{{ old('time')??'' }}" required>
+                    <li class="select-item" data-value="09:00">09.00 AM</li>
+                    <li class="select-item" data-value="10:00">10.00 AM</li>
+                    <li class="select-item" data-value="11:00">11.00 AM</li>
+                    <li class="select-item" data-value="12:00">12.00 PM</li>
                 </c-select>
-                <c-textarea name="purpose" label="Appointment Purpose" placeholder="Enter your visit purpose" />
-                <c-textarea name="notes" label="Additional Notes" placeholder="Any additional notes or others" />
+                <c-textarea name="purpose" label="Appointment Purpose" placeholder="Enter your visit purpose" value="{{ old('purpose')??'' }}" />
+                <c-textarea name="notes" label="Additional Notes" placeholder="Any additional notes or others" value="{{ old('notes')??'' }}" />
 
 
 

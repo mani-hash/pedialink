@@ -18,14 +18,14 @@ class AppointmentController
         return view("parent/appointments");
     }
 
-     public function requestAppoinment(Request $request)
+     public function requestAppointment(Request $request)
     {
         $patient = $request->input("patient");
         $staff = $request->input("staff");
         $time = $request->input("time");
         $date = $request->input("date");
         $purpose =$request->input("purpose");
-        $notes = $$request->input("notes");
+        $notes = $request->input("notes");
 
         $errors = $this->appointmentService
             ->validateAppointment($patient, $staff, $date, $time);
