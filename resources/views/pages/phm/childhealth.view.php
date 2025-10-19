@@ -208,62 +208,63 @@
                                         </c-slot>
                                         <c-dropdown.sep />
                                     <c-modal id="edit-health-record-{{ $key }}" size="sm" :initOpen="false">
-                                    <c-slot name="trigger">
-                                     <c-dropdown.item>Edit Health Records</c-dropdown.item>
-                                    </c-slot>
-                                     <c-slot name="headerPrefix">
-                                           <img src="{{ asset('assets/icons/profile.svg' )}}"/>
-                                     </c-slot>
- 
-                                    <c-slot name="header">
-                                            <div>Edit Health Records</div>
-                                    </c-slot>
+                                        <c-slot name="trigger">
+                                        <c-dropdown.item>Edit Health Records</c-dropdown.item>
+                                        </c-slot>
+                                        <c-slot name="headerPrefix">
+                                            <img src="{{ asset('assets/icons/profile.svg' )}}"/>
+                                        </c-slot>
+    
+                                        <c-slot name="header">
+                                                <div>Edit Health Records</div>
+                                        </c-slot>
 
-                        <form id="edit-health-record-form" action="">
-                             <c-input type="text" label="Height:" placeholder="{{ $item['Height'] }}" required />
-                             <c-input type="text" label="Weight:" placeholder="{{ $item['Weight'] }}" required />
-                             <c-input type="text" label="Head Circumference:" placeholder="{{ $item['Head Circumference'] }}" required />
-                             <c-select label="Health Status:" multiple="1" Default="{{ $item['Health Status'] }}">
-                              <option class="select-item" data-value="child">Good</option>
-                              <option class="select-item" data-value="child">Bad</option>
-                            </c-select>
-                            <c-textarea label="Additional Notes:" placeholder="Nutrition Facts." rows="4"></c-textarea>
-                        </form>
+                                        <form id="edit-health-record-form" action="">
+                                            <c-input type="text" label="Height:" placeholder="{{ $item['Height'] }}" required />
+                                            <c-input type="text" label="Weight:" placeholder="{{ $item['Weight'] }}" required />
+                                            <c-input type="text" label="Head Circumference:" placeholder="{{ $item['Head Circumference'] }}" required />
+                                            <c-select label="Health Status:" multiple="1" Default="{{ $item['Health Status'] }}">
+                                            <option class="select-item" data-value="child">Good</option>
+                                            <option class="select-item" data-value="child">Bad</option>
+                                            </c-select>
+                                            <c-textarea label="Additional Notes:" placeholder="Nutrition Facts." rows="4"></c-textarea>
+                                        </form>
 
-                        <c-slot name="close">
-                        Close
-                        </c-slot>
-                        <c-slot name="footer">
-                          <c-button type="submit" variant="primary" form="edit-health-record-form">Save Changes</c-button>
-                        </c-slot>
-                    </c-modal>
-                <c-dropdown.sep />
-                    <c-modal id="mark-as-invalid-record-{{ $key }}" size="sm" :initOpen="false">
-                                    <c-slot name="trigger">
-                                     <c-dropdown.item>Mark as Invalid</c-dropdown.item>
-                                    </c-slot>
-                                     <c-slot name="headerPrefix">
-                                           <img src="{{ asset('assets/icons/profile.svg' )}}"/>
-                                     </c-slot>
- 
-                                    <c-slot name="header">
-                                            <div>Mark as Invalid</div>
-                                    </c-slot>
+                                        <c-slot name="close">
+                                        Close
+                                        </c-slot>
+                                        <c-slot name="footer">
+                                        <c-button type="submit" variant="primary" form="edit-health-record-form">Save Changes</c-button>
+                                        </c-slot>
+                                    </c-modal>
+                                    <c-dropdown.sep />
+                                    <c-modal id="mark-as-invalid-record-{{ $key }}" size="sm" :initOpen="false">
+                                        <c-slot name="trigger">
+                                            <c-dropdown.item>Mark as Invalid</c-dropdown.item>
+                                        </c-slot>
+                                        <c-slot name="headerPrefix">
+                                            <img src="{{ asset('assets/icons/profile.svg' )}}"/>
+                                        </c-slot>
+    
+                                        <c-slot name="header">
+                                                <div>Mark as Invalid</div>
+                                        </c-slot>
 
-                                    <p>Are you sure you want to mark this record as invalid?</p>
+                                        <p>Are you sure you want to mark this record as invalid?</p>
 
-                         <c-slot name="close">
-                          cancel
-                        </c-slot>
-                        <c-slot name="footer">
-                          <c-button  size="sm" variant="destructive">Mark</c-button>
-                        </c-slot>
-                    </c-modal>
-                <c-dropdown.sep />
-            </c-dropdown.main>
-        </c-table.td>
-    </c-table.tr>
-    @endforeach
+                                        <c-slot name="close">
+                                            Cancel
+                                        </c-slot>
+
+                                        <c-slot name="footer">
+                                            <c-button  size="sm" variant="destructive">Mark</c-button>
+                                        </c-slot>
+                                    </c-modal>
+                                </c-dropdown.main>
+                            </c-table.td>
+                        </c-table.tr>
+                    @endforeach
+                    
                     @if(count($items) === 0)
                         <tr><td colspan="6"><div class="table-empty">No items found</div></td></tr>
                     @endif
