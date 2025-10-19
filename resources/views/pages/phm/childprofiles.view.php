@@ -5,7 +5,7 @@ PHM Child Profiles
 @endsection
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/pages/phm/childprofiles.css') }}">
+<link rel="stylesheet" href="{{ asset('css/pages/phm/child.css') }}">
 @endsection
 
 @section('header')
@@ -81,15 +81,11 @@ $items = [
                 <div>Add Child Profile</div>
             </c-slot>
 
-            <form id="add-child-form" action="">
+            <form id="add-child-form" class="child-form" action="">
                 <c-input type="text" label="Child Full Name:" placeholder="Enter Full Name" required />
-                <c-select label="GS Devision" name="options" multiple="1" searchable="1" required>
+                <c-select label="GS Division" name="options" multiple="1" searchable="1" required>
                     <li class="select-item" data-value="option1">Borella</li>
                     <li class="select-item" data-value="option2">Dehiwala</li>
-                    <li class="select-item" data-value="option3">Moratuwa</li>
-                    <li class="select-item" data-value="option4">Ratmalana</li>
-                    <li class="select-item" data-value="option5">Wellawatta</li>
-                    <li class="select-item" data-value="option6">Other</li>
                 </c-select>
                 <c-input type="date" label="Date of Birth:" required />
                 <c-textarea label="Address:" placeholder="Enter Address" rows="4" required></c-textarea>
@@ -209,7 +205,7 @@ $items = [
                                         <div>Edit Child Profile</div>
                                     </c-slot>
 
-                                    <form id="edit-child-profile-form" action="">
+                                    <form id="edit-child-profile-form" class="child-form" action="">
                                         <c-input type="text" label="Child Full Name:" placeholder="{{ $item['name'] }}"
                                             required />
                                         <c-input type="text" label="GN Devision:" placeholder="{{ $item['gs_devision'] }}"
