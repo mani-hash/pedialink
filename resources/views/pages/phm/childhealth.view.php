@@ -206,61 +206,59 @@
                                                 Close
                                             </c-slot>
                                         </c-modal>
-                                        </c-slot>
-                                        <c-dropdown.sep />
-                                    <c-modal id="edit-health-record-{{ $key }}" size="sm" :initOpen="false">
-                                        <c-slot name="trigger">
-                                        <c-dropdown.item>Edit Health Records</c-dropdown.item>
-                                        </c-slot>
-                                        <c-slot name="headerPrefix">
-                                            <img src="{{ asset('assets/icons/profile.svg' )}}"/>
-                                        </c-slot>
-    
-                                        <c-slot name="header">
-                                                <div>Edit Health Records</div>
-                                        </c-slot>
+                                        <c-modal id="edit-health-record-{{ $key }}" size="sm" :initOpen="false">
+                                            <c-slot name="trigger">
+                                            <c-dropdown.item>Edit Health Records</c-dropdown.item>
+                                            </c-slot>
+                                            <c-slot name="headerPrefix">
+                                                <img src="{{ asset('assets/icons/profile.svg' )}}"/>
+                                            </c-slot>
+        
+                                            <c-slot name="header">
+                                                    <div>Edit Health Records</div>
+                                            </c-slot>
 
-                                        <form id="edit-health-record-form" class="child-health-form" action="">
-                                            <c-input type="text" label="Height:" placeholder="Enter height" required />
-                                            <c-input type="text" label="Weight:" placeholder="Enter weight" required />
-                                            <c-input type="text" label="Head Circumference:" placeholder="Enter head circumference" required />
-                                            <c-select label="Health Status:" value="{{ strtolower($item['Health Status']) }}">
-                                                <option class="select-item" data-value="good">Good</option>
-                                                <option class="select-item" data-value="bad">Bad</option>
-                                            </c-select>
-                                            <c-textarea label="Additional Notes:" placeholder="Nutrition Facts." rows="4"></c-textarea>
-                                        </form>
+                                            <form id="edit-health-record-form" class="child-health-form" action="">
+                                                <c-input type="text" label="Height:" placeholder="Enter height" required />
+                                                <c-input type="text" label="Weight:" placeholder="Enter weight" required />
+                                                <c-input type="text" label="Head Circumference:" placeholder="Enter head circumference" required />
+                                                <c-select label="Health Status:" value="{{ strtolower($item['Health Status']) }}">
+                                                    <option class="select-item" data-value="good">Good</option>
+                                                    <option class="select-item" data-value="bad">Bad</option>
+                                                </c-select>
+                                                <c-textarea label="Additional Notes:" placeholder="Nutrition Facts." rows="4"></c-textarea>
+                                            </form>
 
-                                        <c-slot name="close">
-                                            Cancel
-                                        </c-slot>
-                                        <c-slot name="footer">
-                                            <c-button type="submit" variant="primary">Save Changes</c-button>
-                                        </c-slot>
-                                    </c-modal>
-                                    <c-dropdown.sep />
-                                    <c-modal id="mark-as-invalid-record-{{ $key }}" size="sm" :initOpen="false">
-                                        <c-slot name="trigger">
-                                            <c-dropdown.item>Mark as Invalid</c-dropdown.item>
-                                        </c-slot>
-                                        <c-slot name="headerPrefix">
-                                            <img src="{{ asset('assets/icons/profile.svg' )}}"/>
-                                        </c-slot>
-    
-                                        <c-slot name="header">
-                                                <div>Mark as Invalid</div>
-                                        </c-slot>
+                                            <c-slot name="close">
+                                                Cancel
+                                            </c-slot>
+                                            <c-slot name="footer">
+                                                <c-button type="submit" variant="primary">Save Changes</c-button>
+                                            </c-slot>
+                                        </c-modal>
+                                        <c-modal id="mark-as-invalid-record-{{ $key }}" size="sm" :initOpen="false">
+                                            <c-slot name="trigger">
+                                                <c-dropdown.item>Mark as Invalid</c-dropdown.item>
+                                            </c-slot>
+                                            <c-slot name="headerPrefix">
+                                                <img src="{{ asset('assets/icons/profile.svg' )}}"/>
+                                            </c-slot>
+        
+                                            <c-slot name="header">
+                                                    <div>Mark as Invalid</div>
+                                            </c-slot>
 
-                                        <p>Are you sure you want to mark this record as invalid?</p>
+                                            <p>Are you sure you want to mark this record as invalid?</p>
 
-                                        <c-slot name="close">
-                                            Cancel
-                                        </c-slot>
+                                            <c-slot name="close">
+                                                Cancel
+                                            </c-slot>
 
-                                        <c-slot name="footer">
-                                            <c-button  size="sm" variant="destructive">Mark</c-button>
-                                        </c-slot>
-                                    </c-modal>
+                                            <c-slot name="footer">
+                                                <c-button  size="sm" variant="destructive">Mark</c-button>
+                                            </c-slot>
+                                        </c-modal>
+                                    </c-slot>
                                 </c-dropdown.main>
                             </c-table.td>
                         </c-table.tr>
