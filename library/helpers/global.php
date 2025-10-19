@@ -1,9 +1,12 @@
 <?php
 
+use App\Auth\Auth;
 use Library\Framework\Core\Application;
 use Library\Framework\Core\Env;
+use Library\Framework\Http\RedirectResponse;
 use Library\Framework\Http\Response;
 use Library\Framework\Routing\Router;
+use Library\Framework\Session\SessionManager;
 use Library\Framework\View\View;
 
 /**
@@ -57,22 +60,40 @@ function config($key)
  * of Response class
  * @param string $url Url to redirect to
  * @param int $status Status code for redirection. Default is 302
- * @return Response
+ * @return RedirectResponse
  */
-function redirect(string $url, int $status = 302): Response
+function redirect(string $url, int $status = 302): RedirectResponse
 {
-    return Response::redirect($url, $status);
+    return new RedirectResponse($url);
+}
+
+/**
+ * Global helper to correctly parse the path to files in public/ folder
+ * @param string $path
+ * @return string
+ */
+function asset(string $path)
+{
+    if (!str_starts_with($path, '/')) {
+        $path = '/' . $path;
+    }
+
+    return $path;
 }
 
 /**
  * Global helper to access route urls from named routes.
- * @param string $name Name of the route
+ * @param string|null $name Name of the route
  * @param array $params Route parameters
  * @param array $query Query string parameters
  * @param array $defaults Default values
  */
-function route(string $name, array $params = [], array $query = [], array $defaults = [])
+function route(string|null $name = null, array $params = [], array $query = [], array $defaults = [])
 {
+    if ($name === null) {
+        return app(Router::class);
+    }
+
     return app(Router::class)->url($name, $params, $query, $defaults);
 }
 
@@ -95,4 +116,68 @@ function view(string $template, array $data = [], bool $htmlOnly = false)
     }
 
     return new Response($html);
+}
+
+/**
+ * GLobal helper to get the auth instance
+ * @return App\Auth\Auth
+ */
+function auth(): Auth
+{
+    return app(Auth::class);
+}
+
+/**
+ * Global helper class to retrieve session class
+ * @return Library\Framework\Session\SessionManager
+ */
+function session(): SessionManager
+{
+    return app(SessionManager::class);
+}
+
+/**
+ * Retrieve old input data from the previous request.
+ * 
+ * NOTE: Returns null when no matching key is found so make sure to
+ * check before parsing to view php directives!
+ * 
+ * @param string $key
+ * @param mixed $default
+ */
+function old(string $key, $default = null)
+{
+    $old = session()->getFlash('_old_input', []);
+    if (!is_array($old)) {
+        return $default;
+    }
+    return $old[$key] ?? $default;
+}
+
+/**
+ * Retrieves errors (if any is found) for the validation errors
+ * that occured in your previous request.
+ * 
+ * NOTE: Returns null when no matching key is found so make sure to
+ * check before parsing to view php directives!
+ * 
+ * @param string $key
+ */
+function errors(string $key = null)
+{
+    $s = session();
+    $errs = $s->getFlash('_errors', []);
+    if ($key === null) return $errs;
+    return $errs[$key] ?? null;
+}
+
+/**
+ * Get the flash content sent for the next request.
+ * 
+ * @param string $key
+ * @param mixed $default default is null
+ */
+function flash(string $key, $default = null)
+{
+    return session()->getFlash($key, $default);
 }

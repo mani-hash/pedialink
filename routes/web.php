@@ -4,6 +4,12 @@ $allRoutes = [];
 
 $routeFiles = [
     'home.php',
+    'auth.php',
+    'parent.php',
+    'phm.php',
+    'doctor.php',
+    'admin.php',
+    'test.php', // testing routes
 ];
 
 foreach ($routeFiles as $file) {

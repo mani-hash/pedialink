@@ -1,0 +1,308 @@
+:root {
+  --link-radius: 8px;
+  --link-padding-y: .5rem;
+  --link-padding-x: .75rem;
+  --link-gap: 0.5rem;
+  --link-focus-ring: 0 0 0 4px rgba(99,102,241,0.08); /* soft focus */
+
+  /* Local variables for "button-like" link variants (tweak if needed) */
+  --link-btn-height: 2.5rem;                       /* match .btn height */
+  --link-btn-padding-x: 1rem;                      /* match .btn horizontal padding */
+  --link-btn-radius: calc(var(--radius-md));       /* match .btn radius */
+  --link-btn-font-weight: var(--font-weight-medium);
+  --link-btn-font-size: .875rem;
+  --link-btn-shadow: 0 6px 20px rgba(0,0,0,0.08);   /* similar to .btn-primary */
+  --link-btn-subtle-shadow: 0 1px 0 rgba(0,0,0,0.02), 0 6px 18px rgba(0,0,0,0.03);
+}
+
+/* Prevent blue "tap" highlight on mobile and browser-specific appearance artifacts */
+.link,
+.link-plain,
+.link-primary,
+.link-outline,
+.link-subtle {
+  -webkit-tap-highlight-color: transparent; /* mobile tap color */
+  -webkit-touch-callout: none;              /* iOS callout */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Make visited/active/hover colors explicit per variant so UA styles don't leak in */
+.link-plain,
+.link-plain:visited,
+.link-plain:hover,
+.link-plain:active,
+.link-plain:focus {
+  color: var(--accent);
+  background: transparent;
+  text-decoration: none; /* we add underline only on hover below */
+}
+
+.link-plain:hover,
+.link-plain:focus {
+  color: var(--accent-600);
+  text-decoration: underline;
+}
+
+/* -------------------------------------------------------------------------
+   Button-like variants for links
+   - Primary, Outline and Secondary are styled to behave like .btn variants
+   ------------------------------------------------------------------------- */
+
+/* Base container for link when used as a button-like control */
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--link-gap);
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  vertical-align: middle;
+  transition: transform .12s ease, background .12s ease, color .12s ease, box-shadow .12s ease;
+  color: var(--accent);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ---- Primary (filled) ----
+   Match .btn-primary: size, padding, radius, shadow, hover lift, active feedback */
+.link-primary,
+.link-primary:visited {
+  display: inline-flex;
+  align-items: center;
+  height: var(--link-btn-height);
+  /* padding: var(--link-btn-padding-y) var(--link-btn-padding-x, var(--link-btn-padding-x)); */
+  padding-inline: var(--link-btn-padding-x); /* ensure LTR/RTL */
+  border-radius: var(--link-btn-radius);
+  font-weight: var(--link-btn-font-weight);
+  font-size: var(--link-btn-font-size);
+  background: var(--primary, var(--accent));
+  color: var(--text-inverted);
+  border: 1px solid transparent;
+  box-shadow: var(--link-btn-shadow);
+  line-height: 1;
+}
+
+/* Hover lift + stronger hover background like .btn-primary:hover */
+.link-primary:hover,
+.link-primary:focus {
+  /* transform: translateY(-1px); */
+  background: var(--primary-hover);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+  text-decoration: none;
+  outline: none;
+}
+
+/* Active press effect */
+.link-primary:active {
+  transform: translateY(0);
+  filter: brightness(.95);
+}
+
+/* ---- Outline ----
+   Match .btn-outline: size, border, subtle background on hover, slight lift */
+.link-outline,
+.link-outline:visited {
+  display:inline-flex;
+  align-items:center;
+  height: var(--link-btn-height);
+  /* padding: var(--link-btn-padding-y) var(--link-btn-padding-x); */
+  padding-inline: var(--link-btn-padding-x);
+  border-radius: var(--link-btn-radius);
+  font-weight: var(--link-btn-font-weight);
+  font-size: var(--link-btn-font-size);
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  box-shadow: var(--link-btn-subtle-shadow);
+  line-height: 1;
+}
+
+/* Outline hover: subtle filled surface and gentle lift */
+.link-outline:hover,
+.link-outline:focus {
+  /* transform: translateY(-1px); */
+  background: color-mix(in srgb, var(--panel) 90%, var(--bg) 10%);
+  color: var(--text-primary);
+  text-decoration: none;
+  outline: none;
+}
+
+/* Outline active */
+.link-outline:active {
+  transform: translateY(0);
+  filter: brightness(.97);
+}
+
+.link-secondary,
+.link-secondary:visited {
+  display: inline-flex;
+  align-items: center;
+  height: var(--link-btn-height);                           /* match button height */
+  /* padding: var(--link-btn-padding-y) var(--link-btn-padding-x); */
+  padding-inline: var(--link-btn-padding-x);
+  border-radius: var(--link-btn-radius);
+  font-weight: var(--link-btn-font-weight);
+  font-size: var(--link-btn-font-size);
+  line-height: 1;
+  background: var(--secondary);                             /* same as btn-secondary */
+  color: var(--text-primary);
+  border: 1px solid transparent;
+  box-shadow: var(--link-btn-subtle-shadow);                /* soft shadow like other buttons */
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Hover: subtle lift and stronger background (same feel as btn-secondary) */
+.link-secondary:hover,
+.link-secondary:focus {
+  /* transform: translateY(-1px); */
+  background: var(--secondary-hover);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  text-decoration: none;
+  outline: none;
+}
+
+/* Active (press) */
+.link-secondary:active {
+  transform: translateY(0);
+  filter: brightness(.96);
+}
+
+/* Disabled state */
+.link-secondary[aria-disabled="true"],
+.link-secondary.disabled {
+  opacity: .5;
+  pointer-events: none;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Make sure focus uses your existing soft ring (inherited from .link:focus) */
+.link-secondary:focus {
+  box-shadow: var(--link-focus-ring);
+}
+
+/* Icon-only variant for secondary links (square) */
+.link-secondary.link-icon-only {
+  padding: .45rem;
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 8px;
+  justify-content: center;
+}
+
+/* ---- Secondary (subtle filled) ----
+   Match .btn-secondary: soft filled background and hover behavior */
+.link-subtle,
+.link-subtle:visited {
+  display:inline-flex;
+  align-items:center;
+  height: var(--link-btn-height);
+  /* padding: var(--link-btn-padding-y) var(--link-btn-padding-x); */
+  padding-inline: var(--link-btn-padding-x);
+  border-radius: var(--link-btn-radius);
+  font-weight: var(--link-btn-font-weight);
+  font-size: var(--link-btn-font-size);
+  background: var(--secondary);
+  color: var(--text-primary);
+  border: 1px solid transparent;
+  /* box-shadow: var(--link-btn-subtle-shadow); */
+  line-height: 1;
+}
+
+/* Secondary hover mirrors btn-secondary */
+.link-subtle:hover,
+.link-subtle:focus {
+  /* transform: translateY(-1px); */
+  background: var(--secondary-hover);
+  text-decoration: none;
+  outline: none;
+}
+
+/* Secondary active */
+.link-subtle:active {
+  transform: translateY(0);
+  filter: brightness(.95);
+}
+
+/* -------------------------------------------------------------------------
+   End button-like variants
+   ------------------------------------------------------------------------- */
+
+/* Ensure focus only uses our soft ring (no default outline) */
+.link:focus,
+.link-plain:focus,
+.link-primary:focus,
+.link-outline:focus,
+.link-subtle:focus {
+  outline: none;
+  box-shadow: var(--link-focus-ring);
+}
+
+/* Base plain link (unchanged) */
+.link-plain {
+  padding: 0;
+  font-weight: 600;
+  color: var(--accent);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+.link-plain:hover,
+.link-plain:focus {
+  color: var(--accent-600);
+  text-decoration: underline;
+}
+
+/* Size modifiers (these still apply; primary/outline/secondary will inherit) */
+.link-sm { padding: .25rem .5rem; font-size: .875rem; border-radius: 6px; height: auto; }
+.link-lg { padding: .75rem 1rem; font-size: 1.05rem; border-radius: 10px; height: auto; }
+
+/* Disabled / aria-disabled */
+.link[aria-disabled="true"],
+.link.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Icon slot inside link */
+.link-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+/* When icon-only (no visible text) make it square */
+.link-icon-only {
+  padding: .5rem;
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  justify-content: center;
+  border-radius: 9999px;
+}
+
+/* Focus styles (keyboard accessible) */
+.link:focus {
+  outline: none;
+  box-shadow: var(--link-focus-ring);
+  border-radius: var(--link-radius);
+}
+
+/* Helper: treat .link (utility) gracefully if used on the same element */
+.link.link {
+  font-weight: 600;
+}
+
+/* small responsive tweak */
+@media (max-width: 480px) {
+  .link-lg { padding: .5rem .75rem; }
+  .link-component { gap: .375rem; }
+}
