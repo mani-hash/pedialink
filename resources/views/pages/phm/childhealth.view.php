@@ -1,7 +1,7 @@
 @extends('layout/portal')
 
 @section('title')
-    PHM  Child Health
+    Child Health Records
 @endsection
 
 @section('css')
@@ -31,7 +31,7 @@
         </clipPath>
     </defs>
 </svg>
-    Health Records View
+    Health Records &#8594; Baby Sarah &middot; C-000{{ $id }}
 @endsection
 
 @section('content')
