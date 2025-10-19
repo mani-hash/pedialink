@@ -186,14 +186,11 @@ class AppointmentService
     public function createAppointment($patient, $staff, $time, $date, $purpose, $notes)
     {
 
-        $parent_id = ParentM::query()->where("name", "=", $patient)->first()->id;
-        $patient_id = Patient::query()->where("parent_id", "=", $parent_id)->first()->id;
-
-        $staff_id = Staff::query()->where("name","=", $staff)->first()->id;
+        
 
         $appointment = new Appointment();
-        $appointment->patient_id = $patient_id;
-        $appointment->staff_id = $staff_id;
+        $appointment->patient_id = $patient;
+        $appointment->staff_id = $staff;
         $appointment->time = $time;
         $appointment->date = $date;
         $appointment->purpose = $purpose;

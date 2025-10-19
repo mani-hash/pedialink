@@ -134,26 +134,28 @@ $appointments = [
                 Request Appointment
             </c-slot>
 
-            <form id="request-appointment-form" action="{{route("parent.appointment.request")}}">
-                <c-select label="Appointment For" name="patient" placeholder="Select Child or Parent" required>
+            <form id="request-appointment-form" action="{{route(" parent.appointment.request")}}">
+                <c-select label="Appointment For" name="patient" placeholder="Select Child or Parent"
+                    value="{{ old('patient') ?? '' }}" error="{{ errors('patient') ?? '' }}" required>
                     <li class="select-item" data-value="3">Keeththi</li>
- 
+
                 </c-select>
-                <c-select label="Staff Preference" name="staff" multiple="1" searchable="1">
+                <c-select label="Staff Preference" name="staff" multiple="1" searchable="1"
+                    value="{{ old('staff') ?? '' }}" error="{{ errors('staff') ?? '' }}" required>
                     <li class="select-item" data-value="2">Dr.Smith</li>
-                    
+
                 </c-select>
-                <c-input type="date" label="Preferred Date" name="date" placeholder="Select Date" required />
-                <c-select label="Preferred Time" name="time" multiple="1" searchable="1" required>
+                <c-input type="date" label="Preferred Date" name="date" placeholder="Select Date"
+                    value="{{ old('date') ?? '' }}" error="{{ errors('date') ?? '' }}" required />
+                <c-select label="Preferred Time" name="time" multiple="1" searchable="1" value="{{ old('time') ?? '' }}"
+                    error="{{ errors('time') ?? '' }}" required>
                     <li class="select-item" data-value="09:00 AM">09.00 AM</li>
                     <li class="select-item" data-value="10:00 AM">10.00 AM</li>
                     <li class="select-item" data-value="11:00 AM">11.00 AM</li>
                     <li class="select-item" data-value="12:00 PM">12.00 PM</li>
                 </c-select>
-                <c-textarea name="purpose" label="Appointment Purpose"
-                    placeholder="Enter your visit purpose" />
-                <c-textarea name="notes" label="Additional Notes"
-                    placeholder="Any additional notes or others" />
+                <c-textarea name="purpose" label="Appointment Purpose" placeholder="Enter your visit purpose" />
+                <c-textarea name="notes" label="Additional Notes" placeholder="Any additional notes or others" />
 
 
 
@@ -266,7 +268,7 @@ $appointments = [
 
                                     <c-modal.viewlist title="Purpose">
                                         <c-slot name="list">
-                                           <li>{{ $appointment['purpose'] }}</li> 
+                                            <li>{{ $appointment['purpose'] }}</li>
                                         </c-slot>
                                     </c-modal.viewlist>
 
@@ -331,7 +333,8 @@ $appointments = [
                                     <form id="reschedule-appointment-form" action="">
                                         <c-input type="date" label="New Date" name="date" placeholder="Select Date"
                                             value="{{$appointment['date']}}" required />
-                                        <c-select label="New Time" name="time" multiple="1" searchable="1" value="{{$appointment['time']}}" required>
+                                        <c-select label="New Time" name="time" multiple="1" searchable="1"
+                                            value="{{$appointment['time']}}" required>
                                             <li class="select-item" data-value=" ">09.00 AM</li>
                                             <li class="select-item" data-value=" ">10.00 AM</li>
                                             <li class="select-item" data-value=" ">11.00 AM</li>
