@@ -264,7 +264,7 @@ $items = [
                                             </c-button>
                                         </c-slot>
                                     </c-modal>                                    
-                                    <c-dropdown.item href="">
+                                    <c-dropdown.item href="{{ route('doctor.child.health', ['id' => $key])}}">
                                         View Health Records
                                     </c-dropdown.item>
                                     <c-dropdown.item href="">
