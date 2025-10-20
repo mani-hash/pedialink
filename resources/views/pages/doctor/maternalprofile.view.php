@@ -1,11 +1,11 @@
 @extends('layout/portal')
 
 @section('title')
-Doctor Maternal Profiles
+Maternal Profiles
 @endsection
 
-@section('css') 
-<link rel="stylesheet" href="{{ asset('css/pages/phm/childprofiles.css') }}">
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/pages/doctor/maternal.css') }}">
 @endsection
 
 @section('header')
@@ -52,7 +52,7 @@ $items = [
 ];
 ?>
 
-<c-table.controls :columns='["ID","Name","Age","Address","Type","Stage"]'>
+<c-table.controls :columns='["ID","Name","Age","Type","Stage"]'>
 
     <c-slot name="filter">
         <c-button variant="outline">
@@ -64,6 +64,48 @@ $items = [
             Stage
         </c-button>
     </c-slot>
+
+    <c-slot name="extrabtn">
+        <c-modal id="requestMaternal" size="sm" :initOpen="false">
+            <c-slot name="trigger">
+                <c-button class="maternal-request-access-btn" variant="primary">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1044_31547)">
+                            <path d="M10.417 18.3337H5.49272C4.2049 18.3337 3.18058 17.707 2.26088 16.8308C0.378129 15.0371 3.46933 13.6037 4.6483 12.9016C6.39897 11.8592 8.44769 11.4769 10.417 11.7546C11.1316 11.8554 11.8275 12.0431 12.5003 12.3177" stroke="#FAFAFA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M13.75 5.41699C13.75 7.48806 12.0711 9.16699 10 9.16699C7.92893 9.16699 6.25 7.48806 6.25 5.41699C6.25 3.34592 7.92893 1.66699 10 1.66699C12.0711 1.66699 13.75 3.34592 13.75 5.41699Z" stroke="#FAFAFA" stroke-width="1.5"/>
+                            <path d="M15.4167 18.3333L15.4167 12.5M12.5 15.4167H18.3333" stroke="#FAFAFA" stroke-width="1.5" stroke-linecap="round"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1044_31547">
+                                <rect width="20" height="20" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    <span>Request Access</span>
+                </c-button>
+            </c-slot>
+            <c-slot name="headerPrefix">
+                <img src="{{ asset('assets/icons/user-add--01.svg' )}}" />
+            </c-slot>
+            <c-slot name="header">
+                <div>Request Maternal Profile Access</div>
+            </c-slot>
+
+            <form id="request-maternal-form" class="maternal-form" action="">
+                <c-select label="Child Profile" name="options" searchable="1" placeholder="Select Mother" required>
+                    <li class="select-item" data-value="option1">Mother Sara</li>
+                    <li class="select-item" data-value="option2">Mother Nancy</li>
+                </c-select>
+                <c-textarea label="Reason" placeholder="Enter reason for request" required></c-textarea>
+            </form>
+            <c-slot name="close">
+                Close
+            </c-slot>
+            <c-slot name="footer">
+                <c-button type="submit" form="request-maternal-form" variant="primary">Request Access</c-button>
+            </c-slot>
+        </c-modal>
+    </c-slot>
 </c-table.controls>
 
 <c-table.wrapper card="1">
@@ -74,7 +116,6 @@ $items = [
                     <c-table.th sortable="1" width="160px">ID</c-table.th>
                     <c-table.th sortable="1" width="210px">Name</c-table.th>
                     <c-table.th sortable="1" width="200px">Age</c-table.th>
-                    <c-table.th sortable="1" width="270px">Address</c-table.th>
                     <c-table.th align="left" sortable="1" width="220px">Type</c-table.th>
                     <c-table.th align="left" sortable="1">Stage</c-table.th>
                     <c-table.th class="table-actions"></c-table.th>
@@ -87,7 +128,6 @@ $items = [
                     <c-table.td col="id">{{ $item['id'] }}</c-table.td>
                     <c-table.td col="name">{{ $item['name'] }}</c-table.td>
                     <c-table.td col="age">{{ $item['Age'] }}</c-table.td>
-                    <c-table.td col="address">{{ $item['Address'] }}</c-table.td>
                     <c-table.td col="type">{{ $item['Type'] }}</c-table.td>
                     <c-table.td col="stage">{{ $item['Stage'] }}</c-table.td>
                     <c-table.td class="table-actions" align="center">
@@ -99,6 +139,7 @@ $items = [
                             </c-slot>
                             <c-slot name="menu">
                                 <c-dropdown.item>Copy Mother ID</c-dropdown.item>
+                                <c-dropdown.sep />
                                 <c-modal id="view-maternal-{{ $key }}" size="md" :initOpen="false">
                                     <c-slot name="trigger">
                                         <c-dropdown.item>View Maternal Profile</c-dropdown.item>
@@ -134,29 +175,40 @@ $items = [
                                         <c-modal.viewitem icon="{{ asset('assets/icons/user.svg') }}"
                                             title="Pregnancy Duration" info="5 weeks and 2 days" />
                                     </c-modal.viewcard>
-                                    <h4>Medical Records</h4>
-                                    <ul>
-                                        <li>Height:160cm</li>
-                                        <li>Weight:67kg</li>
-                                        <li>Blood Group: O+</li>
-                                        <li>Blood Sugar:110 mg/dL</li>
-                                        <li>Blood Presure:120 mmHg</li>
-                                        <li>Width of Belly: 32 cm</li>
-                                    </ul>
-                                    <h4>Additional Information</h4>
-                                    <ul>
-                                        <li>Nutrition Facts: Good</li>
-                                        <li>Allergies: None</li>
-                                    </ul>
+
+                                    <c-modal.viewlist title="Medical Records">
+                                        <c-slot name="list">
+                                            <li>Height:160cm</li>
+                                            <li>Weight:67kg</li>
+                                            <li>Blood Group: O+</li>
+                                            <li>Blood Sugar:110 mg/dL</li>
+                                            <li>Blood Presure:120 mmHg</li>
+                                            <li>Width of Belly: 32 cm</li>
+                                        </c-slot>
+                                    </c-modal.viewlist>
+
+                                    <c-modal.viewlist title="Additional Information">
+                                        <c-slot name="list">
+                                            <li>Nutrition Facts: Good</li>
+                                            <li>Allergies: None</li>
+                                        </c-slot>
+                                    </c-modal.viewlist>
 
                                     <c-slot name="close">
                                         Close
                                     </c-slot>
+
+                                    <c-slot name="footer">
+                                        <c-button variant="primary">
+                                            <img src="{{ asset('assets/icons/download-04.svg')}}" />
+                                            Download Documents
+                                        </c-button>
+                                    </c-slot>
                                 </c-modal>
+                                <c-dropdown.item href="{{ route('doctor.maternal.health', ['id' => $key]) }}">
+                                    View Health Records
+                                </c-dropdown.item>
                             </c-slot>
-                            <c-dropdown.sep />
-                            <c-dropdown.item href="{{ route('doctor.maternal.health',['id'=>$key,])}}">View Health
-                                Records</c-dropdown.item>
                         </c-dropdown.main>
                     </c-table.td>
                 </c-table.tr>
