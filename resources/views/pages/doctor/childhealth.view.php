@@ -54,17 +54,6 @@
 
     <c-table.controls :columns='["Recorded at","Height","Weight","Head Circumference","Health Status"]'>
 
-        <c-slot name="filter">
-            <c-button variant="outline">
-                <img src="{{ asset('assets/icons/filter.svg') }}" />
-                Type
-            </c-button>
-            <c-button variant="outline">
-                <img src="{{ asset('assets/icons/filter.svg') }}" />
-                Stage
-            </c-button>
-        </c-slot>
-
         <c-slot name="extrabtn">
             <c-modal id="add-health-record-modal" size="sm" :initOpen="false">
                 <c-slot name="trigger">
