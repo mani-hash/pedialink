@@ -1,0 +1,30 @@
+form {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing) * 5);
+}
+
+.info-card{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--surface);
+}
+
+.title{
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    
+}
+
+.msg{
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.cancel{
+    color:var(--destructive);
+}
