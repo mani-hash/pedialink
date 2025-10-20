@@ -40,17 +40,17 @@ Child Profiles
 @section('content')
 <?php
 $items = [
-    ['id' => 'C-123', 'name' => 'Sarah Peter', 'Age' => '4 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Borella'],
-    ['id' => 'D-123', 'name' => 'John Peter', 'Age' => '7 months', 'Vaccination Status' => 'Overdue', 'gs_devision' => 'Borella'],
-    ['id' => 'B-123', 'name' => 'Daniel Parker', 'Age' => '5 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Borella'],
-    ['id' => 'C-124', 'name' => 'Emily Stone', 'Age' => '6 months', 'Vaccination Status' => 'Pending', 'gs_devision' => 'Dehiwala'],
-    ['id' => 'F-125', 'name' => 'Michael Lee', 'Age' => '8 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Moratuwa'],
-    ['id' => 'J-126', 'name' => 'Olivia Brown', 'Age' => '3 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Ratmalana'],
-    ['id' => 'L-127', 'name' => 'Liam Smith', 'Age' => '9 months', 'Vaccination Status' => 'Overdue', 'gs_devision' => 'Wellawatta'],
-    ['id' => 'T-128', 'name' => 'Sophia Green', 'Age' => '2 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Other'],
-    ['id' => 'K-129', 'name' => 'Noah White', 'Age' => '10 months', 'Vaccination Status' => 'Pending', 'gs_devision' => 'Borella'],
-    ['id' => 'A-130', 'name' => 'Ava Black', 'Age' => '5 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Dehiwala'],
-    ['id' => 'L-131', 'name' => 'Mason Gray', 'Age' => '7 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Moratuwa'],
+    ['id' => 'C-123', 'name' => 'Sarah Peter', 'Age' => '4 months', 'Vaccination Status' => 'Completed', 'assigned_phm' => 'Sarah Peters'],
+    ['id' => 'D-123', 'name' => 'John Peter', 'Age' => '7 months', 'Vaccination Status' => 'Overdue', 'assigned_phm' => 'Sarah Peters'],
+    ['id' => 'B-123', 'name' => 'Daniel Parker', 'Age' => '5 months', 'Vaccination Status' => 'Completed', 'assigned_phm' => 'Sarah Peters'],
+    ['id' => 'C-124', 'name' => 'Emily Stone', 'Age' => '6 months', 'Vaccination Status' => 'Pending', 'assigned_phm' => 'Sarah Peters'],
+    ['id' => 'F-125', 'name' => 'Michael Lee', 'Age' => '8 months', 'Vaccination Status' => 'Completed', 'assigned_phm' => 'Sarah Peters'],
+    ['id' => 'J-126', 'name' => 'Olivia Brown', 'Age' => '3 months', 'Vaccination Status' => 'Completed', 'assigned_phm' => 'Sarah Peters'],
+    ['id' => 'L-127', 'name' => 'Liam Smith', 'Age' => '9 months', 'Vaccination Status' => 'Overdue', 'assigned_phm' => 'Sarah Peters'],
+    ['id' => 'T-128', 'name' => 'Sophia Green', 'Age' => '2 months', 'Vaccination Status' => 'Completed', 'assigned_phm' => 'Sarah Peters'],
+    ['id' => 'K-129', 'name' => 'Noah White', 'Age' => '10 months', 'Vaccination Status' => 'Pending', 'assigned_phm' => 'Sarah Peters'],
+    ['id' => 'A-130', 'name' => 'Ava Black', 'Age' => '5 months', 'Vaccination Status' => 'Completed', 'assigned_phm' => 'Sarah Peters'],
+    ['id' => 'L-131', 'name' => 'Mason Gray', 'Age' => '7 months', 'Vaccination Status' => 'Completed', 'assigned_phm' => 'Sarah Peters'],
 ];
 ?>
 
@@ -119,7 +119,7 @@ $items = [
                     <c-table.th sortable="1">Name</c-table.th>
                     <c-table.th sortable="1">Age</c-table.th>
                     <c-table.th>Vaccination Status</c-table.th>
-                    <c-table.th>GS Devision</c-table.th>
+                    <c-table.th>Assigned PHM</c-table.th>
                     <c-table.th class="table-actions"></c-table.th>
                 </c-table.tr>
             </c-table.thead>
@@ -150,7 +150,7 @@ $items = [
                             @endif
 
                         </c-table.td>
-                        <c-table.td col="GN Devision">{{ $item['gs_devision'] }}</c-table.td>
+                        <c-table.td col="assigned_phm">{{ $item['assigned_phm'] }}</c-table.td>
                         <c-table.td class="table-actions" align="center">
                             <c-dropdown.main>
                                 <c-slot name="trigger">
@@ -201,12 +201,12 @@ $items = [
                                             <c-modal.viewitem
                                                 icon="{{ asset('assets/icons/location-05.svg') }}"
                                                 title="GS Division"
-                                                info="{{ $item['gs_devision'] }}"
+                                                info="Borella"
                                             />
                                              <c-modal.viewitem
-                                                icon="{{ asset('assets/icons/location-05.svg') }}"
-                                                title="Address"
-                                                info="N0 21,Yoak Road,Melburne"
+                                                icon="{{ asset('assets/icons/user-add--01.svg') }}"
+                                                title="Assigned PHM"
+                                                info="{{ $item['assigned_phm'] }}"
                                             />
                                         </c-modal.viewcard>
 
