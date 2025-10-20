@@ -193,6 +193,48 @@ $menuItems = [
                 'link' => route('parent.settings'),
                 'icon' => asset('/assets/icons/setting-07.svg'),
             ],
+        ]
+    ],
+    'doctor' => [
+        'Main' => [
+            [
+                'name' => 'Dashboard',
+                'link' => route('doctor.dashboard'),
+                'icon' => asset('/assets/icons/dashboard-square-02.svg'),
+
+            ],
+            [
+                'name' => 'Child Profiles',
+                'link' => route('doctor.child.profiles'),
+                'icon' => asset('/assets/icons/baby-01.svg'),
+               
+            ],
+            [
+                'name' => 'Maternal Profiles',
+                'link' => route('doctor.maternal.profiles'),
+                'icon' => asset('/assets/icons/mother.svg'),
+               
+            ],
+          
+            [
+                'name' => 'Appointments',
+                'link' => route('doctor.appointments'),
+                'icon' => asset('/assets/icons/profile.svg'),
+            ],
+           
+             
+        ],
+        'Settings' => [
+            [
+                'name' => 'Notifications',
+                'link' => route('doctor.notification'),
+                'icon' => asset('/assets/icons/notification-02.svg'),
+            ],
+            [
+                'name' => 'Settings',
+                'link' => route('doctor.settings'),
+                'icon' => asset('/assets/icons/setting-07.svg'),
+            ],
         ],],
     'guest' => [
         'Main' => [

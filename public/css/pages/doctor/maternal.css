@@ -1,0 +1,17 @@
+.maternal-form {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing) * 5);
+}
+
+.maternal-form > div {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing) * 2);
+}
+
+@media (max-width: 1280px) {
+    .maternal-request-access-btn > span {
+        display: none;
+    }
+}
