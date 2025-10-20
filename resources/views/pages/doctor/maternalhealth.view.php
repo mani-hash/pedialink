@@ -30,7 +30,7 @@ Maternal Health
         </clipPath>
     </defs>
 </svg>
-Health Records View
+Health Records &#8594; Mother Sarah &middot; P-000{{ $id }}
 @endsection
 
 @section('content')
