@@ -33,9 +33,9 @@ Home
       <h1>Your Partner in Parenthood</h1>
       <p>Connect with top PHM & doctors, monitor your child's health, and receive personalized support every step of the
         way.</p>
-      <c-button $type="primary">
+      <c-link $type="primary">
         Get Started
-      </c-button>
+      </c-link>
     </div>
 
     <!-- About Section -->
@@ -155,9 +155,9 @@ Home
     <div class="section cta">
       <h2>Ready to Get Started?</h2>
       <p>Join PediaLink today and experience the difference in child and mother care.</p>
-      <c-button $type="primary">
+      <c-link $type="primary">
         Get Started
-      </c-button>
+      </c-link>
     </div>
 
 
@@ -172,43 +172,6 @@ Home
     </div>
   </div>
 </div>
-
-<c-link type="primary" href="{{ route('parent.login') }}">
-  Parent Login
-</c-link>
-
-<c-link type="primary" href="{{ route('staff.login') }}">
-  Staff Login
-</c-link>
-
-<c-link type="primary" href="{{ route('test.portal') }}">
-  Test Portal
-</c-link>
-
-<c-link type="primary" href="{{ route('test.message') }}">
-  Test message
-</c-link>
-
-<c-modal id="eventDetails" size="sm" :initOpen="false">
-    <c-slot name="trigger">
-        <c-button variant="primary">Open details</c-button>
-    </c-slot>
-
-    <c-slot name="header">
-        <div>Event Details</div>
-    </c-slot>
-
-    <p>Here goes the modal body — images, form, whatever.</p>
-
-    <c-slot name="footer">
-        <c-button type="button" variant="outline" data-modal-close="eventDetails">Cancel</c-button>
-        <c-button type="button" variant="primary" data-modal-confirm="eventDetails">Save</c-button>
-    </c-slot>
-</c-modal>
-
-<form action="{{ route('logout')}}" method="post">
-  <c-button type="submit">Logout</c-button>
-</form>
 
 
 
