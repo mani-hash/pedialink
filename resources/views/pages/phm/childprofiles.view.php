@@ -109,7 +109,7 @@ PHM Child Profiles
                     <c-table.th sortable="1">Name</c-table.th>
                     <c-table.th sortable="1">Age</c-table.th>
                     <c-table.th>Gender</c-table.th>
-                    <c-table.th>GS Devision</c-table.th>
+                    <c-table.th>GS Division</c-table.th>
                     <c-table.th class="table-actions"></c-table.th>
                 </c-table.tr>
             </c-table.thead>
