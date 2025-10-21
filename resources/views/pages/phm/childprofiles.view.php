@@ -38,21 +38,6 @@ PHM Child Profiles
 @endsection
 
 @section('content')
-<?php
-$items = [
-    ['id' => 'C-123', 'name' => 'Sarah Peter', 'Age' => '4 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Borella'],
-    ['id' => 'D-123', 'name' => 'John Peter', 'Age' => '7 months', 'Vaccination Status' => 'Overdue', 'gs_devision' => 'Borella'],
-    ['id' => 'B-123', 'name' => 'Daniel Parker', 'Age' => '5 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Borella'],
-    ['id' => 'C-124', 'name' => 'Emily Stone', 'Age' => '6 months', 'Vaccination Status' => 'Pending', 'gs_devision' => 'Dehiwala'],
-    ['id' => 'F-125', 'name' => 'Michael Lee', 'Age' => '8 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Moratuwa'],
-    ['id' => 'J-126', 'name' => 'Olivia Brown', 'Age' => '3 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Ratmalana'],
-    ['id' => 'L-127', 'name' => 'Liam Smith', 'Age' => '9 months', 'Vaccination Status' => 'Overdue', 'gs_devision' => 'Wellawatta'],
-    ['id' => 'T-128', 'name' => 'Sophia Green', 'Age' => '2 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Other'],
-    ['id' => 'K-129', 'name' => 'Noah White', 'Age' => '10 months', 'Vaccination Status' => 'Pending', 'gs_devision' => 'Borella'],
-    ['id' => 'A-130', 'name' => 'Ava Black', 'Age' => '5 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Dehiwala'],
-    ['id' => 'L-131', 'name' => 'Mason Gray', 'Age' => '7 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Moratuwa'],
-];
-?>
 
 <c-table.controls :columns='["ID","Name","Age","Vaccination Status","GS Devision"]'>
 
@@ -82,19 +67,20 @@ $items = [
             </c-slot>
 
             <form id="add-child-form" class="child-form" action="">
-                <c-input type="text" label="Child Full Name:" placeholder="Enter Full Name" required />
-                <c-select label="GS Division" name="options" searchable="1" required>
-                    <li class="select-item" data-value="option1">Borella</li>
-                    <li class="select-item" data-value="option2">Dehiwala</li>
-                    <li class="select-item" data-value="option3">Moratuwa</li>
-                    <li class="select-item" data-value="option4">Ratmalana</li>
-                    <li class="select-item" data-value="option5">Wellawatta</li>
-                    <li class="select-item" data-value="option6">Other</li>
+                <c-input type="text" label="Child Full Name:" name="full_name" placeholder="Enter Full Name" required />
+                <c-select label="GS Division" name="options" name="division" searchable="1" required>
+                    <li class="select-child" data-value="option1">Borella</li>
+                    <li class="select-child" data-value="option2">Dehiwala</li>
+                    <li class="select-child" data-value="option3">Moratuwa</li>
+                    <li class="select-child" data-value="option4">Ratmalana</li>
+                    <li class="select-child" data-value="option5">Wellawatta</li>
+                    <li class="select-child" data-value="option6">Other</li>
                 </c-select>
-                <c-input type="date" label="Date of Birth:" required />
-                <c-textarea label="Address:" placeholder="Enter Address" rows="4" required></c-textarea>
-                <c-input type="file" label="Birth Certificate" required />
-                <c-input type="file" label="Additional Documents" />
+                <c-input type="date" label="Date of Birth:" name="dob" required />
+                <c-select label="Gender" name="options" name="gender" required>
+                    <li class="select-child" data-value="option1">Male</li>
+                    <li class="select-child" data-value="option2">Female</li>
+                </c-select>
                 <c-textarea label="Additional Notes:" placeholder="Enter any additional notes here..." rows="4"></c-textarea>
             </form>
             <c-slot name="close">
@@ -115,39 +101,31 @@ $items = [
                     <c-table.th sortable="1">ID</c-table.th>
                     <c-table.th sortable="1">Name</c-table.th>
                     <c-table.th sortable="1">Age</c-table.th>
-                    <c-table.th>Vaccination Status</c-table.th>
+                    <c-table.th>Gender</c-table.th>
                     <c-table.th>GS Devision</c-table.th>
                     <c-table.th class="table-actions"></c-table.th>
                 </c-table.tr>
             </c-table.thead>
 
             <c-table.tbody>
-                @foreach ($items as $key => $item)
+                @foreach ($children as $key => $child)
                     <c-table.tr>
-                        <c-table.td col="id">{{ $item['id'] }}</c-table.td>
-                        <c-table.td col="name" class="child-col">{{ $item['name'] }}</c-table.td>
-                        <c-table.td col="Age" class="child-col">{{ $item['Age'] }}</c-table.td>
-                        <c-table.td col="Vaccination Status">
-                            @if (strtolower($item['Vaccination Status']) === "completed")
-                                <c-badge class="status-vaccination" type="green">
-                                    {{ ucfirst($item['Vaccination Status']) }}
+                        <c-table.td col="id">{{ $child['id'] }}</c-table.td>
+                        <c-table.td col="name" class="child-col">{{ $child['name'] }}</c-table.td>
+                        <c-table.td col="Age" class="child-col">3</c-table.td>
+                        <c-table.td col="Gender">
+                            @if (strtolower($child['gender']) === "male")
+                                <c-badge type="green">
+                                    {{ ucfirst($child['gender']) }}
                                 </c-badge>
-                            @elseif (strtolower($item['Vaccination Status']) === "upcoming")
-                                <c-badge class="status-vaccination" type="purple">
-                                    {{ ucfirst($item['Vaccination Status']) }}
-                                </c-badge>
-                            @elseif (strtolower($item['Vaccination Status']) === "overdue")
-                                <c-badge class="status-vaccination" type="red">
-                                    {{ ucfirst($item['Vaccination Status']) }}
-                                </c-badge>
-                            @elseif (strtolower($item['Vaccination Status']) === "pending")
-                                <c-badge class="status-vaccination" type="yellow">
-                                    {{ ucfirst($item['Vaccination Status']) }}
+                            @elseif (strtolower($child['gender']) === "female")
+                                <c-badge  type="purple">
+                                    {{ ucfirst($child['gender']) }}
                                 </c-badge>
                             @endif
 
                         </c-table.td>
-                        <c-table.td col="GN Devision">{{ $item['gs_devision'] }}</c-table.td>
+                        <c-table.td col="GN Devision">{{ $child['gs_division'] }}</c-table.td>
                         <c-table.td class="table-actions" align="center">
                             <c-dropdown.main>
                                 <c-slot name="trigger">
@@ -178,12 +156,12 @@ $items = [
                                             <c-modal.viewitem
                                                 icon="{{ asset('assets/icons/profile.svg') }}"
                                                 title="Child ID"
-                                                info="{{ $item['id'] }}"
+                                                info="{{ $child['id'] }}"
                                             />
                                             <c-modal.viewitem
                                                 icon="{{ asset('assets/icons/baby-01.svg') }}"
                                                 title="Name"
-                                                info="{{ $item['name'] }}"
+                                                info="{{ $child['name'] }}"
                                             />
                                             <c-modal.viewitem
                                                 icon="{{ asset('assets/icons/vaccine.svg') }}"
@@ -193,12 +171,12 @@ $items = [
                                             <c-modal.viewitem
                                                 icon="{{ asset('assets/icons/chart-evaluation.svg') }}"
                                                 title="Age"
-                                                info="{{ $item['Age'] }}"
+                                                info="2"
                                             />
                                             <c-modal.viewitem
                                                 icon="{{ asset('assets/icons/location-05.svg') }}"
                                                 title="GS Division"
-                                                info="{{ $item['gs_devision'] }}"
+                                                info="{{ $child['gs_division'] }}"
                                             />
                                              <c-modal.viewitem
                                                 icon="{{ asset('assets/icons/location-05.svg') }}"
@@ -273,14 +251,14 @@ $items = [
                                         </c-slot>
 
                                         <form id="edit-child-profile-form" class="child-form" action="">
-                                            <c-input type="text" label="Child Full Name:" placeholder="{{ $item['name'] }}"required />
-                                            <c-input type="text" label="GN Devision:" placeholder="{{ $item['gs_devision'] }}"required />
+                                            <c-input type="text" label="Child Full Name:" placeholder="{{ $child['name'] }}"required />
+                                            <c-input type="text" label="GN Devision:" placeholder="{{ $child['gs_division'] }}"required />
                                             <c-input type="date" label="Date of Birth:" value="" required />
                                             <c-textarea label="Address:" placeholder="132,1/2,Lorem street" rows="1">
                                             </c-textarea>
-                                            <c-select label="Health Status:" default="{{ $item['Health Status'] }}">
-                                                <option class="select-item" data-value="child">Good</option>
-                                                <option class="select-item" data-value="child">Bad</option>
+                                            <c-select label="Health Status:" default="{{ $child['Health Status'] }}">
+                                                <option class="select-child" data-value="child">Good</option>
+                                                <option class="select-child" data-value="child">Bad</option>
                                             </c-select>
                                             
                                             <c-textarea label="Additional Notes:" placeholder="Nutrition Facts." rows="4"></c-textarea>
@@ -309,10 +287,10 @@ $items = [
                         </c-table.td>
                     </c-table.tr>
                 @endforeach
-                @if(count($items) === 0)
+                @if(count($children) === 0)
                     <tr>
                         <td colspan="6">
-                            <div class="table-empty">No items found</div>
+                            <div class="table-empty">No childs found</div>
                         </td>
                     </tr>
                 @endif
