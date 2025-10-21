@@ -68,18 +68,18 @@ PHM Child Profiles
 
             <form id="add-child-form" class="child-form" action="">
                 <c-input type="text" label="Child Full Name:" name="full_name" placeholder="Enter Full Name" required />
-                <c-select label="GS Division" name="options" name="division" searchable="1" required>
-                    <li class="select-child" data-value="option1">Borella</li>
-                    <li class="select-child" data-value="option2">Dehiwala</li>
-                    <li class="select-child" data-value="option3">Moratuwa</li>
-                    <li class="select-child" data-value="option4">Ratmalana</li>
-                    <li class="select-child" data-value="option5">Wellawatta</li>
-                    <li class="select-child" data-value="option6">Other</li>
+                <c-select label="GS Division" name="division" searchable="1" required>
+                    <li class="select-item" data-value="option1">Borella</li>
+                    <li class="select-item" data-value="option2">Dehiwala</li>
+                    <li class="select-item" data-value="option3">Moratuwa</li>
+                    <li class="select-item" data-value="option4">Ratmalana</li>
+                    <li class="select-item" data-value="option5">Wellawatta</li>
+                    <li class="select-item" data-value="option6">Other</li>
                 </c-select>
                 <c-input type="date" label="Date of Birth:" name="dob" required />
-                <c-select label="Gender" name="options" name="gender" required>
-                    <li class="select-child" data-value="option1">Male</li>
-                    <li class="select-child" data-value="option2">Female</li>
+                <c-select label="Gender" name="gender" required>
+                    <li class="select-item" data-value="option1">Male</li>
+                    <li class="select-item" data-value="option2">Female</li>
                 </c-select>
                 <c-textarea label="Additional Notes:" placeholder="Enter any additional notes here..." rows="4"></c-textarea>
             </form>
@@ -257,8 +257,8 @@ PHM Child Profiles
                                             <c-textarea label="Address:" placeholder="132,1/2,Lorem street" rows="1">
                                             </c-textarea>
                                             <c-select label="Health Status:" default="{{ $child['Health Status'] }}">
-                                                <option class="select-child" data-value="child">Good</option>
-                                                <option class="select-child" data-value="child">Bad</option>
+                                                <li class="select-item" data-value="child">Good</li>
+                                                <li class="select-item" data-value="maternal">Bad</li>
                                             </c-select>
                                             
                                             <c-textarea label="Additional Notes:" placeholder="Nutrition Facts." rows="4"></c-textarea>
