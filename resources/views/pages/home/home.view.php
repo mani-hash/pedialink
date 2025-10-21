@@ -55,7 +55,7 @@ Home
         </c-dropdown.item>
         <c-dropdown.sep />
         <c-dropdown.item>
-          <a class="drop-item " href="{{ route(auth()->user()->role . '.dashboard') }}">
+          <a class="drop-item " href="{{ route(auth()->user()->role . '.settings') }}">
             <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0_474_15232)">
                 <path
@@ -79,7 +79,7 @@ Home
           <c-slot name="trigger">
             <c-dropdown.item>
 
-              <div class="drop-item logout" >
+              <div class="drop-item logout">
 
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -130,12 +130,13 @@ Home
     </c-dropdown.main>
 
     @else
+
+
+    <c-link $type="secondary" href="{{ route('parent.login') }}">
+      Login
+    </c-link>
     <c-link $type="primary" href="{{ route('parent.register') }}">
       Get Started
-    </c-link>
-
-    <c-link $type="outline" href="{{ route('parent.login') }}">
-      Login
     </c-link>
     @endif
 
@@ -155,11 +156,12 @@ Home
       <c-link href="{{ route('parent.register') }}" class="cta-btn" $type="primary">
         Get Started
       </c-link>
-      @else 
+      @else
       <c-link href="{{ route(auth()->user()->role . '.dashboard') }}" class="cta-btn" $type="primary">
         Go to Dashboard
-      @endif
       </c-link>
+      @endif
+
 
     </div>
 
@@ -280,11 +282,11 @@ Home
     <div class="section cta">
       <h2>Ready to Get Started?</h2>
       <p>Join PediaLink today and experience the difference in child and mother care.</p>
-     @if(!auth()->check())
+      @if(!auth()->check())
       <c-link href="{{ route('parent.register') }}" class="cta-btn" $type="primary">
         Get Started
       </c-link>
-      @else 
+      @else
       <c-link href="{{ route(auth()->user()->role . '.dashboard') }}" class="cta-btn" $type="primary">
         Go to Dashboard
       </c-link>
