@@ -38,21 +38,6 @@ PHM Child Profiles
 @endsection
 
 @section('content')
-<?php
-$items = [
-    ['id' => 'C-123', 'name' => 'Sarah Peter', 'Age' => '4 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Borella'],
-    ['id' => 'D-123', 'name' => 'John Peter', 'Age' => '7 months', 'Vaccination Status' => 'Overdue', 'gs_devision' => 'Borella'],
-    ['id' => 'B-123', 'name' => 'Daniel Parker', 'Age' => '5 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Borella'],
-    ['id' => 'C-124', 'name' => 'Emily Stone', 'Age' => '6 months', 'Vaccination Status' => 'Pending', 'gs_devision' => 'Dehiwala'],
-    ['id' => 'F-125', 'name' => 'Michael Lee', 'Age' => '8 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Moratuwa'],
-    ['id' => 'J-126', 'name' => 'Olivia Brown', 'Age' => '3 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Ratmalana'],
-    ['id' => 'L-127', 'name' => 'Liam Smith', 'Age' => '9 months', 'Vaccination Status' => 'Overdue', 'gs_devision' => 'Wellawatta'],
-    ['id' => 'T-128', 'name' => 'Sophia Green', 'Age' => '2 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Other'],
-    ['id' => 'K-129', 'name' => 'Noah White', 'Age' => '10 months', 'Vaccination Status' => 'Pending', 'gs_devision' => 'Borella'],
-    ['id' => 'A-130', 'name' => 'Ava Black', 'Age' => '5 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Dehiwala'],
-    ['id' => 'L-131', 'name' => 'Mason Gray', 'Age' => '7 months', 'Vaccination Status' => 'Completed', 'gs_devision' => 'Moratuwa'],
-];
-?>
 
 <c-table.controls :columns='["ID","Name","Age","Vaccination Status","GS Devision"]'>
 
@@ -68,7 +53,7 @@ $items = [
     </c-slot>
 
     <c-slot name="extrabtn">
-        <c-modal id="addChild" size="sm" :initOpen="false">
+        <c-modal id="addChild" size="sm" :initOpen="flash('create') ? true : false">
             <c-slot name="trigger">
                 <c-button variant="primary">
                     Add Child Profile
@@ -81,27 +66,34 @@ $items = [
                 <div>Add Child Profile</div>
             </c-slot>
 
-            <form id="add-child-form" class="child-form" action="">
-                <c-input type="text" label="Child Full Name:" placeholder="Enter Full Name" required />
-                <c-select label="GS Division" name="options" searchable="1" required>
-                    <li class="select-item" data-value="option1">Borella</li>
-                    <li class="select-item" data-value="option2">Dehiwala</li>
-                    <li class="select-item" data-value="option3">Moratuwa</li>
-                    <li class="select-item" data-value="option4">Ratmalana</li>
-                    <li class="select-item" data-value="option5">Wellawatta</li>
-                    <li class="select-item" data-value="option6">Other</li>
+            <form id="add-child-form" class="child-form" action="{{ route('phm.child.create') }}" method="POST">
+                <c-input
+                    type="text"
+                    label="Child Full Name:"
+                    name="name"
+                    value="{{ old('name') ?? '' }}"
+                    error="{{ errors('name') ?? '' }}"
+                    placeholder="Enter Full Name"
+                    required
+                />
+                <c-select label="GS Division" name="division" searchable="1" error="{{ errors('division') ?? '' }}" required>
+                    <li class="select-item" data-value="borella">Borella</li>
+                    <li class="select-item" data-value="dehiwala">Dehiwala</li>
+                    <li class="select-item" data-value="morutuwa">Moratuwa</li>
+                    <li class="select-item" data-value="ratmalana">Ratmalana</li>
+                    <li class="select-item" data-value="wellawatta">Wellawatta</li>
                 </c-select>
-                <c-input type="date" label="Date of Birth:" required />
-                <c-textarea label="Address:" placeholder="Enter Address" rows="4" required></c-textarea>
-                <c-input type="file" label="Birth Certificate" required />
-                <c-input type="file" label="Additional Documents" />
-                <c-textarea label="Additional Notes:" placeholder="Enter any additional notes here..." rows="4"></c-textarea>
+                <c-input type="date" label="Date of Birth:" name="dob" value="{{ old('dob') ?? '' }}" error="{{ errors('dob') ?? ''}}" required />
+                <c-select label="Gender" name="gender" value="{{ old('gender') ?? '' }}" error="{{ errors('gender') ?? ''}}" required>
+                    <li class="select-item" data-value="male">Male</li>
+                    <li class="select-item" data-value="female">Female</li>
+                </c-select>
             </form>
             <c-slot name="close">
                 Close
             </c-slot>
             <c-slot name="footer">
-                <c-button type="submit" form="admin-register-form" variant="primary">Create a Child Profile</c-button>
+                <c-button type="submit" form="add-child-form" variant="primary">Create a Child Profile</c-button>
             </c-slot>
         </c-modal>
     </c-slot>
@@ -115,39 +107,31 @@ $items = [
                     <c-table.th sortable="1">ID</c-table.th>
                     <c-table.th sortable="1">Name</c-table.th>
                     <c-table.th sortable="1">Age</c-table.th>
-                    <c-table.th>Vaccination Status</c-table.th>
-                    <c-table.th>GS Devision</c-table.th>
+                    <c-table.th>Gender</c-table.th>
+                    <c-table.th>GS Division</c-table.th>
                     <c-table.th class="table-actions"></c-table.th>
                 </c-table.tr>
             </c-table.thead>
 
             <c-table.tbody>
-                @foreach ($items as $key => $item)
+                @foreach ($children as $key => $child)
                     <c-table.tr>
-                        <c-table.td col="id">{{ $item['id'] }}</c-table.td>
-                        <c-table.td col="name" class="child-col">{{ $item['name'] }}</c-table.td>
-                        <c-table.td col="Age" class="child-col">{{ $item['Age'] }}</c-table.td>
-                        <c-table.td col="Vaccination Status">
-                            @if (strtolower($item['Vaccination Status']) === "completed")
-                                <c-badge class="status-vaccination" type="green">
-                                    {{ ucfirst($item['Vaccination Status']) }}
+                        <c-table.td col="id">{{ $child['id'] }}</c-table.td>
+                        <c-table.td col="name" class="child-col">{{ $child['name'] }}</c-table.td>
+                        <c-table.td col="Age" class="child-col">{{ $child['age'] }}</c-table.td>
+                        <c-table.td col="Gender">
+                            @if (strtolower($child['gender']) === "male")
+                                <c-badge type="green">
+                                    {{ ucfirst($child['gender']) }}
                                 </c-badge>
-                            @elseif (strtolower($item['Vaccination Status']) === "upcoming")
-                                <c-badge class="status-vaccination" type="purple">
-                                    {{ ucfirst($item['Vaccination Status']) }}
-                                </c-badge>
-                            @elseif (strtolower($item['Vaccination Status']) === "overdue")
-                                <c-badge class="status-vaccination" type="red">
-                                    {{ ucfirst($item['Vaccination Status']) }}
-                                </c-badge>
-                            @elseif (strtolower($item['Vaccination Status']) === "pending")
-                                <c-badge class="status-vaccination" type="yellow">
-                                    {{ ucfirst($item['Vaccination Status']) }}
+                            @elseif (strtolower($child['gender']) === "female")
+                                <c-badge  type="purple">
+                                    {{ ucfirst($child['gender']) }}
                                 </c-badge>
                             @endif
 
                         </c-table.td>
-                        <c-table.td col="GN Devision">{{ $item['gs_devision'] }}</c-table.td>
+                        <c-table.td col="GN Devision">{{ ucfirst($child['gs_division']) }}</c-table.td>
                         <c-table.td class="table-actions" align="center">
                             <c-dropdown.main>
                                 <c-slot name="trigger">
@@ -178,12 +162,12 @@ $items = [
                                             <c-modal.viewitem
                                                 icon="{{ asset('assets/icons/profile.svg') }}"
                                                 title="Child ID"
-                                                info="{{ $item['id'] }}"
+                                                info="{{ $child['id'] }}"
                                             />
                                             <c-modal.viewitem
                                                 icon="{{ asset('assets/icons/baby-01.svg') }}"
                                                 title="Name"
-                                                info="{{ $item['name'] }}"
+                                                info="{{ $child['name'] }}"
                                             />
                                             <c-modal.viewitem
                                                 icon="{{ asset('assets/icons/vaccine.svg') }}"
@@ -193,40 +177,45 @@ $items = [
                                             <c-modal.viewitem
                                                 icon="{{ asset('assets/icons/chart-evaluation.svg') }}"
                                                 title="Age"
-                                                info="{{ $item['Age'] }}"
+                                                info="{{ $child['age'] }}"
                                             />
                                             <c-modal.viewitem
                                                 icon="{{ asset('assets/icons/location-05.svg') }}"
                                                 title="GS Division"
-                                                info="{{ $item['gs_devision'] }}"
+                                                info="{{ ucfirst($child['gs_division']) }}"
                                             />
                                              <c-modal.viewitem
-                                                icon="{{ asset('assets/icons/location-05.svg') }}"
-                                                title="Address"
-                                                info="N0 21,Yoak Road,Melburne"
+                                                icon="{{ asset('assets/icons/baby-01.svg') }}"
+                                                title="Gender"
+                                                info="{{ ucfirst($child['gender']) }}"
                                             />
                                         </c-modal.viewcard>
 
-                                        <div class="parent-link-group">
-                                            <div class="parent-link-card">
-                                                <div class="name-group">
-                                                    <span class="parent-title">Nicole Sanders</span>
-                                                    <span class="parent-type">Mother</span>
+                                        @if ($child['parent'])
+                                            <div class="parent-link-group">
+                                                <div class="parent-link-card">
+                                                    <div class="name-group">
+                                                        <span class="parent-title">{{ $child['parent']['name'] }}</span>
+                                                        <span class="parent-type">{{ ucfirst($child['parent']['type']) }}</span>
+                                                    </div>
+                                                    <c-badge type="green">
+                                                        Linked
+                                                    </c-badge>
                                                 </div>
-                                                <c-badge type="green">
-                                                    Linked
-                                                </c-badge>
                                             </div>
-                                            <div class="parent-link-card">
-                                                <div class="name-group">
-                                                    <span class="parent-title">John Michael</span>
-                                                    <span class="parent-type">Father</span>
+                                        @else 
+                                           <div class="parent-link-group">
+                                                <div class="parent-link-card">
+                                                    <div class="name-group">
+                                                        <span class="parent-title">None</span>
+                                                        <span class="parent-type">None</span>
+                                                    </div>
+                                                    <c-badge type="red">
+                                                        Not Linked
+                                                    </c-badge>
                                                 </div>
-                                                <c-badge type="green">
-                                                    Linked
-                                                </c-badge>
-                                            </div>
-                                        </div>
+                                            </div>    
+                                        @endif
 
                                         <c-modal.viewlist title="Medical Records">
                                             <c-slot name="list">
@@ -261,7 +250,7 @@ $items = [
                                             </c-button>
                                         </c-slot>
                                     </c-modal>
-                                    <c-modal id="edit-child-profile-{{ $key }}" size="md" :initOpen="false">
+                                    <c-modal id="edit-child-profile-{{ $key }}" size="md" :initOpen="flash('edit') === $child['id'] ? true : false">
                                         <c-slot name="trigger">
                                             <c-dropdown.item>Edit Child Profile</c-dropdown.item>
                                         </c-slot>
@@ -272,24 +261,34 @@ $items = [
                                             <div>Edit Child Profile</div>
                                         </c-slot>
 
-                                        <form id="edit-child-profile-form" class="child-form" action="">
-                                            <c-input type="text" label="Child Full Name:" placeholder="{{ $item['name'] }}"required />
-                                            <c-input type="text" label="GN Devision:" placeholder="{{ $item['gs_devision'] }}"required />
-                                            <c-input type="date" label="Date of Birth:" value="" required />
-                                            <c-textarea label="Address:" placeholder="132,1/2,Lorem street" rows="1">
-                                            </c-textarea>
-                                            <c-select label="Health Status:" default="{{ $item['Health Status'] }}">
-                                                <option class="select-item" data-value="child">Good</option>
-                                                <option class="select-item" data-value="child">Bad</option>
+                                        <form id="edit-child-profile-form-{{ $child['id'] }}" class="child-form" action="{{ route('phm.child.edit',['id'=>$child['id']]) }}" method="POST">
+                                            <c-input
+                                                type="text"
+                                                label="Child Full Name:"
+                                                name="e_name"
+                                                value="{{ flash('edit') === $child['id'] ? (old('e_name') ?? '') : $child['name'] }}"
+                                                error="{{ flash('edit') === $child['id'] ? (errors('e_name') ?? '') : '' }}"
+                                                placeholder="Enter Full Name"
+                                                required
+                                            />
+                                            <c-select label="GS Division" name="e_division" searchable="1" value="{{ flash('edit') === $child['id'] ? (old('e_division') ?? '') : $child['gs_division'] }}" error="{{ flash('edit') === $child['id'] ? (errors('e_division') ?? '') : '' }}" required>
+                                                <li class="select-item" data-value="borella">Borella</li>
+                                                <li class="select-item" data-value="dehiwala">Dehiwala</li>
+                                                <li class="select-item" data-value="morutuwa">Moratuwa</li>
+                                                <li class="select-item" data-value="ratmalana">Ratmalana</li>
+                                                <li class="select-item" data-value="wellawatta">Wellawatta</li>
                                             </c-select>
-                                            
-                                            <c-textarea label="Additional Notes:" placeholder="Nutrition Facts." rows="4"></c-textarea>
+                                            <c-input type="date" label="Date of Birth:" name="e_dob" value="{{ flash('edit') === $child['id'] ? (old('e_dob') ?? '') : $child['date_of_birth'] }}" error="{{ flash('edit') === $child['id'] ? (errors('e_dob') ?? '') : ''}}" required />
+                                            <c-select label="Gender" name="e_gender" value="{{ flash('edit') === $child['id'] ? (old('e_gender') ?? '') : $child['gender'] }}" error="{{ errors('e_gender') ?? ''}}" required>
+                                                <li class="select-item" data-value="male">Male</li>
+                                                <li class="select-item" data-value="female">Female</li>
+                                            </c-select>
                                         </form>
                                         <c-slot name="close">
                                             Close
                                         </c-slot>
                                         <c-slot name="footer">
-                                            <c-button type="button" variant="primary">
+                                            <c-button type="submit" form="edit-child-profile-form-{{ $child['id'] }}" variant="primary">
                                                 Save Changes
                                             </c-button>
                                         </c-slot>
@@ -304,15 +303,40 @@ $items = [
                                     <c-dropdown.item href="{{ route('phm.child.vaccinations',['id'=>$key,])}}">
                                         View Vaccination Records
                                     </c-dropdown.item>
+                                    <c-dropdown-sep />
+                                    <c-modal>
+                                        <c-slot name="trigger">
+                                            @if ($child['parent'])
+                                                <c-dropdown.item class="disabled-delete-btn" disabled>Delete Child Profile</c-dropdown.item>
+                                            @else
+                                                <c-dropdown.item>Delete Child Profile</c-dropdown.item>
+                                            @endif
+                                        </c-slot>
+                                        <c-slot name="header">
+                                            <div>Delete Child Profile</div>
+                                        </c-slot>
+
+                                        <p>Do you want to delete this child profile?</p>
+                                        <form id="delete-profile-{{ $child['id'] }}" class="hidden" action="{{ route('phm.child.delete',['id'=>$child['id']]) }}" method="POST">
+                                        </form>
+                                        <c-slot name="close">
+                                            Close
+                                        </c-slot>
+                                        <c-slot name="footer">
+                                            <c-button type="submit" form="delete-profile-{{ $child['id'] }}" variant="destructive">
+                                                Delete
+                                            </c-button>
+                                        </c-slot>
+                                    </c-modal>
                                 </c-slot>
                             </c-dropdown.main>
                         </c-table.td>
                     </c-table.tr>
                 @endforeach
-                @if(count($items) === 0)
+                @if(count($children) === 0)
                     <tr>
                         <td colspan="6">
-                            <div class="table-empty">No items found</div>
+                            <div class="table-empty">No childs found</div>
                         </td>
                     </tr>
                 @endif

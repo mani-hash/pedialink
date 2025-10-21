@@ -47,3 +47,8 @@
     color: var(--text-muted);
     font-weight: var(--font-weight-medium); 
 }
+
+.disabled-delete-btn {
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
