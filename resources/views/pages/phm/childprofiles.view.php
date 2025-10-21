@@ -246,7 +246,7 @@ PHM Child Profiles
                                             </c-button>
                                         </c-slot>
                                     </c-modal>
-                                    <c-modal id="edit-child-profile-{{ $key }}" size="md" :initOpen="false">
+                                    <c-modal id="edit-child-profile-{{ $key }}" size="md" :initOpen="flash('edit') === $child['id'] ? true : false">
                                         <c-slot name="trigger">
                                             <c-dropdown.item>Edit Child Profile</c-dropdown.item>
                                         </c-slot>
@@ -257,24 +257,35 @@ PHM Child Profiles
                                             <div>Edit Child Profile</div>
                                         </c-slot>
 
-                                        <form id="edit-child-profile-form" class="child-form" action="">
-                                            <c-input type="text" label="Child Full Name:" placeholder="{{ $child['name'] }}"required />
-                                            <c-input type="text" label="GN Devision:" placeholder="{{ $child['gs_division'] }}"required />
-                                            <c-input type="date" label="Date of Birth:" value="" required />
-                                            <c-textarea label="Address:" placeholder="132,1/2,Lorem street" rows="1">
-                                            </c-textarea>
-                                            <c-select label="Health Status:" default="{{ $child['Health Status'] }}">
-                                                <li class="select-item" data-value="child">Good</li>
-                                                <li class="select-item" data-value="maternal">Bad</li>
+                                        <form id="edit-child-profile-form-{{ $child['id'] }}" class="child-form" action="{{ route('phm.child.edit',['id'=>$child['id']]) }}" method="POST">
+                                            <c-input
+                                                type="text"
+                                                label="Child Full Name:"
+                                                name="e_name"
+                                                value="{{ flash('edit') === $child['id'] ? (old('e_name') ?? '') : $child['name'] }}"
+                                                error="{{ flash('edit') === $child['id'] ? (errors('e_name') ?? '') : '' }}"
+                                                placeholder="Enter Full Name"
+                                                required
+                                            />
+                                            <c-select label="GS Division" name="e_division" searchable="1" error="{{ flash('edit') === $child['id'] ? (errors('e_division') ?? '') : '' }}" required>
+                                                <li class="select-item" data-value="borella">Borella</li>
+                                                <li class="select-item" data-value="dehiwala">Dehiwala</li>
+                                                <li class="select-item" data-value="morutuwa">Moratuwa</li>
+                                                <li class="select-item" data-value="ratmalana">Ratmalana</li>
+                                                <li class="select-item" data-value="wellawatta">Wellawatta</li>
                                             </c-select>
-                                            
-                                            <c-textarea label="Additional Notes:" placeholder="Nutrition Facts." rows="4"></c-textarea>
+                                            <c-input type="date" label="Date of Birth:" name="e_dob" value="{{ flash('edit') === $child['id'] ? (old('e_dob') ?? '') : '' }}" error="{{ flash('edit') === $child['id'] ? (errors('e_dob') ?? '') : ''}}" required />
+                                            <c-select label="Gender" name="e_gender" value="{{ flash('edit') === $child['id'] ? (old('e_gender') ?? '') : '' }}" error="{{ errors('e_gender') ?? ''}}" required>
+                                                <li class="select-item" data-value="male">Male</li>
+                                                <li class="select-item" data-value="female">Female</li>
+                                            </c-select>
+                                            <c-textarea label="Additional Notes:" name="e_text" placeholder="Enter any additional notes here..." rows="4"></c-textarea>
                                         </form>
                                         <c-slot name="close">
                                             Close
                                         </c-slot>
                                         <c-slot name="footer">
-                                            <c-button type="button" variant="primary">
+                                            <c-button type="submit" form="edit-child-profile-form-{{ $child['id'] }}" variant="primary">
                                                 Save Changes
                                             </c-button>
                                         </c-slot>

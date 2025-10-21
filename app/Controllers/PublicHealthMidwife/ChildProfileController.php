@@ -52,4 +52,35 @@ class ChildProfileController
             );
 
     }
+
+    public function editChild(Request $request, int $id)
+    {
+        $name = $request->input('e_name');
+        $division = $request->input('e_division');
+        $dob = $request->input('e_dob');
+        $gender = $request->input('e_gender');
+
+        $errors = $this->childService->validateChildProfile($name, $division, $dob, $gender, true);
+
+        if (count($errors) > 0) {
+            return redirect(route('phm.child.profiles'))
+                ->withErrors($errors)
+                ->withInput([
+                    "e_name" => $name,
+                    "e_division" => $division,
+                    "e_dob" => $dob,
+                    "e_gender" => $gender,
+                ])
+                ->with("edit", $id);
+        }
+
+        $this->childService->editChildProfile($id, $name, $division, $dob, $gender);
+
+        return redirect(route('phm.child.profiles'))
+            ->withMessage(
+                "Changes successfully saved to the child profile",
+                "Success",
+                "success",
+            );   
+    }
 }

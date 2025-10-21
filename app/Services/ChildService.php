@@ -78,28 +78,29 @@ class ChildService
         return $error;
     }
 
-    public function validateChildProfile(string $name, string $division, string $dob, string $gender)
+    public function validateChildProfile(string $name, string $division, string $dob, string $gender, bool $edit = false)
     {
         $errors = [];
+        $suffix = $edit ? 'e_' : '';
 
         $nameError = $this->validateName($name);
         if ($nameError) {
-            $errors["name"] = $nameError;
+            $errors["{$suffix}name"] = $nameError;
         }
 
         $divisionError= $this->validateCommonFields($division, "GS Division");
         if ($divisionError) {
-            $errors["division"] = $divisionError;
+            $errors["{$suffix}division"] = $divisionError;
         }
 
         $dobError= $this->validateCommonFields($dob, "Date of Birth");
         if ($dobError) {
-            $errors["dob"] = $dobError;
+            $errors["{$suffix}dob"] = $dobError;
         }
 
         $genderError= $this->validateGender($gender);
         if ($genderError) {
-            $errors["gender"] = $genderError;
+            $errors["{$suffix}gender"] = $genderError;
         }
 
         return $errors;
@@ -121,5 +122,17 @@ class ChildService
         $child->gs_division = $division;
         $child->phm_id = $phmId;
         $child->save();
+    }
+
+    public function editChildProfile(int $childId, string $name, string $division, string $dob, string $gender)
+    {
+        $child = Child::find($childId);
+        if ($child) {
+            $child->name = $name;
+            $child->date_of_birth = $dob;
+            $child->gender = $gender;
+            $child->gs_division = $division;
+            $child->save();
+        }
     }
 }
