@@ -155,8 +155,7 @@ Parent Dashboard
 
             <div class="card-body">
                 <div class="chart-wrapper">
-                    <canvas id="vaccChart" height="290px"></canvas>
-
+                    <canvas id="vaccChart" height="255px"></canvas>
                 </div>
             </div>
         </c-card>
