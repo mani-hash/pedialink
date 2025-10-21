@@ -88,7 +88,6 @@ PHM Child Profiles
                     <li class="select-item" data-value="male">Male</li>
                     <li class="select-item" data-value="female">Female</li>
                 </c-select>
-                <c-textarea label="Additional Notes:" placeholder="Enter any additional notes here..." rows="4"></c-textarea>
             </form>
             <c-slot name="close">
                 Close
@@ -119,7 +118,7 @@ PHM Child Profiles
                     <c-table.tr>
                         <c-table.td col="id">{{ $child['id'] }}</c-table.td>
                         <c-table.td col="name" class="child-col">{{ $child['name'] }}</c-table.td>
-                        <c-table.td col="Age" class="child-col">3</c-table.td>
+                        <c-table.td col="Age" class="child-col">{{ $child['age'] }}</c-table.td>
                         <c-table.td col="Gender">
                             @if (strtolower($child['gender']) === "male")
                                 <c-badge type="green">
@@ -132,7 +131,7 @@ PHM Child Profiles
                             @endif
 
                         </c-table.td>
-                        <c-table.td col="GN Devision">{{ $child['gs_division'] }}</c-table.td>
+                        <c-table.td col="GN Devision">{{ ucfirst($child['gs_division']) }}</c-table.td>
                         <c-table.td class="table-actions" align="center">
                             <c-dropdown.main>
                                 <c-slot name="trigger">
@@ -178,40 +177,45 @@ PHM Child Profiles
                                             <c-modal.viewitem
                                                 icon="{{ asset('assets/icons/chart-evaluation.svg') }}"
                                                 title="Age"
-                                                info="2"
+                                                info="{{ $child['age'] }}"
                                             />
                                             <c-modal.viewitem
                                                 icon="{{ asset('assets/icons/location-05.svg') }}"
                                                 title="GS Division"
-                                                info="{{ $child['gs_division'] }}"
+                                                info="{{ ucfirst($child['gs_division']) }}"
                                             />
                                              <c-modal.viewitem
-                                                icon="{{ asset('assets/icons/location-05.svg') }}"
-                                                title="Address"
-                                                info="N0 21,Yoak Road,Melburne"
+                                                icon="{{ asset('assets/icons/baby-01.svg') }}"
+                                                title="Gender"
+                                                info="{{ ucfirst($child['gender']) }}"
                                             />
                                         </c-modal.viewcard>
 
-                                        <div class="parent-link-group">
-                                            <div class="parent-link-card">
-                                                <div class="name-group">
-                                                    <span class="parent-title">Nicole Sanders</span>
-                                                    <span class="parent-type">Mother</span>
+                                        @if ($child['parent'])
+                                            <div class="parent-link-group">
+                                                <div class="parent-link-card">
+                                                    <div class="name-group">
+                                                        <span class="parent-title">{{ $child['parent']['name'] }}</span>
+                                                        <span class="parent-type">{{ ucfirst($child['parent']['type']) }}</span>
+                                                    </div>
+                                                    <c-badge type="green">
+                                                        Linked
+                                                    </c-badge>
                                                 </div>
-                                                <c-badge type="green">
-                                                    Linked
-                                                </c-badge>
                                             </div>
-                                            <div class="parent-link-card">
-                                                <div class="name-group">
-                                                    <span class="parent-title">John Michael</span>
-                                                    <span class="parent-type">Father</span>
+                                        @else 
+                                           <div class="parent-link-group">
+                                                <div class="parent-link-card">
+                                                    <div class="name-group">
+                                                        <span class="parent-title">None</span>
+                                                        <span class="parent-type">None</span>
+                                                    </div>
+                                                    <c-badge type="red">
+                                                        Not Linked
+                                                    </c-badge>
                                                 </div>
-                                                <c-badge type="green">
-                                                    Linked
-                                                </c-badge>
-                                            </div>
-                                        </div>
+                                            </div>    
+                                        @endif
 
                                         <c-modal.viewlist title="Medical Records">
                                             <c-slot name="list">
@@ -279,7 +283,6 @@ PHM Child Profiles
                                                 <li class="select-item" data-value="male">Male</li>
                                                 <li class="select-item" data-value="female">Female</li>
                                             </c-select>
-                                            <c-textarea label="Additional Notes:" name="e_text" placeholder="Enter any additional notes here..." rows="4"></c-textarea>
                                         </form>
                                         <c-slot name="close">
                                             Close
