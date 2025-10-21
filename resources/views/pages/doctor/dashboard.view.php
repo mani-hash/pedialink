@@ -76,7 +76,7 @@ Doctor Dashboard
                     <span class="card-title">Upcoming Appoinments</span>
                     <span class="card-subtitle">Your scheduled visits to the clinic</span>
                 </div>
-                <c-button varient="secondary" size="sm">View Schedule</c-button>
+                <c-link type="secondary" href="{{ route('doctor.appointments') }}">View Schedule</c-link>
             </div>
             <hr class="divider">
             <div class="card-body">
@@ -161,7 +161,6 @@ Doctor Dashboard
                     <span class="card-title">New Health Records</span>
                     <span class="card-subtitle">Updated health records of patient</span>
                 </div>
-                <c-button varient="secondary" size="sm">View Records</c-button>
             </div>
             <hr class="divider">
             <div class="card-body">
@@ -184,9 +183,9 @@ Doctor Dashboard
                         </div>
                     </div>
                     <div class="secondary-deatails">
-                        <c-button variant="secondary">
+                        <c-link type="secondary" href="{{ route('doctor.child.health', ['id' => 1])}}">
                             View Records
-                        </c-button>
+                        </c-link>
                     </div>
                 </div>
                 <div class="row appoinment">
@@ -207,9 +206,9 @@ Doctor Dashboard
                         </div>
                     </div>
                     <div class="secondary-deatails">
-                        <c-button variant="secondary">
+                        <c-link type="secondary" href="{{ route('doctor.child.health', ['id' => 1])}}">
                             View Records
-                        </c-button>
+                        </c-link>
                     </div>
                 </div>
                 <div class="row appoinment">
@@ -230,9 +229,9 @@ Doctor Dashboard
                         </div>
                     </div>
                     <div class="secondary-deatails">
-                        <c-button variant="secondary">
+                        <c-link type="secondary" href="{{ route('doctor.child.health', ['id' => 1])}}">
                             View Records
-                        </c-button>
+                        </c-link>
                     </div>
                 </div>
                 
