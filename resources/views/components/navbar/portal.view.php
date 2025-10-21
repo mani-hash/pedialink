@@ -69,7 +69,7 @@ $notifications = auth()->user()->notifications ?? [
           <div class="row-container">
 
             @foreach($notifications as $notification)
-            <div class="row">
+            <div class="row" >
               <div class="row__left">
 
                 <div class="notification-details">
@@ -83,7 +83,7 @@ $notifications = auth()->user()->notifications ?? [
               </div>
               <div class="row__right">
 
-                <c-button varient="primary" size="sm"> Mark as Read</c-button>
+                <c-button variant="primary" size="sm"> Mark as Read</c-button>
 
 
               </div>
@@ -192,7 +192,7 @@ $notifications = auth()->user()->notifications ?? [
 
     <c-slot name="footer">
       <form action="{{ auth()->check() ? route('logout') : '#' }}" method="post">
-        <c-button variant="destructive" type="submit">Logout</c-button>
+        <c-button varient="destructive" type="submit">Logout</c-button>
       </form>
     </c-slot>
   </c-modal>
