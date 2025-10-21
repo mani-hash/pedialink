@@ -1,0 +1,10 @@
+form {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing)*5);
+}
+
+.group-datetime {
+    display: flex;
+    gap: calc(var(--spacing)*3);
+}

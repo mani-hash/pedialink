@@ -42,7 +42,7 @@ $items = [
     ['id' => 'L-123', 'name' => 'Noah Lyles', 'Age' => '4 months', 'Vaccination Status' => 'pending', 'Vaccination Date' => '2023-01-18'],
     ['id' => 'T-123', 'name' => 'Yohan Blake', 'Age' => '7 months', 'Vaccination Status' => 'Completed', 'Vaccination Date' => '2023-01-18'],
     ['id' => 'K-123', 'name' => 'Sarah sense', 'Age' => '2 months', 'Vaccination Status' => 'Completed', 'Vaccination Date' => '2023-01-19'],
-    ['id' => 'A-123', 'name' => 'Devon Ann', 'Age' => '4 months', 'Vaccination Status' => 'Over Due', 'Vaccination Date' => '2023-01-13'],
+    ['id' => 'A-123', 'name' => 'Devon Ann', 'Age' => '4 months', 'Vaccination Status' => 'Overdue', 'Vaccination Date' => '2023-01-13'],
     ['id' => 'L-123', 'name' => 'Jonathn Parker', 'Age' => '2 months', 'Vaccination Status' => 'Completed', 'Vaccination Date' => '2023-01-14'],
 ];
 ?>
@@ -159,7 +159,7 @@ $items = [
                                             <c-input type="text" label="ID:" placeholder="{{ $item['id'] }}" required />
                                             <c-input type="text" label="Name:" placeholder="{{ $item['name'] }}" required />
                                             <c-input type="text" label="Age:" placeholder="{{ $item['Age'] }}" required />
-                                            <c-select label="Vaccination Status:" name="permissions" multiple="1" searchable="1">
+                                            <c-select label="Vaccination Status:" name="permissions" searchable="1">
                                                 <li class="select-item" data-value="child">Upcoming</li>
                                                 <li class="select-item" data-value="maternal">Pending</li>
                                                 <li class="select-item" data-value="infant">Completed</li>
@@ -167,6 +167,9 @@ $items = [
                                             </c-select>
                                             <c-input type="text" label="Vaccination Date:" placeholder="{{ $item['Vaccination Date'] }}" required />
                                         </form>
+                                        <c-slot name="close">
+                                            Cancel
+                                        </c-slot>
                                         <c-slot name="footer">
                                             <c-button type="button" variant="primary" form="edit-vaccination-form" >Save
                                                 Changes</c-button>
