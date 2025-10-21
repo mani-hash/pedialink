@@ -54,7 +54,7 @@ $items = [
 ];
 ?>
 
-<c-table.controls :columns='["ID","Name","Age","Vaccination Status","GN Devision"]'>
+<c-table.controls :columns='["ID","Name","Age","Vaccination Status","GS Devision"]'>
 
     <c-slot name="filter">
         <c-button variant="outline">
@@ -83,9 +83,13 @@ $items = [
 
             <form id="add-child-form" class="child-form" action="">
                 <c-input type="text" label="Child Full Name:" placeholder="Enter Full Name" required />
-                <c-select label="GS Division" name="options" multiple="1" searchable="1" required>
+                <c-select label="GS Division" name="options" searchable="1" required>
                     <li class="select-item" data-value="option1">Borella</li>
                     <li class="select-item" data-value="option2">Dehiwala</li>
+                    <li class="select-item" data-value="option3">Moratuwa</li>
+                    <li class="select-item" data-value="option4">Ratmalana</li>
+                    <li class="select-item" data-value="option5">Wellawatta</li>
+                    <li class="select-item" data-value="option6">Other</li>
                 </c-select>
                 <c-input type="date" label="Date of Birth:" required />
                 <c-textarea label="Address:" placeholder="Enter Address" rows="4" required></c-textarea>
@@ -269,16 +273,14 @@ $items = [
                                         </c-slot>
 
                                         <form id="edit-child-profile-form" class="child-form" action="">
-                                            <c-input type="text" label="Child Full Name:" placeholder="{{ $item['name'] }}"
-                                                required />
-                                            <c-input type="text" label="GN Devision:" placeholder="{{ $item['gs_devision'] }}"
-                                                required />
+                                            <c-input type="text" label="Child Full Name:" placeholder="{{ $item['name'] }}"required />
+                                            <c-input type="text" label="GN Devision:" placeholder="{{ $item['gs_devision'] }}"required />
                                             <c-input type="date" label="Date of Birth:" value="" required />
                                             <c-textarea label="Address:" placeholder="132,1/2,Lorem street" rows="1">
                                             </c-textarea>
-                                            <c-select label="Health Status:" multiple="1" default="{{ $item['Health Status'] }}">
+                                            <c-select label="Health Status:" default="{{ $item['Health Status'] }}">
                                                 <option class="select-item" data-value="child">Good</option>
-                                                <option class="select-item" data-value="child">Crtical</option>
+                                                <option class="select-item" data-value="child">Bad</option>
                                             </c-select>
                                             
                                             <c-textarea label="Additional Notes:" placeholder="Nutrition Facts." rows="4"></c-textarea>
@@ -299,7 +301,7 @@ $items = [
                                     <c-dropdown.item href="{{ route('phm.child.health.records',['id'=>$key,])}}">
                                         View Health Records
                                     </c-dropdown.item>
-                                    <c-dropdown.item href="{{ route('phm.vaccination',['id'=>$key,])}}">
+                                    <c-dropdown.item href="{{ route('phm.child.vaccinations',['id'=>$key,])}}">
                                         View Vaccination Records
                                     </c-dropdown.item>
                                 </c-slot>
