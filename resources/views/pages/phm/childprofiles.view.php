@@ -271,15 +271,15 @@ PHM Child Profiles
                                                 placeholder="Enter Full Name"
                                                 required
                                             />
-                                            <c-select label="GS Division" name="e_division" searchable="1" error="{{ flash('edit') === $child['id'] ? (errors('e_division') ?? '') : '' }}" required>
+                                            <c-select label="GS Division" name="e_division" searchable="1" value="{{ flash('edit') === $child['id'] ? (old('e_division') ?? '') : $child['gs_division'] }}" error="{{ flash('edit') === $child['id'] ? (errors('e_division') ?? '') : '' }}" required>
                                                 <li class="select-item" data-value="borella">Borella</li>
                                                 <li class="select-item" data-value="dehiwala">Dehiwala</li>
                                                 <li class="select-item" data-value="morutuwa">Moratuwa</li>
                                                 <li class="select-item" data-value="ratmalana">Ratmalana</li>
                                                 <li class="select-item" data-value="wellawatta">Wellawatta</li>
                                             </c-select>
-                                            <c-input type="date" label="Date of Birth:" name="e_dob" value="{{ flash('edit') === $child['id'] ? (old('e_dob') ?? '') : '' }}" error="{{ flash('edit') === $child['id'] ? (errors('e_dob') ?? '') : ''}}" required />
-                                            <c-select label="Gender" name="e_gender" value="{{ flash('edit') === $child['id'] ? (old('e_gender') ?? '') : '' }}" error="{{ errors('e_gender') ?? ''}}" required>
+                                            <c-input type="date" label="Date of Birth:" name="e_dob" value="{{ flash('edit') === $child['id'] ? (old('e_dob') ?? '') : $child['date_of_birth'] }}" error="{{ flash('edit') === $child['id'] ? (errors('e_dob') ?? '') : ''}}" required />
+                                            <c-select label="Gender" name="e_gender" value="{{ flash('edit') === $child['id'] ? (old('e_gender') ?? '') : $child['gender'] }}" error="{{ errors('e_gender') ?? ''}}" required>
                                                 <li class="select-item" data-value="male">Male</li>
                                                 <li class="select-item" data-value="female">Female</li>
                                             </c-select>
