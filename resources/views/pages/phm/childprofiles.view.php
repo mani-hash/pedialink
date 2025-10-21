@@ -303,6 +303,31 @@ PHM Child Profiles
                                     <c-dropdown.item href="{{ route('phm.child.vaccinations',['id'=>$key,])}}">
                                         View Vaccination Records
                                     </c-dropdown.item>
+                                    <c-dropdown-sep />
+                                    <c-modal>
+                                        <c-slot name="trigger">
+                                            @if ($child['parent'])
+                                                <c-dropdown.item class="disabled-delete-btn" disabled>Delete Child Profile</c-dropdown.item>
+                                            @else
+                                                <c-dropdown.item>Delete Child Profile</c-dropdown.item>
+                                            @endif
+                                        </c-slot>
+                                        <c-slot name="header">
+                                            <div>Delete Child Profile</div>
+                                        </c-slot>
+
+                                        <p>Do you want to delete this child profile?</p>
+                                        <form id="delete-profile-{{ $child['id'] }}" class="hidden" action="{{ route('phm.child.delete',['id'=>$child['id']]) }}" method="POST">
+                                        </form>
+                                        <c-slot name="close">
+                                            Close
+                                        </c-slot>
+                                        <c-slot name="footer">
+                                            <c-button type="submit" form="delete-profile-{{ $child['id'] }}" variant="destructive">
+                                                Delete
+                                            </c-button>
+                                        </c-slot>
+                                    </c-modal>
                                 </c-slot>
                             </c-dropdown.main>
                         </c-table.td>
