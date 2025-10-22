@@ -92,7 +92,7 @@ Maternal Profiles - Overview
             </c-slot>
 
             <form id="request-maternal-form" class="maternal-form" action="">
-                <c-select label="Child Profile" name="options" searchable="1" placeholder="Select Mother" required>
+                <c-select label="Maternal Profile" name="options" searchable="1" placeholder="Select Mother" required>
                     <li class="select-item" data-value="option1">Mother Sara</li>
                     <li class="select-item" data-value="option2">Mother Nancy</li>
                 </c-select>
