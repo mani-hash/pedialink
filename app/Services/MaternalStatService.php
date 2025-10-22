@@ -36,7 +36,6 @@ class MaternalStatService
     public function getMaternalStatByMaternalId($id)
     {
         $maternalStats = MaternalStat::query()->where('maternal_id', '=', $id)->get();
-        $healthStatus = Maternal::query()->where('id', '=', $id)->first()->health_status;
         $resource = [];
         foreach ($maternalStats as $stat) {
             $resource[] = [
@@ -49,7 +48,7 @@ class MaternalStatService
                 'height' => $stat->height,
                 'blood_sugar' => $stat->blood_sugar,
                 'blood_pressure' => $stat->blood_pressure,
-                'health_status' => $healthStatus,
+                'health_status' => $stat->health_status,
                 'fundal_height' => $stat->fundal_height,
                 'notes' => json_decode($stat->notes),
             ];
@@ -62,7 +61,7 @@ class MaternalStatService
     {
 
         $error = null;
-        if (Validator::validateFieldExistence($data)) {
+        if (!Validator::validateFieldExistence($data)) {
             $error = "$attributeName can not be empty";
             return $error;
         }
@@ -79,7 +78,7 @@ class MaternalStatService
     public function validateCommonFields($data, $attributeName)
     {
         $error = null;
-        if (Validator::validateFieldExistence($data)) {
+        if (!Validator::validateFieldExistence($data)) {
             $error = "$attributeName can not be empty";
             return $error;
         }
@@ -106,53 +105,57 @@ class MaternalStatService
 
 
 
-    public function validateMaternalStatData($recordedAt, $bmi, $bloodPressure, $bloodSugar, $weight, $height, $fundalHeight, $healthStatus, $prenacyStage, $notes)
+    public function validateMaternalStatData($recordedAt, $bmi, $bloodPressure, $bloodSugar, $weight, $height, $fundalHeight, $healthStatus, $prenacyStage, $edit = false)
     {
+        $errorSuffix = '';
+        if ($edit) {
+            $errorSuffix = 'e_';
+        }
         $errors = [];
 
         $recordedAtError = $this->validateDate($recordedAt);
         if ($recordedAtError) {
-            $errors["recordedAt"] = $recordedAtError;
+            $errors["{$errorSuffix}recorded_at"] = $recordedAtError;
         }
 
         $bmiError = $this->validateNumericStat($bmi, "BMI");
         if ($bmiError) {
-            $errors["bmi"] = $bmiError;
+            $errors["{$errorSuffix}bmi"] = $bmiError;
         }
 
         $bloodPressureError = $this->validateNumericStat($bloodPressure, "Blood Pressure");
         if ($bloodPressureError) {
-            $errors["bloodPressure"] = $bloodPressureError;
+            $errors["{$errorSuffix}blood_pressure"] = $bloodPressureError;
         }
 
         $bloodSugarError = $this->validateNumericStat($bloodSugar, "Blood Sugar");
         if ($bloodSugarError) {
-            $errors["bloodSugar"] = $bloodSugarError;
+            $errors["{$errorSuffix}blood_sugar"] = $bloodSugarError;
         }
 
         $weightError = $this->validateNumericStat($weight, "Weight");
         if ($weightError) {
-            $errors["weight"] = $weightError;
+            $errors["{$errorSuffix}weight"] = $weightError;
         }
 
         $heightError = $this->validateNumericStat($height, "Height");
         if ($heightError) {
-            $errors["height"] = $heightError;
+            $errors["{$errorSuffix}height"] = $heightError;
         }
 
         $fundalHeightError = $this->validateNumericStat($fundalHeight, "Fundal Height");
         if ($fundalHeightError) {
-            $errors["fundalHeight"] = $fundalHeightError;
+            $errors["{$errorSuffix}fundal_height"] = $fundalHeightError;
         }
 
         $healthStatusError = $this->validateCommonFields($healthStatus, "Health Status");
         if ($healthStatusError) {
-            $errors["healthStatus"] = $healthStatusError;
+            $errors["{$errorSuffix}health_status"] = $healthStatusError;
         }
 
         $prenacyStageError = $this->validateCommonFields($prenacyStage, "Pregnancy Stage");
         if ($prenacyStageError) {
-            $errors["prenacyStage"] = $prenacyStageError;
+            $errors["{$errorSuffix}pregnancy_stage"] = $prenacyStageError;
         }
 
 
@@ -177,7 +180,7 @@ class MaternalStatService
         
         $maternalStat = new MaternalStat();
         $maternalStat->maternal_id = $maternalId;
-        $maternalStat->recorded_at = $recordedAt;
+        $maternalStat->visit_date = $recordedAt;
         $maternalStat->bmi = $bmi;
         $maternalStat->blood_pressure = $bloodPressure;
         $maternalStat->blood_sugar = $bloodSugar;
@@ -185,7 +188,7 @@ class MaternalStatService
         $maternalStat->height = $height;
         $maternalStat->fundal_height = $fundalHeight;
         $maternalStat->health_status = $healthStatus;
-        $maternalStat->pregnancy_stage = $prenacyStage;
+        $maternalStat->trimester= $prenacyStage;
         $maternalStat->notes = $this->formatNotes($notes);
 
         $maternalStat->save();
@@ -208,7 +211,7 @@ class MaternalStatService
         $maternalStat->height = $height;
         $maternalStat->fundal_height = $fundalHeight;
         $maternalStat->health_status = $healthStatus;
-        $maternalStat->pregnancy_stage = $prenacyStage;
+        $maternalStat->trimester = $prenacyStage;
         $maternalStat->notes = $this->formatNotes($notes);
 
         $maternalStat->save();

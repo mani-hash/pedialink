@@ -40,7 +40,7 @@ Health Records
 <c-table.controls :columns='["Recorded at","BMI","Blood Pressure","Blood Sugar","Health Status"]'>
 
     <c-slot name="extrabtn">
-        <c-modal id="add-heath-record-modal" size="sm" :initOpen="false">
+        <c-modal id="add-heath-record-modal" size="md" :initOpen="flash('create') ? true : false">
             <c-slot name="trigger">
                 <c-button variant="primary">
                     Add Record
@@ -56,12 +56,23 @@ Health Records
             </c-slot>
 
             <form id="add-health-record-form" class="maternal-health-form"
-                action="{{ route('doctor.maternal.health.add',['id'=>$item['maternal_id']]) }}" method="POST">
+                action="{{ route('doctor.maternal.health.add',['id'=>$maternalId]) }}" method="POST">
 
-                <c-input type="date" name="recorded_at" label="Recorded at:" placeholder="Enter Recorded Date" error="{{ errors('recorded_at') ?? '' }}" value="{{ old('recorded_at')??'' }}" />
+                <c-input
+                    type="date"
+                    name="recorded_at" 
+                    label="Recorded at:"
+                    placeholder="Enter Recorded Date"
+                    error="{{ errors('recorded_at') ?? '' }}"
+                    value="{{ old('recorded_at')??'' }}"
+                />
                 <c-input type="text" name="bmi" label="BMI:" placeholder="Enter BMI of the Mother" error="{{ errors('bmi') ?? '' }}" value="{{ old('bmi')??'' }}" />
-                <c-input type="text" name="blood_pressure" label="Blood Pressure:" placeholder="Enter Blood Pressure of the Mother (in mmHg)"
-                     error="{{ errors('blood_pressure') ?? '' }}" value="{{ old('blood_pressure')??'' }}" />
+                <c-input
+                    type="text"
+                    name="blood_pressure"
+                    label="Blood Pressure:"
+                    placeholder="Enter Blood Pressure of the Mother (in mmHg)"
+                    error="{{ errors('blood_pressure') ?? '' }}" value="{{ old('blood_pressure')??'' }}" />
                 <c-input type="text" name="blood_sugar" label="Blood Sugar:" placeholder="Enter Blood Sugar of the Mother (in mg/dL )"
                      error="{{ errors('blood_sugar') ?? '' }}" value="{{ old('blood_sugar')??'' }}" />
                 <c-input type="text" name="weight" label="Weight:" placeholder="Enter Weight of the Mother (in kg)"
@@ -190,7 +201,7 @@ Health Records
                                     </c-slot>
 
                                 </c-modal>
-                                <c-modal id="edit-health-record-{{ $key }}" size="sm" :initOpen="false">
+                                <c-modal id="edit-health-record-{{ $key }}" size="sm" :initOpen="flash('edit') === $item['id'] ? true : false">
                                     <c-slot name="trigger">
                                         <c-dropdown.item>Edit Health Records</c-dropdown.item>
                                     </c-slot>
@@ -203,18 +214,18 @@ Health Records
                                         <div>Edit Health Records</div>
                                     </c-slot>
 
-                                    <form id="edit-health-record-form" class="maternal-health-form" action="{{ route('doctor.maternal.health.edit',['id'=>$item['maternal_id'],'recordId'=>$item['id']]) }}" method="POST">
+                                    <form id="edit-health-record-form" class="maternal-health-form" action="{{ route('doctor.maternal.health.edit',['id'=>$maternalId,'recordId'=>$item['id']]) }}" method="POST">
                                         <c-input type="text" label="Recorded at:"
                                             name="recorded_at"  />
-                                        <c-input type="text" label="BMI:" name="bmi"     />
+                                        <c-input type="text" label="BMI:" name="bmi" error="{{ errors('e_bmi') ?? '' }}" value="{{ old('e_bmi')??'' }}"    />
                                         <c-input type="text" label="Blood Pressure:" name="blood_pressure"
-                                            error="{{ errors('blood_pressure') ?? '' }}" value="{{ old('blood_pressure')??'' }}" />
-                                        <c-input type="text" label="Blood Sugar:" name="blood_sugar"/>
-                                        <c-input type="text" label="Weight:" name="weight" />
-                                        <c-input type="text" label="Height:" name="height" />
-                                        <c-input type="text" label="Fundal Height:" name="fundal_height" />
-                                        <c-input type="text" label="Health Status:" name="health_status" />
-                                        <c-select label="Health Status" multiple="1" Default="{{ $item['Health Status'] }}" >
+                                            error="{{ errors('e_blood_pressure') ?? '' }}" value="{{ old('e_blood_pressure')??'' }}" />
+                                        <c-input type="text" label="Blood Sugar:" name="blood_sugar" error="{{ errors('e_blood_sugar') ?? '' }}" value="{{ old('e_blood_sugar')??'' }}" />
+                                        <c-input type="text" label="Weight:" name="weight" error="{{ errors('e_weight') ?? '' }}" value="{{ old('e_weight')??'' }}" />
+                                        <c-input type="text" label="Height:" name="height" error="{{ errors('e_height') ?? '' }}" value="{{ old('e_height')??'' }}" />
+                                        <c-input type="text" label="Fundal Height:" name="fundal_height" error="{{ errors('e_fundal_height') ?? '' }}" value="{{ old('e_fundal_height')??'' }}" />
+                                        <c-input type="text" label="Health Status:" name="health_status" error="{{ errors('e_health_status') ?? '' }}" value="{{ old('e_health_status')??'' }}" />
+                                        <c-select label="Health Status" multiple="1" Default="{{ $item['Health Status'] }}" error="{{ errors('e_health_status') ?? '' }}" value="{{ old('e_health_status')??'' }}" >
                                             <option class="select-item" data-value="good">Good</option>
                                             <option class="select-item" data-value="bad">Bad</option>
                                         </c-select>

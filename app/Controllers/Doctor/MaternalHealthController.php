@@ -19,6 +19,7 @@ class MaternalHealthController
 
         $maternalStats = $this->maternalStatService->getMaternalStatByMaternalId($id);
         return view("doctor/maternalhealth", [
+            'maternalId' => $id,
             "items" => $maternalStats
         ]);
     }
@@ -27,25 +28,32 @@ class MaternalHealthController
     {
 
         $maternalId = $id;
-        $recordedAt = $request->input('recoded_at');
+        $recordedAt = $request->input('recorded_at');
         $bmi = $request->input('bmi');
         $bloodPressure = $request->input('blood_pressure');
         $bloodSugar = $request->input('blood_sugar');
         $weight = $request->input('weight');
         $height = $request->input('height');
         $fundalHeight = $request->input('fundal_height');
-        $healthStatus = $request->input('health_request');
+        $healthStatus = $request->input('health_status');
         $pregnancyStage = $request->input('pregnancy_stage');
         $notes = $request->input('notes');
 
-        $errors = $this->maternalStatService->validateMaternalStatData($recordedAt, $bmi, $bloodPressure, $bloodSugar, $weight, $height, $fundalHeight, $healthStatus, $pregnancyStage, $notes);
+        $errors = $this->maternalStatService->validateMaternalStatData($recordedAt, $bmi, $bloodPressure, $bloodSugar, $weight, $height, $fundalHeight, $healthStatus, $pregnancyStage);
 
         if (count($errors) !== 0) {
             return redirect(route("doctor.maternal.health", ["id" => $id]))
                 ->withInput([
                     "recorded_at" => $recordedAt,
-                    "bmi" => $bmi
-
+                    "bmi" => $bmi,
+                    "blood_pressure" => $bloodPressure,
+                    "blood_sugar" => $bloodSugar,
+                    "health_status" => $healthStatus,
+                    "weight" => $weight,
+                    "height" => $height,
+                    "fundal_height" => $fundalHeight,
+                    "pregnancy_stage" => $pregnancyStage,
+                    "notes" => $notes
                 ])
                 ->withErrors($errors)
                 ->with("create", true);
@@ -62,10 +70,66 @@ class MaternalHealthController
                 "success",
             );
 
-
-
-
-
-
     }
+
+
+    public function editMaternalRecord(Request $request, $id, $recordId)
+    {
+
+        $maternalStatId = $recordId;
+        $recordedAt = $request->input('recorded_at');
+        $bmi = $request->input('bmi');
+        $bloodPressure = $request->input('blood_pressure');
+        $bloodSugar = $request->input('blood_sugar');
+        $weight = $request->input('weight');
+        $height = $request->input('height');
+        $fundalHeight = $request->input('fundal_height');
+        $healthStatus = $request->input('health_status');
+        $pregnancyStage = $request->input('pregnancy_stage');
+        $notes = $request->input('notes');
+
+        $errors = $this->maternalStatService->validateMaternalStatData($recordedAt, $bmi, $bloodPressure, $bloodSugar, $weight, $height, $fundalHeight, $healthStatus, $pregnancyStage, true);
+
+        if (count($errors) !== 0) {
+            return redirect(route("doctor.maternal.health", ["id" => $id]))
+                ->withInput([
+                    "e_recorded_at" => $recordedAt,
+                    "e_bmi" => $bmi,
+                    "e_blood_pressure" => $bloodPressure,
+                    "e_blood_sugar" => $bloodSugar,
+                    "e_health_status" => $healthStatus,
+                    "e_weight" => $weight,
+                    "e_height" => $height,
+                    "e_fundal_height" => $fundalHeight,
+                    "e_pregnancy_stage" => $pregnancyStage,
+                    "e_notes" => $notes
+                ])
+                ->withErrors($errors)
+                ->with("edit", $maternalStatId);
+        }
+
+        $this->maternalStatService->editMaternalStat($maternalStatId, $recordedAt, $bmi, $bloodPressure, $bloodSugar, $weight, $height, $fundalHeight, $healthStatus, $pregnancyStage, $notes);
+        return redirect(route("doctor.maternal.health", ["id" => $id]))
+            ->withMessage(
+                "Health record was successfully updated",
+                "Health Record Updated",
+                "success",
+            );
+    }
+
+
+    public function deleteMaternalRecord(Request $request, $id, $recordId)
+    {
+
+        $this->maternalStatService->deleteMaternalStat($recordId);
+
+        return redirect(route("doctor.maternal.health", ["id" => $id]))
+            ->withMessage(
+                "Health record was successfully deleted",
+                "Health Record Deleted",
+                "error",
+            );
+    }
+
+
 }
