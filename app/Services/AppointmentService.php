@@ -68,7 +68,12 @@ class AppointmentService
                 $patientName = 'Unknown Patient';
             }
 
-            $staffName = User::query()->where('id', '=', $appointment->staff_id)->first()->name;
+            $staff = User::query()->where('id', '=', $appointment->doctor_id)->first();
+            if ($staff) {
+                $staffName = $staff->name;
+            } else {
+                $staffName = 'Not Assigned';
+            }
 
             $time = date('H:i', strtotime($appointment->datetime));
             $date = date('Y-m-d', strtotime($appointment->datetime));
@@ -217,7 +222,7 @@ class AppointmentService
         return $error;
     }
 
-    public function validateAppointment($patient, $staff, $date, $time)
+    public function validateAppointment($patient, $date, $time)
     {
 
         $errors = [];
@@ -230,11 +235,6 @@ class AppointmentService
         $timeError = $this->validateTime($time);
         if ($timeError) {
             $errors["time"] = $timeError;
-        }
-
-        $staffError = $this->validateStaff($staff);
-        if ($staffError) {
-            $errors["staff"] = $staffError;
         }
 
         $patientError = $this->validatePatient($patient);
@@ -276,32 +276,52 @@ class AppointmentService
         return json_encode($notesArray, JSON_UNESCAPED_UNICODE);
     }
 
-    public function createAppointment($patient, $staff, $date, $time, $location, $purpose, $notes)
+    public function createAppointment($patient, $date, $time, $location, $purpose, $notes)
     {
 
-        $appointmentDateTime = $date . ' ' . $time;
+        // $patientType = Patient::query()->where('id', '=', $patient)->first()->type;
 
-        $appointment = new Appointment();
-        $appointment->patient_id = $patient;
-        $appointment->staff_id = $staff;
-        $appointment->location = $location;
-        $appointment->status = "confirmed";
-        $appointment->requested_by = "staff";
-        $appointment->datetime = $appointmentDateTime;
-        $appointment->purpose = $purpose;
-        $appointment->notes = $this->formatNotes($notes);
-        $appointment->save();
+        // $phmId = null;
+
+        // if ($patientType === 'maternal') {
+        //     $phmId = Maternal::query()->where('id', '=', $patient)->first()->phm_id;
+        // } else {
+        //     $phmId = Child::query()->where('id', '=', $patient)->first()->phm_id;
+        // }
+
+        // $appointmentDateTime = $date . ' ' . $time;
+
+        // $appointment = new Appointment();
+        // $appointment->patient_id = $patient;
+        // $appointment->phm_id = $phmId;
+        // $appointment->location = $location;
+        // $appointment->status = "confirmed";
+        // $appointment->requested_by = "staff";
+        // $appointment->datetime = $appointmentDateTime;
+        // $appointment->purpose = $purpose;
+        // $appointment->notes = $this->formatNotes($notes);
+        // $appointment->save();
 
     }
 
-    public function requestAppointment($patient, $staff, $date, $time, $purpose, $notes)
+    public function requestAppointment($patient, $date, $time, $purpose, $notes)
     {
 
+
+         $patientType = Patient::query()->where('id', '=', $patient)->first()->type;
+
+        $phmId = null;
+
+        if ($patientType === 'maternal') {
+            $phmId = Maternal::query()->where('id', '=', $patient)->first()->phm_id;
+        } else {
+            $phmId = Child::query()->where('id', '=', $patient)->first()->phm_id;
+        }
         $appointmentDateTime = $date . ' ' . $time;
 
         $appointment = new Appointment();
         $appointment->patient_id = $patient;
-        $appointment->staff_id = $staff;
+        $appointment->phm_id = $phmId;
         $appointment->requested_by = "parent";
         $appointment->datetime = $appointmentDateTime;
         $appointment->purpose = $purpose;
