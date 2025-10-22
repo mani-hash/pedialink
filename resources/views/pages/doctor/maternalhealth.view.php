@@ -58,7 +58,7 @@ Health Records
             <form id="add-health-record-form" class="maternal-health-form"
                 action="{{ route('doctor.maternal.health.add',['id'=>$maternalId]) }}" method="POST">
 
-                <c-input type="date" name="recorded_at" label="Recorded at:" placeholder="Enter Recorded Date"
+                <c-input type="date" name="recorded_at" label="Visited at:" placeholder="Enter Recorded Date"
                     error="{{ errors('recorded_at') ?? '' }}" value="{{ old('recorded_at')??'' }}" />
                 <c-input type="text" name="bmi" label="BMI:" placeholder="Enter BMI of the Mother"
                     error="{{ errors('bmi') ?? '' }}" value="{{ old('bmi')??'' }}" />
@@ -104,7 +104,7 @@ Health Records
         <c-table.main sticky="1" size="comfortable">
             <c-table.thead>
                 <c-table.tr>
-                    <c-table.th sortable="1">Recorded at</c-table.th>
+                    <c-table.th sortable="1">Visited at</c-table.th>
                     <c-table.th sortable="1">BMI</c-table.th>
                     <c-table.th sortable="1">Blood Pressure</c-table.th>
                     <c-table.th align="left" sortable="1"> Blood Sugar</c-table.th>
@@ -116,7 +116,7 @@ Health Records
             <c-table.tbody>
                 @foreach ($items as $key=>$item)
                 <c-table.tr>
-                    <c-table.td col="Recorded at">{{ $item['visit_date'] }}</c-table.td>
+                    <c-table.td col="visited_at">{{ $item['visit_date'] }}</c-table.td>
                     <c-table.td col="BMI">{{ $item['bmi'] }}</c-table.td>
                     <c-table.td col="Blood Pressure">{{ $item['blood_pressure'] }}</c-table.td>
                     <c-table.td col="Blood Sugar">{{ $item['blood_sugar'] }}</c-table.td>
@@ -160,7 +160,7 @@ Health Records
                                         <c-modal.viewitem icon="{{ asset('assets/icons/profile.svg') }}"
                                             title="Record ID" info="{{ $item['id'] }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/calendar-02.svg') }}"
-                                            title="Recorded At" info="{{ $item['visit_date'] }}" />
+                                            title="Visited At" info="{{ $item['visit_date'] }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/ruler.svg') }}" title="Height"
                                             info="{{ $item['height'] }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/body-weight.svg') }}"
@@ -217,7 +217,7 @@ Health Records
                                         <c-input
                                             type="date"
                                             name="e_recorded_at"
-                                            label="Recorded at:"
+                                            label="Visited at:"
                                             placeholder="Enter Recorded Date"
                                             error="{{ flash('edit') === $item['id'] ? (errors('e_recorded_at') ?? '') : '' }}"
                                             value="{{ flash('edit') === $item['id'] ? (old('e_recorded_at') ?? '') : $item['visit_date'] }}"
