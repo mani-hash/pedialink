@@ -44,11 +44,11 @@ $menuItems = [
                     ['name' => 'Access Requests', 'link' => route('admin.maternal.access.requests')],
                 ]
             ],
-            [
-                'name' => 'Role & Permissions',
-                'link' => '#',
-                'icon' => asset('/assets/icons/user-unlock-01.svg'),
-            ],
+            // [
+            //     'name' => 'Role & Permissions',
+            //     'link' => '#',
+            //     'icon' => asset('/assets/icons/user-unlock-01.svg'),
+            // ],
             [
                 'name' => 'Vaccination',
                 'link' => '#',
@@ -68,11 +68,11 @@ $menuItems = [
                 'link' => route('admin.event'),
                 'icon' => asset('/assets/icons/megaphone-02.svg'),
             ],
-            [
-                'name' => 'Communication',
-                'link' => '#',
-                'icon' => asset('/assets/icons/user-unlock-01.svg'),
-            ],
+            // [
+            //     'name' => 'Communication',
+            //     'link' => '#',
+            //     'icon' => asset('/assets/icons/user-unlock-01.svg'),
+            // ],
         ],
         'Settings' => [
             [
@@ -80,11 +80,11 @@ $menuItems = [
                 'link' => route('admin.notification'),
                 'icon' => asset('/assets/icons/notification-02.svg'),
             ],
-            [
-                'name' => 'System Configuration',
-                'link' => '#',
-                'icon' => asset('/assets/icons/configuration-02.svg'),
-            ],
+            // [
+            //     'name' => 'System Configuration',
+            //     'link' => '#',
+            //     'icon' => asset('/assets/icons/configuration-02.svg'),
+            // ],
             [
                 'name' => 'Settings',
                 'link' => route('admin.settings'),
@@ -276,7 +276,7 @@ function isCurrentParentItemOpen(array $item)
 <div class="sidebar <?= $class ?>">
 
     <div class="sidebar-header">
-        <img src="{{asset('assets/logo.png')}}" alt="">
+        <a href="{{ route('home') }}"><img src="{{asset('assets/logo.png')}}" alt=""></a>
     </div>
 
 
