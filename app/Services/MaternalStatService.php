@@ -203,7 +203,7 @@ class MaternalStatService
             throw new \Exception("MaternalStat not found");
         }
 
-        $maternalStat->recorded_at = $recordedAt;
+        $maternalStat->visit_date = $recordedAt;
         $maternalStat->bmi = $bmi;
         $maternalStat->blood_pressure = $bloodPressure;
         $maternalStat->blood_sugar = $bloodSugar;

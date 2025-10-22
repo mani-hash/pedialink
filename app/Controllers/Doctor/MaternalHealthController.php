@@ -73,20 +73,20 @@ class MaternalHealthController
     }
 
 
-    public function editMaternalRecord(Request $request, $id, $recordId)
+    public function editMaternalRecord(Request $request,int $id,int $recordId)
     {
 
         $maternalStatId = $recordId;
-        $recordedAt = $request->input('recorded_at');
-        $bmi = $request->input('bmi');
-        $bloodPressure = $request->input('blood_pressure');
-        $bloodSugar = $request->input('blood_sugar');
-        $weight = $request->input('weight');
-        $height = $request->input('height');
-        $fundalHeight = $request->input('fundal_height');
-        $healthStatus = $request->input('health_status');
-        $pregnancyStage = $request->input('pregnancy_stage');
-        $notes = $request->input('notes');
+        $recordedAt = $request->input('e_recorded_at');
+        $bmi = $request->input('e_bmi');
+        $bloodPressure = $request->input('e_blood_pressure');
+        $bloodSugar = $request->input('e_blood_sugar');
+        $weight = $request->input('e_weight');
+        $height = $request->input('e_height');
+        $fundalHeight = $request->input('e_fundal_height');
+        $healthStatus = $request->input('e_health_status');
+        $pregnancyStage = $request->input('e_pregnancy_stage');
+        $notes = $request->input('e_notes');
 
         $errors = $this->maternalStatService->validateMaternalStatData($recordedAt, $bmi, $bloodPressure, $bloodSugar, $weight, $height, $fundalHeight, $healthStatus, $pregnancyStage, true);
 

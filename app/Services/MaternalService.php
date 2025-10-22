@@ -46,7 +46,7 @@ class MaternalService
     }
 
     public function getDoctorMaternalDetails()
-    {//
+    {
 
 
         $maternals = $this->getAllMaternal();
