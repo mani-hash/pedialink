@@ -1,7 +1,7 @@
 @extends('layout/portal')
 
 @section('title')
-Parent - Nutrition Tracking
+Parent - Growth Tracking
 @endsection
 
 @section('css')
@@ -26,7 +26,7 @@ Parent - Nutrition Tracking
             stroke="#18181B" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
 
-    <span>Nutrition Tracking</span>
+    <span>Growth Tracking</span>
 </div>
 @endsection
 
