@@ -56,13 +56,14 @@ class AppointmentService
             $parentName = User::query()->where('id', '=', $parentId)->first()->name;
             $maternal = Maternal::query()->where('id', '=', $appointment->patient_id)->first();
             $child = Child::query()->where('id', '=', $appointment->patient_id)->first();
+            $childName = $child ? $child->name : null;
 
             $patientName = null;
 
             if ($maternal) {
                 $patientName = $parentName;
-            } elseif ($child) {
-                $patientName = trim(($child->first_name ?? '') . ' ' . ($child->last_name ?? ''));
+            } elseif ($childName) {
+                $patientName = $childName;
             } else {
                 $patientName = 'Unknown Patient';
             }
