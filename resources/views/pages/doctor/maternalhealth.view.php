@@ -203,7 +203,7 @@ Health Records
                                         <div>Edit Health Records</div>
                                     </c-slot>
 
-                                    <form id="edit-health-record-form" class="maternal-health-form" action="{{ route('doctor.maternal.health.edit',['id'=>$item['maternal_id']]) }}" method="POST">
+                                    <form id="edit-health-record-form" class="maternal-health-form" action="{{ route('doctor.maternal.health.edit',['id'=>$item['maternal_id'],'recordId'=>$item['id']]) }}" method="POST">
                                         <c-input type="text" label="Recorded at:"
                                             name="recorded_at"  />
                                         <c-input type="text" label="BMI:" name="bmi"     />
