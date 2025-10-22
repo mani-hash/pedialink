@@ -214,42 +214,73 @@ Health Records
                                     <form id="edit-health-record-form-{{ $key }}" class="maternal-health-form"
                                         action="{{ route('doctor.maternal.health.edit',['id'=>$maternalId,'recordId'=>$item['id']]) }}"
                                         method="POST">
-                                        <c-input type="date" name="e_recorded_at" label="Recorded at:"
+                                        <c-input
+                                            type="date"
+                                            name="e_recorded_at"
+                                            label="Recorded at:"
                                             placeholder="Enter Recorded Date"
-                                            error="{{ errors('e_recorded_at') ?? '' }}"
-                                            value="{{ old('e_recorded_at')?? $item['visit_date'] }}" />
-                                        <c-input type="text" name="e_bmi" label="BMI:"
-                                            placeholder="Enter BMI of the Mother" error="{{ errors('e_bmi') ?? '' }}"
-                                            value="{{ old('e_bmi')?? $item['bmi'] }}" />
-                                        <c-input type="text" name="e_blood_pressure" label="Blood Pressure:"
+                                            error="{{ flash('edit') === $item['id'] ? (errors('e_recorded_at') ?? '') : '' }}"
+                                            value="{{ flash('edit') === $item['id'] ? (old('e_recorded_at') ?? '') : $item['visit_date'] }}"
+                                        />
+                                        <c-input
+                                            type="text"
+                                            name="e_bmi"
+                                            label="BMI:"
+                                            placeholder="Enter BMI of the Mother" error="{{ flash('edit') === $item['id'] ? (errors('e_bmi') ?? '') : '' }}"
+                                            value="{{ flash('edit') === $item['id'] ? (old('e_bmi') ?? '') : $item['bmi'] }}" />
+                                        <c-input
+                                            type="text"
+                                            name="e_blood_pressure"
+                                            label="Blood Pressure:"
                                             placeholder="Enter Blood Pressure of the Mother (in mmHg)"
-                                            error="{{ errors('e_blood_pressure') ?? '' }}"
-                                            value="{{ old('e_blood_pressure')?? $item['blood_pressure'] }}" />
-                                        <c-input type="text" name="e_blood_sugar" label="Blood Sugar:"
+                                            error="{{ flash('edit') === $item['id'] ? (errors('e_blood_pressure') ?? '') : '' }}"
+                                            value="{{ flash('edit') === $item['id'] ? (old('e_blood_pressure') ?? '') : $item['blood_pressure'] }}" />
+                                        <c-input
+                                            type="text"
+                                            name="e_blood_sugar"
+                                            label="Blood Sugar:"
                                             placeholder="Enter Blood Sugar of the Mother (in mg/dL )"
-                                            error="{{ errors('e_blood_sugar') ?? '' }}"
-                                            value="{{ old('e_blood_sugar')?? $item['blood_sugar'] }}" />
-                                        <c-input type="text" name="e_weight" label="Weight:"
+                                            error="{{ flash('edit') === $item['id'] ? (errors('e_blood_sugar') ?? '') : '' }}"
+                                            value="{{ flash('edit') === $item['id'] ? (old('e_blood_sugar') ?? '') : $item['blood_sugar'] }}"
+                                        />
+                                        <c-input
+                                            type="text"
+                                            name="e_weight" label="Weight:"
                                             placeholder="Enter Weight of the Mother (in kg)"
-                                            error="{{ errors('e_weight') ?? '' }}"
-                                            value="{{ old('e_weight')?? $item['weight'] }}" />
-                                        <c-input type="text" name="e_height" label="Height:"
+                                            error="{{ flash('edit') === $item['id'] ? (errors('e_weight') ?? '') : '' }}"
+                                            value="{{ flash('edit') === $item['id'] ? (old('e_weight') ?? '') : $item['weight'] }}"
+                                        />
+                                        <c-input
+                                            type="text"
+                                            name="e_height"
+                                            label="Height:"
                                             placeholder="Enter Height of the Mother (in cm)"
-                                            error="{{ errors('e_height') ?? '' }}"
-                                            value="{{ old('e_height')?? $item['height'] }}" />
-                                        <c-input type="text" name="e_fundal_height" label="Fundal Height:"
+                                            error="{{ flash('edit') === $item['id'] ? (errors('e_height') ?? '') : '' }}"
+                                            value="{{ flash('edit') === $item['id'] ? (old('e_height') ?? '') : $item['height'] }}"
+                                        />
+                                        <c-input
+                                            type="text"
+                                            name="e_fundal_height"
+                                            label="Fundal Height:"
                                             placeholder="Enter Fundal Height of the Mother (in cm)"
-                                            error="{{ errors('e_fundal_height') ?? '' }}"
-                                            value="{{ old('e_fundal_height')?? $item['fundal_height'] }}" />
-                                        <c-select label="Status:" name="e_health_status"
-                                            error="{{ errors('e_health_status') ?? '' }}"
-                                            value="{{ old('e_health_status')?? $item['health_status'] }}">
+                                            error="{{ flash('edit') === $item['id'] ? (errors('e_fundal_height') ?? '') : '' }}"
+                                            value="{{ flash('edit') === $item['id'] ? (old('e_fundal_height') ?? '') : $item['fundal_height'] }}"
+                                        />
+                                        <c-select
+                                            label="Status:"
+                                            name="e_health_status"
+                                            error="{{ flash('edit') === $item['id'] ? (errors('e_health_status') ?? '') : '' }}"
+                                            value="{{ flash('edit') === $item['id'] ? (old('e_health_status') ?? '') : $item['health_status'] }}"
+                                        >
                                             <li class="select-item" data-value="good">Good</li>
                                             <li class="select-item" data-value="bad">Bad</li>
                                         </c-select>
-                                        <c-select label="Pregnancy Stage:" name="e_pregnancy_stage"
-                                            error="{{ errors('e_pregnancy_stage') ?? '' }}"
-                                            value="{{ old('e_pregnancy_stage')?? $item['trimester'] }}">
+                                        <c-select
+                                            label="Pregnancy Stage:"
+                                            name="e_pregnancy_stage"
+                                            error="{{ flash('edit') === $item['id'] ? (errors('e_pregnancy_stage') ?? '') : '' }}"
+                                            value="{{ flash('edit') === $item['id'] ? (old('e_pregnancy_stage') ?? '') : $item['trimester'] }}"
+                                        >
                                             <li class="select-item" data-value="first_trimester">First Trimester</li>
                                             <li class="select-item" data-value="second_trimester">Second Trimester</li>
                                             <li class="select-item" data-value="third_trimester">Third Trimester</li>
