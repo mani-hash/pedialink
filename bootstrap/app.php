@@ -4,6 +4,7 @@ use Library\Framework\Core\Application;
 use Library\Framework\Core\Env;
 use Library\Framework\Core\Model;
 use Library\Framework\Database\Connection;
+use Library\Framework\Database\QueryBuilder;
 
 // Start a new application container
 $app = new Application();
@@ -48,5 +49,8 @@ foreach ($providers as $providerClass)
 
 // Initialize the base model class
 Model::init($app->make(Connection::class));
+
+// Initialize the query builder class
+QueryBuilder::init($app->make(Connection::class));
 
 return $app;
