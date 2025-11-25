@@ -1,10 +1,9 @@
 <?php
-// migrate.php
-// Usage:
-//   php migrate.php make create_users_table
-//   php migrate.php migrate
-//   php migrate.php rollback
-//   php migrate.php status
+// NOTE for cs 28: This script is meant to be
+// executed only on the container the app resides.
+// So it must be executed directly inside the docker container
+//
+// USe the forge.sh script to run this script!
 
 declare(strict_types=1);
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -14,7 +13,12 @@ use Library\Framework\Database\QueryBuilder;
 
 $migrationsDir = __DIR__ . '/../database/migrations';
 
-// ---------- use user's Env parser ----------
+/**
+ * Initiate Env parser
+ * 
+ * @param mixed $path
+ * @return Env
+ */
 function parseEnvFile($path)
 {
     // expects your Env class to be available/autoloaded
@@ -22,6 +26,15 @@ function parseEnvFile($path)
     return $envParser;
 }
 
+/**
+ * Create database if it does not exist.
+ * 
+ * NOTE: Runs on every call to this script
+ * to ensure db is initialized
+ * 
+ * @param mixed $env
+ * @return void
+ */
 function createDatabaseIfNotExists($env): void
 {
     $dbName = $env->get('DB_DATABASE');
@@ -60,9 +73,8 @@ function createDatabaseIfNotExists($env): void
         return;
     }
 
-    // create db (quoted to allow mixed-case or special chars)
+    // create db
     try {
-        // you can optionally set OWNER/ENCODING here, e.g. "CREATE DATABASE \"{$dbName}\" WITH OWNER {$dbUser} ENCODING 'UTF8'"
         $pdo->exec('CREATE DATABASE "' . str_replace('"', '""', $dbName) . '"');
         echo "Database '{$dbName}' created successfully.\n";
     } catch (Exception $e) {
@@ -78,8 +90,8 @@ createDatabaseIfNotExists($env);
 $dsn = 'pgsql:host=db;port=5432;dbname=' . $env->get('DB_DATABASE');
 $user = $env->get('DB_USERNAME');
 $pass = $env->get('DB_PASSWORD');
-// ------------------------------------------------
 
+// Failsafe incase migration directory does not exist
 if (!is_dir($migrationsDir)) {
     if (!mkdir($migrationsDir, 0755, true)) {
         fwrite(STDERR, "Unable to create migrations directory: $migrationsDir\n");
@@ -87,7 +99,7 @@ if (!is_dir($migrationsDir)) {
     }
 }
 
-// --- PDO connection used only for tracking migrations ---
+// pdo connection for script
 try {
     $pdo = new PDO($dsn, $user, $pass, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -98,8 +110,17 @@ try {
     exit(1);
 }
 
+// Initiate query builder for local script
+// NOTE: Local scripts are separate from app flow and
+// do not inherit anything
 QueryBuilder::init($pdo);
 
+/**
+ * Ensure migration table exists
+ * 
+ * @param PDO $pdo
+ * @return void
+ */
 function ensureMigrationsTable(PDO $pdo): void
 {
     $sql = <<<SQL
@@ -113,19 +134,36 @@ SQL;
     $pdo->exec($sql);
 }
 
+/**
+ * List available migration files
+ * 
+ * @param string $dir
+ * @return array
+ */
 function listMigrationFiles(string $dir): array
 {
     $files = glob(rtrim($dir, '/') . '/*.php') ?: [];
-    // ignore other helper files by convention (none expected in migrations dir)
     sort($files, SORT_STRING);
     return array_values($files);
 }
 
+/**
+ * Retrieve base file name of migration file
+ * 
+ * @param string $path
+ * @return string
+ */
 function migrationBasenameFromFile(string $path): string
 {
     return basename($path, '.php'); // e.g. 20251125123456_create_users_table
 }
 
+/**
+ * Retrieve class name of migration file
+ * 
+ * @param string $basename
+ * @return string
+ */
 function classNameFromBasename(string $basename): string
 {
     $safe = preg_replace('/[^A-Za-z0-9_]/', '_', $basename);
@@ -133,6 +171,12 @@ function classNameFromBasename(string $basename): string
     return "\\Database\\Migrations\\Migration_{$safe}";
 }
 
+/**
+ * The last batch number of migrations executed
+ * 
+ * @param PDO $pdo
+ * @return int
+ */
 function currentMaxBatch(PDO $pdo): int
 {
     $stmt = $pdo->query("SELECT COALESCE(MAX(batch), 0) as mb FROM migrations");
@@ -140,6 +184,12 @@ function currentMaxBatch(PDO $pdo): int
     return intval($r['mb'] ?? 0);
 }
 
+/**
+ * Fetch migrations that have been currently applied
+ * 
+ * @param PDO $pdo
+ * @return array|null
+ */
 function appliedMigrations(PDO $pdo): array
 {
     $stmt = $pdo->query("SELECT migration FROM migrations");
@@ -148,6 +198,14 @@ function appliedMigrations(PDO $pdo): array
 }
 
 // ---------------- Commands ----------------
+
+/**
+ * Creates new migration files in database/migrations
+ * 
+ * @param array $argv
+ * @param string $migrationsDir
+ * @return void
+ */
 function cmd_make(array $argv, string $migrationsDir): void
 {
     $name = $argv[2] ?? '';
@@ -197,6 +255,15 @@ PHP;
     echo "Created migration: $file\n";
 }
 
+/**
+ * Print the current migration file status
+ * 
+ * Ex: Was the migration file applied or pending
+ * 
+ * @param PDO $pdo
+ * @param string $migrationsDir
+ * @return void
+ */
 function cmd_status(PDO $pdo, string $migrationsDir): void
 {
     ensureMigrationsTable($pdo);
@@ -215,6 +282,13 @@ function cmd_status(PDO $pdo, string $migrationsDir): void
     }
 }
 
+/**
+ * Migrate pending migration files to database
+ * 
+ * @param PDO $pdo
+ * @param string $migrationsDir
+ * @return void
+ */
 function cmd_migrate(PDO $pdo, string $migrationsDir): void
 {
     ensureMigrationsTable($pdo);
@@ -244,9 +318,6 @@ function cmd_migrate(PDO $pdo, string $migrationsDir): void
             exit(1);
         }
         try {
-            // IMPORTANT: we intentionally do not start a transaction here,
-            // because your application's static DB layer might use a separate connection.
-            // If you want transactions controlled by this script, you can add them later.
             /** @var \\Library\\Framework\\Database\\Migration \$instance */
             $instance = new $class();
             $instance->up();
@@ -264,6 +335,15 @@ function cmd_migrate(PDO $pdo, string $migrationsDir): void
     echo "Migrations applied successfully.\n";
 }
 
+/**
+ * Rollback migrations based on final batch number
+ * or completely rollback migrations
+ * 
+ * @param PDO $pdo
+ * @param string $migrationsDir
+ * @param bool $complete
+ * @return void
+ */
 function cmd_rollback(PDO $pdo, string $migrationsDir, bool $complete = false): void
 {
     ensureMigrationsTable($pdo);
