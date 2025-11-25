@@ -21,20 +21,20 @@ class QueryBuilder
      * PDO instance
      * @var PDO
      */
-    protected PDO $pdo;
+    protected static PDO $pdo;
 
     /**
      * Name of the table
      * @var string
      */
-    protected string $table;
+    protected string|null $table;
 
     /**
      * Name of the model which corresponds
      * with the query builder
      * @var string
      */
-    protected string $modelClass;
+    protected string|null $modelClass;
 
     /**
      * Array to store all where() calls in the
@@ -50,11 +50,28 @@ class QueryBuilder
      */
     protected array $bindings = [];
 
-    public function __construct(PDO $pdo, string $table, string $modelClass)
+    public function __construct(?string $table = null, ?string $modelClass = null)
     {
-        $this->pdo = $pdo;
         $this->table = $table;
         $this->modelClass = $modelClass;
+    }
+
+    /**
+     * Initialize the query builder class
+     * to be used globally
+     * 
+     * @param Connection $connection
+     * @return void
+     */
+    public static function init(Connection|PDO $connection)
+    {
+        if ($connection instanceof Connection) {
+            static::$pdo = $connection->pdo();
+        } elseif ($connection instanceof PDO) {
+            static::$pdo = $connection;
+        } else {
+            throw new \InvalidArgumentException('Argument must be Connection or PDO');
+        }
     }
 
     /**
@@ -85,29 +102,29 @@ class QueryBuilder
     }
 
     /**
- * Add a WHERE IN condition
- * @param string $column
- * @param array $values
- * @return QueryBuilder
- */
-public function whereIn(string $column, array $values): static
-{
-    if (empty($values)) {
-        // No values, so condition will never match
-        $this->wheres[] = "0 = 1";
+     * Add a WHERE IN condition
+     * @param string $column
+     * @param array $values
+     * @return QueryBuilder
+     */
+    public function whereIn(string $column, array $values): static
+    {
+        if (empty($values)) {
+            // No values, so condition will never match
+            $this->wheres[] = "0 = 1";
+            return $this;
+        }
+
+        $placeholders = [];
+        foreach ($values as $index => $value) {
+            $key = ":{$column}_in{$index}";
+            $placeholders[] = $key;
+            $this->bindings[$key] = $value;
+        }
+
+        $this->wheres[] = "{$column} IN (" . implode(',', $placeholders) . ")";
         return $this;
     }
-
-    $placeholders = [];
-    foreach ($values as $index => $value) {
-        $key = ":{$column}_in{$index}";
-        $placeholders[] = $key;
-        $this->bindings[$key] = $value;
-    }
-
-    $this->wheres[] = "{$column} IN (" . implode(',', $placeholders) . ")";
-    return $this;
-}
 
 
     /**
@@ -121,7 +138,7 @@ public function whereIn(string $column, array $values): static
         if ($this->wheres) {
             $sql .= ' WHERE ' . implode(' AND ', $this->wheres);
         }
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = static::$pdo->prepare($sql);
         $stmt->execute($this->bindings);
 
         $results = [];
@@ -146,7 +163,7 @@ public function whereIn(string $column, array $values): static
             $sql .= ' WHERE ' . implode(' AND ', $this->wheres);
         }
         $sql .= ' LIMIT 1';
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = static::$pdo->prepare($sql);
         $stmt->execute($this->bindings);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -182,10 +199,10 @@ public function whereIn(string $column, array $values): static
             implode(', ', $placeholders)
         );
 
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = static::$pdo->prepare($sql);
         $stmt->execute($this->bindings);
 
-        return (int) $this->pdo->lastInsertId();
+        return (int) static::$pdo->lastInsertId();
     }
 
     /**
@@ -213,7 +230,7 @@ public function whereIn(string $column, array $values): static
             $sql .= ' WHERE ' . implode(' AND ', $this->wheres);
         }
 
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = static::$pdo->prepare($sql);
         return $stmt->execute($this->bindings);
     }
 
@@ -230,7 +247,7 @@ public function whereIn(string $column, array $values): static
             $this->table
         );
 
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = static::$pdo->prepare($sql);
         return $stmt->execute($this->bindings);
     }
 
@@ -240,61 +257,69 @@ public function whereIn(string $column, array $values): static
      * @param array $params
      * @return bool|\PDOStatement
      */
-    public function raw(string $sql, array $params = []): \PDOStatement
+    public static function raw(string $sql, array $params = []): \PDOStatement
     {
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = static::$pdo->prepare($sql);
         $stmt->execute($params);
         return $stmt;
     }
 
 
     /**
- * Get a single column from the results as an array
- * @param string $column
- * @return array
- */
-public function pluck(string $column): array
-{
-    $sql = "SELECT {$column} FROM {$this->table}";
-    if ($this->wheres) {
-        $sql .= ' WHERE ' . implode(' AND ', $this->wheres);
+     * Get a single column from the results as an array
+     * @param string $column
+     * @return array
+     */
+    public function pluck(string $column): array
+    {
+        $sql = "SELECT {$column} FROM {$this->table}";
+        if ($this->wheres) {
+            $sql .= ' WHERE ' . implode(' AND ', $this->wheres);
+        }
+
+        $stmt = static::$pdo->prepare($sql);
+        $stmt->execute($this->bindings);
+
+        $results = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $results[] = $row[$column];
+        }
+
+        return $results;
     }
-
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute($this->bindings);
-
-    $results = [];
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $results[] = $row[$column];
-    }
-
-    return $results;
-}
 
 
     /**
      * Raw get method for fetching data with sql.
      * 
-     * Note: Can be retrieved as models also!
+     * @param string $sql
+     * @param array $params
+     * @return array
+     */
+    public static function rawGet(string $sql, array $params = []): array
+    {
+        $stmt = static::raw($sql, $params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Raw get method that returns data as models
+     * instead of normal array form
      * 
      * @param string $sql
      * @param array $params
-     * @param bool $asModel
-     * @return array
+     * @return object[]
      */
-    public function rawGet(string $sql, array $params = [], bool $asModel = false): array
+    public function rawGetAsModels(string $sql, array $params = []): array
     {
-        $stmt = $this->raw($sql, $params);
-        if ($asModel) {
-            $results = [];
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $model = new $this->modelClass;
-                $model->hydrate($row);
-                $results[] = $model;
-            }
-            return $results;
+        $stmt = static::raw($sql, $params);
+        $results = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $model = new $this->modelClass;
+            $model->hydrate($row);
+            $results[] = $model;
         }
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $results;
     }
 
     /**
@@ -303,9 +328,9 @@ public function pluck(string $column): array
      * @param array $params
      * @return int Returns number of rows modified.
      */
-    public function rawExec(string $sql, array $params = []): int
+    public static function rawExec(string $sql, array $params = []): int
     {
-        $stmt = $this->raw($sql, $params);
+        $stmt = static::raw($sql, $params);
         return $stmt->rowCount();
     }
 }
