@@ -15,7 +15,7 @@ Test Portal
     <c-table.controls :columns='["ID","Name","Category","Date & Time","Status"]'>
 
         <c-slot name="filter">
-            <c-button type="submit" form="search-form" variant="outline">
+            <c-button  variant="outline">
                 <img src="{{ asset('assets/icons/filter.svg') }}" />
                 Category
             </c-button>
