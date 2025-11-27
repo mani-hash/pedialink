@@ -10,28 +10,29 @@ class TestController
 
     private $testService;
 
-    public function __construct( )
+    public function __construct()
     {
         $this->testService = new TestService();
     }
     public function testPortal(Request $request)
     {
 
-        
+        $search = $request->input("search");
+
+        if ($search) {
+            $searchResults = $this->testService->getSearchResults($search);
+
+            return view('test/test', ['items' => $searchResults]);
+
+
+        }
+
+
         $testDetails = $this->testService->getAllTestDetails();
         return view('test/test', ['items' => $testDetails]);
     }
 
-    public function getSearchResutls(Request $request){
-
-        $search = $request->input("search");
-
-        $searchResults = $this->testService->getSearchResults($search);
-
-                return view('test/test', ['items' => $searchResults]);
-
-        
-    }
+  
 
     public function testCalendar(Request $request)
     {
@@ -42,9 +43,9 @@ class TestController
     {
         return redirect(route("home"))
             ->withMessage(
-                "hello", 
-                'Hello Bro', 
-                'info', 
+                "hello",
+                'Hello Bro',
+                'info',
                 ['link' => route('test.portal'), 'text' => 'Go to portal']
             );
     }

@@ -10,7 +10,7 @@ Test Portal
 
 @section('content')
   
-<form id="search-form" method="POST" action="{{ route('test.search') }}">
+<form id="search-form" method="GET" action="{{ route('test.portal') }}">
 
     <c-table.controls :columns='["ID","Name","Category","Date & Time","Status"]'>
 
