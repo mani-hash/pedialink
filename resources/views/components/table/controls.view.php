@@ -3,6 +3,8 @@
 $uid = 'tablectrl_' . bin2hex(random_bytes(5));
 $class = isset($class) ? $class : '';
 $columns = isset($columns) ? $columns : null;
+$filters = isset($filters) ? $filters : null;
+
 ?>
 <div id="{{ $uid }}" class="table-controls {{ $class }}">
 
@@ -13,20 +15,31 @@ $columns = isset($columns) ? $columns : null;
 
     <form id="search-form" method="GET" action="{{ $action }}">
 
-    <div class="tc-search">
-      <c-input name="search" type="text" placeholder="Search">
-      </c-input>
+      <div class="tc-search">
+        <c-input name="search" type="text" placeholder="Search">
+        </c-input>
 
-      <c-button type="submit" size="sm" form="search-form">
-        <img src="{{ asset('assets/icons/search.svg') }}" />
-      </c-button>
-    </div>
+        <c-button type="submit" size="sm" form="search-form">
+          <img src="{{ asset('assets/icons/search.svg') }}" />
+        </c-button>
+      </div>
     </form>
     @endif
 
     <div class="tc-filters">
-      @if (!empty($slots['filter']))
-      {{ $slots['filter'] }}
+      @if (!empty($filters) && is_array($filters))
+      @foreach ($filters as $filter)
+      <div class="tc-actions column-dropdown">
+        <c-dropdown.main>
+          <c-slot name="trigger">
+            <c-button variant="outline" class="dropdown-trigger">
+              <img src="{{ asset('assets/icons/filter.svg') }}" />
+              <span>{{$filter}}</span>
+            </c-button>
+          </c-slot>
+        </c-dropdown.main>
+      </div>
+      @endforeach
       @endif
     </div>
   </div>

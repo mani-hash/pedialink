@@ -11,18 +11,8 @@ Test Portal
 @section('content')
   
 
-    <c-table.controls :columns='["ID","Name","Category","Date & Time","Status"]' action="{{ route('test.portal') }}">
+    <c-table.controls :columns='["ID","Name","Category","Date & Time","Status"]' action="{{ route('test.portal') }}" :filters ='["Category","Status"]' >
 
-        <c-slot name="filter">
-            <c-button  variant="outline">
-                <img src="{{ asset('assets/icons/filter.svg') }}" />
-                Category
-            </c-button>
-            <c-button variant="outline">
-                <img src="{{ asset('assets/icons/filter.svg') }}" />
-                Status
-            </c-button>
-        </c-slot>
         
 
         <c-slot name="extrabtn">
