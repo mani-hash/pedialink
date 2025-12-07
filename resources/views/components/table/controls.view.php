@@ -40,26 +40,33 @@ $filters = isset($filters) ? $filters : null;
 
           <c-slot name="menu">
             <form id="filter-form-{{$filterName}}" method="GET" action="{{$action}}">
-            @foreach ($filterItems as $item)
-            <c-dropdown.item>
-              <label style="display: flex; align-items:center; gap:.5rem;">
-                <input type="checkbox" name="filters[{{ $filterName }}][]" value="{{ $item }}" />
-                <span>{{ $item }}</span>
-              </label>
-            </c-dropdown.item>
-            @endforeach
+              @foreach ($filterItems as $item)
+              <c-dropdown.item>
+                <label style="display: flex; align-items:center; gap:.5rem;">
+                  <input type="checkbox" name="filters[{{ $filterName }}][]" value="{{ $item }}" />
+                  <span>{{ $item }}</span>
+                </label>
+              </c-dropdown.item>
+              @endforeach
 
-            <c-button class="filter-btn" type="submit" variant="primary" size="sm" form="filter-form-{{$filterName}}">
+              <c-button class="filter-btn" type="submit" variant="primary" size="sm" form="filter-form-{{$filterName}}">
                 Apply
-            </c-button>
+              </c-button>
             </form>
           </c-slot>
         </c-dropdown.main>
       </div>
       @endforeach
       @endif
-
+      <a href="{{$action}}">
+      <c-button variant="primary">
+        Reset
+      </c-button>
+      </a>
     </div>
+
+
+
 
   </div>
 
