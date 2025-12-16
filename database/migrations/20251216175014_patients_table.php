@@ -14,9 +14,9 @@ class Migration_20251216175014_patients_table implements \Library\Framework\Data
 {
     public function up(): void
     {
-        QueryBuilder::raw(sql: "CREATE TYPE patient_type AS ENUM ('maternal','child');");
+        QueryBuilder::raw(sql: "CREATE TYPE IF NOT EXISTS patient_type AS ENUM ('maternal','child');");
 
-        QueryBuilder::raw("CREATE TABLE patients (
+        QueryBuilder::raw("CREATE TABLE IF NOT EXISTS patients (
     id              SERIAL PRIMARY KEY,
     parent_id       INT NOT NULL REFERENCES parents(id) ON DELETE RESTRICT,
     area_id         INT NOT NULL REFERENCES areas(id) ON DELETE RESTRICT,

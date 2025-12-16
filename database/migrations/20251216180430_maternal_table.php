@@ -14,7 +14,7 @@ class Migration_20251216180430_maternal_table implements \Library\Framework\Data
 {
     public function up(): void
     {
-        QueryBuilder::raw("CREATE TABLE maternal (
+        QueryBuilder::raw("CREATE TABLE IF NOT EXISTS maternal (
                               patient_id     INT PRIMARY KEY REFERENCES patients(id) ON DELETE CASCADE
                               );"
         );

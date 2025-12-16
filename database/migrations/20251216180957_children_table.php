@@ -15,7 +15,7 @@ class Migration_20251216180957_children_table implements \Library\Framework\Data
     public function up(): void
     {
         QueryBuilder::raw(
-            sql: "CREATE TABLE children (
+            sql: "CREATE TABLE IF NOT EXISTS children (
     patient_id     INT PRIMARY KEY REFERENCES patients(id) ON DELETE CASCADE,
 
     name           VARCHAR(100),
