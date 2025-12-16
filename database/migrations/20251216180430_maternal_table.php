@@ -22,5 +22,6 @@ class Migration_20251216180430_maternal_table implements \Library\Framework\Data
 
     public function down(): void
     {
+        QueryBuilder::raw("DROP TABLE IF EXISTS maternal;");
     }
 }
