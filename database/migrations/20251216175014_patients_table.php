@@ -32,6 +32,7 @@ class Migration_20251216175014_patients_table implements \Library\Framework\Data
 
     public function down(): void
     {
-        // TODO: revert changes made in up()
+        QueryBuilder::raw("DROP TABLE IF EXISTS patients;");
+        QueryBuilder::raw("DROP TYPE IF EXISTS patient_type;");
     }
 }
