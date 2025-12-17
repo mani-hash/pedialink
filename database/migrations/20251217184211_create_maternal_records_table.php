@@ -13,7 +13,7 @@ class Migration_20251217184211_create_maternal_records_table implements \Library
 {
     public function up(): void
     {
-        QueryBuilder::raw("CREATE TYPE  trimester_type AS ENUM ('first', 'second', 'third');");
+        QueryBuilder::raw("CREATE TYPE trimester_type AS ENUM ('first', 'second', 'third');");
         QueryBuilder::raw(
          "CREATE TABLE IF NOT EXISTS maternal_records (
                 id SERIAL PRIMARY KEY,
@@ -31,5 +31,6 @@ class Migration_20251217184211_create_maternal_records_table implements \Library
     public function down(): void
     {
         QueryBuilder::raw("DROP TABLE IF EXISTS maternal_records;");
+        QueryBuilder::raw("DROP TYPE IF EXISTS trimester_type;");
     }
 }
