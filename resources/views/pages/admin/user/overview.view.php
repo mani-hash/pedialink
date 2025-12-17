@@ -160,17 +160,17 @@
                                                     <c-modal.viewitem
                                                         icon="{{ asset('assets/icons/mother.svg') }}"
                                                         title="Account Type"
-                                                        info="Mother"
+                                                        info="{{ ucfirst($user['type']) }}"
                                                     />
                                                     <c-modal.viewitem
                                                         icon="{{ asset('assets/icons/student-card.svg') }}"
                                                         title="NIC"
-                                                        info="200301243423"
+                                                        info="{{ $user['nic'] }}"
                                                     />
                                                     <c-modal.viewitem
                                                         icon="{{ asset('assets/icons/location-05.svg') }}"
                                                         title="Location"
-                                                        info="Borella"
+                                                        info="{{ $user['area'] }}"
                                                     />
                                                 </c-modal.viewcard>
                                             @elseif (strtolower($user['role']) === "phm")
@@ -192,8 +192,8 @@
                                                     />
                                                     <c-modal.viewitem
                                                         icon="{{ asset('assets/icons/user-add--01.svg') }}"
-                                                        title="Approved By"
-                                                        info="A-1310"
+                                                        title="License No"
+                                                        info="{{ $user['license_no'] }}"
                                                     />
                                                     <c-modal.viewitem
                                                         icon="{{ asset('assets/icons/security-validation.svg') }}"
@@ -203,7 +203,7 @@
                                                     <c-modal.viewitem
                                                         icon="{{ asset('assets/icons/student-card.svg') }}"
                                                         title="NIC"
-                                                        info="200301243423"
+                                                        info="{{ $user['nic'] }}"
                                                     />
                                                 </c-modal.viewcard>
                                             @elseif (strtolower($user['role']) === "doctor")
@@ -225,8 +225,8 @@
                                                     />
                                                     <c-modal.viewitem
                                                         icon="{{ asset('assets/icons/user-add--01.svg') }}"
-                                                        title="Approved By"
-                                                        info="A-1310"
+                                                        title="License No"
+                                                        info="{{ $user['license_no'] }}"
                                                     />
                                                     <c-modal.viewitem
                                                         icon="{{ asset('assets/icons/security-validation.svg') }}"
@@ -236,7 +236,7 @@
                                                     <c-modal.viewitem
                                                         icon="{{ asset('assets/icons/student-card.svg') }}"
                                                         title="NIC"
-                                                        info="200301243423"
+                                                        info="{{ $user['nic'] }}"
                                                     />
                                                 </c-modal.viewcard>
                                             @elseif (strtolower($user['role']) === "admin")
@@ -244,7 +244,7 @@
                                                     <c-modal.viewitem
                                                         icon="{{ asset('assets/icons/profile-02.svg') }}"
                                                         title="Profile"
-                                                        info="A-1234"
+                                                        info="A-{{ $user['id'] }}"
                                                     />
                                                     <c-modal.viewitem
                                                         icon="{{ asset('assets/icons/user.svg') }}"
@@ -269,7 +269,7 @@
                                                     <c-modal.viewitem
                                                         icon="{{ asset('assets/icons/student-card.svg') }}"
                                                         title="Account Type"
-                                                        info="Super Admin"
+                                                        info="{{ ucfirst($user['type']) }} Admin"
                                                     />
                                                     <c-modal.viewitem
                                                         icon="{{ asset('assets/icons/payment-success-01.svg') }}"
