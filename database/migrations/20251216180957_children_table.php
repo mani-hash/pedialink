@@ -15,17 +15,15 @@ class Migration_20251216180957_children_table implements \Library\Framework\Data
     public function up(): void
     {
         QueryBuilder::raw(
-            sql: "CREATE TABLE IF NOT EXISTS children (
-    patient_id     INT PRIMARY KEY REFERENCES patients(id) ON DELETE CASCADE,
-
-    name           VARCHAR(100),
-    date_of_birth  DATE NOT NULL,
-    gender         VARCHAR(10),
-    child_type     VARCHAR(50),
-    status         VARCHAR(50),
-    area_id INT REFERENCES areas(id) ON DELETE RESTRICT,
-    created_at     TIMESTAMP WITH TIME ZONE DEFAULT now()
-);"
+         "CREATE TABLE IF NOT EXISTS children (
+                id SERIAL PRIMARY KEY,
+                name VARCHAR(100),
+                date_of_birth DATE NOT NULL,
+                gender CHAR(1),
+                birth_certificate TEXT NOT NULL,
+                area_id INT REFERENCES areas(id) ON DELETE RESTRICT,
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+            );"
         );
     }
 
