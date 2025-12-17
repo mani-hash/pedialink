@@ -17,7 +17,7 @@ class Migration_20251217182601_create_children_records_table implements \Library
          "CREATE TABLE IF NOT EXISTS child_records (
                 id SERIAL PRIMARY KEY,
                 child_id INT REFERENCES children(id) ON DELETE CASCADE,
-                staff_id INT REFERENCES staff(id) ON DELETE SET NULL,
+                staff_id INT REFERENCES staffs(id) ON DELETE SET NULL,
                 visit_date DATE NOT NULL,
                 age_recorded_at INT NOT NULL,
                 height REAL,
