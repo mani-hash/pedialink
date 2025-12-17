@@ -31,6 +31,6 @@ class Migration_20251217182601_create__children_records_table implements \Librar
 
     public function down(): void
     {
-        // TODO: revert changes made in up()
+        QueryBuilder::raw("DROP TABLE IF EXISTS child_records;");
     }
 }
