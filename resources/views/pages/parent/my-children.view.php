@@ -49,6 +49,13 @@ Parent - My Childern
 
 @section('content')
 
+@if(empty($childDetails))
+<div class="no-data">
+   <img src="{{ asset('assets/icons/empty-data.svg') }}" alt="No Children" />
+   <h2>No Children Linked Yet</h2>
+   <p>You have not linked any children to your account. Please link a child to view their details here.</p>
+</div>
+@endif
 
 <div class="card-container">
    @foreach ($childDetails as $child)
@@ -74,8 +81,8 @@ Parent - My Childern
          <div class="detail-row">
             <span class="label">Age</span>
             <span class="value">
-          {{$child['age']}}
-         </span>
+               {{$child['age']}}
+            </span>
          </div>
          <div class="detail-row">
             <span class="label">Date of Birth</span>
