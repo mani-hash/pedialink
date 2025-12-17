@@ -59,29 +59,27 @@ Parent - My Childern
       <div class="card-header">
          <div class="header__left">
             <div class="profile-pic">
-               @if ($child['image'])
-               <img src="{{ asset('images/' . $child['image']) }}" alt="Profile Picture">
-               @else
                <div class="initials">{{ $initials }}</div>
-               @endif
             </div>
             <div class="child-info">
                <h3 class="child-name">{{ $child['name'] }}</h3>
-               <p class="nickname">{{ $child['nickname'] }}</p>
+               <p class="nickname">Sara</p>
             </div>
          </div>
-         <c-badge type="{{ strtolower($child['status']) == 'critical' ? 'red' : 'green' }}">
+         <!-- <c-badge type="{{ strtolower($child['status']) == 'critical' ? 'red' : 'green' }}">
             {{$child['status']}}
-         </c-badge>
+         </c-badge> -->
       </div>
       <div class="card-body">
          <div class="detail-row">
             <span class="label">Age</span>
-            <span class="value">{{ $child['age'] }}</span>
+            <span class="value">
+          {{$child['age']}}
+         </span>
          </div>
          <div class="detail-row">
             <span class="label">Date of Birth</span>
-            <span class="value">{{ $child['dob'] }}</span>
+            <span class="value">{{ $child['date_of_birth'] }}</span>
          </div>
          <div class="detail-row">
             <span class="label">Assigned PHM</span>
@@ -94,7 +92,7 @@ Parent - My Childern
                      d="M8.957 14.4274C8.851 14.2164 8.7205 13.9559 8.5 14.0064C5.798 14.6214 3 16.3969 3 18.2849V20.9999H21V18.2849C21 16.7979 19.264 15.3804 17.2065 14.5449L17.204 14.5399L17.197 14.5264L17.1805 14.5344C16.634 14.3144 16.065 14.1344 15.5 14.0064C15.2485 13.9489 14.9885 14.2949 14.875 14.5114H9L8.957 14.4274ZM15.7015 15.0874C15.9202 15.148 16.137 15.2159 16.352 15.2909C16.358 15.4619 16.345 15.6639 16.317 15.8699C16.2887 16.0832 16.2432 16.2939 16.181 16.4999H15.5C15.4072 16.4999 15.3162 16.5258 15.2372 16.5746C15.1583 16.6235 15.0945 16.6933 15.053 16.7764L14.553 17.7764C14.5182 17.8457 14.5001 17.9223 14.5 17.9999V18.9999C14.5 19.1325 14.5527 19.2596 14.6464 19.3534C14.7402 19.4472 14.8674 19.4999 15 19.4999H16V18.4999H15.5V18.1179L15.809 17.4999H17.191L17.5 18.1179V18.4999H17V19.4999H18C18.1326 19.4999 18.2598 19.4472 18.3536 19.3534C18.4473 19.2596 18.5 19.1325 18.5 18.9999V17.9999C18.4999 17.9223 18.4818 17.8457 18.447 17.7764L17.947 16.7764C17.9055 16.6933 17.8417 16.6235 17.7628 16.5746C17.6838 16.5258 17.5928 16.4999 17.5 16.4999H17.217C17.2781 16.2351 17.3196 15.9662 17.341 15.6954C17.8285 15.9259 18.2815 16.1904 18.674 16.4764C19.635 17.1774 20 17.8334 20 18.2849V19.9999H4V18.2849C4 17.8334 4.365 17.1774 5.326 16.4764C5.809 16.1239 6.3855 15.8049 7.0035 15.5409C7.02076 15.9393 7.0847 16.3343 7.194 16.7179L7.198 16.7319C6.89908 16.921 6.67661 17.2096 6.56987 17.5468C6.46313 17.8841 6.47899 18.2482 6.61466 18.5748C6.75033 18.9015 6.99707 19.1697 7.3113 19.3321C7.62554 19.4945 7.98705 19.5406 8.33198 19.4623C8.67692 19.384 8.98309 19.1863 9.19642 18.9042C9.40975 18.622 9.51651 18.2736 9.49785 17.9203C9.47919 17.5671 9.33631 17.2319 9.09443 16.9738C8.85256 16.7157 8.52727 16.5514 8.176 16.5099L8.154 16.4379C8.10114 16.2516 8.06187 16.0618 8.0365 15.8699C8.00847 15.676 7.99676 15.4802 8.0015 15.2844C8.00317 15.2424 8.00567 15.205 8.009 15.1724C8.069 15.1537 8.129 15.1359 8.189 15.1189L8.3965 15.5119H15.4785L15.7015 15.0874ZM8 18.5079C8.269 18.5079 8.5 18.2879 8.5 18.0004C8.5 17.7134 8.269 17.4929 8 17.4929C7.731 17.4929 7.5 17.7129 7.5 18.0004C7.5 18.2874 7.731 18.5079 8 18.5079Z"
                      fill="#71717A" />
                </svg>
-               <span class="value">{{ $child['phm'] }}</span>
+               <span class="value">{{ $child['phm']['name'] }}</span>
             </div>
          </div>
          <div class="detail-row">
@@ -115,7 +113,7 @@ Parent - My Childern
                      stroke-linecap="round" />
                </svg>
 
-               <span class="value">{{ $child['appointments'] }} Scheduled</span>
+               <span class="value">01 Scheduled</span>
             </div>
          </div>
          <div class="detail-row">
@@ -143,7 +141,7 @@ Parent - My Childern
                      </clipPath>
                   </defs>
                </svg>
-               <span class="value">{{ $child['vaccinations'] }} UpComing</span>
+               <span class="value">05 UpComing</span>
 
 
             </div>
