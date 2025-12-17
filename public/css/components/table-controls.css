@@ -25,11 +25,20 @@
 /* left area: search */
 .table-controls__left {
     flex: 0 1 60%;
+
 }
 
 .table-controls__right {
     flex: 0 1 auto;
     margin-left: auto;
+}
+
+.tc-search {
+    display: flex;
+    align-items: center;
+    gap:.5rem;
+    
+
 }
 
 /* filter chips (center): small pills */
@@ -38,6 +47,14 @@
     flex-direction: row;
     gap: .375rem;
     justify-content: center;
+    margin-left: 1rem;
+}
+
+.filter-btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: .5rem;
 }
 
 .tc-filter:hover {
