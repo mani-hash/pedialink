@@ -89,7 +89,7 @@ $appointments = [
         'staff_name' => 'Dr. Sarah Fernando',
         'status' => 'Upcoming',
         'purpose' => 'Pediatric Consultation',
-        'notes' => ['Bring growth chart','']
+        'notes' => ['Bring growth chart']
     ],
 ];
 
@@ -222,7 +222,7 @@ $appointments = [
                                     <c-modal.viewlist title="Notes">
                                         <c-slot name="list">
                                             @foreach($appointment['notes'] as $note)
-                                            <li>{{ $note->note }}</li>
+                                            <li>{{ $note }}</li>
                                             @endforeach
 
                                         </c-slot>
