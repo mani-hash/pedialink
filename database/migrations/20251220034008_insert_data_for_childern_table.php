@@ -21,8 +21,8 @@ class Migration_20251220034008_insert_data_for_childern_table implements \Librar
         QueryBuilder::raw(
             "INSERT INTO children (name, date_of_birth, parent_id, phm_id, gender, blood_type, birth_certificate)
             VALUES 
-            ('Sara Johnson',2023-01-01,(SELECT id FROM users WHERE email = '{$this->parentEmail}' LIMIT 1),(SELECT id FROM users WHERE email = '{$this->phmEmail}' LIMIT 1), 'f', 'O+', 'BC-4567'),
-            ('Liam Smith',2025-12-10,(SELECT id FROM users WHERE email = '{$this->parentEmail}' LIMIT 1),(SELECT id FROM users WHERE email = '{$this->phmEmail}' LIMIT 1), 'm', 'A+', 'BC-1234')
+            ('Sara Johnson','2023-01-01',(SELECT id FROM users WHERE email = '{$this->parentEmail}' LIMIT 1),(SELECT id FROM users WHERE email = '{$this->phmEmail}' LIMIT 1), 'f', 'O+', 'BC-4567'),
+            ('Liam Smith','2025-12-10',(SELECT id FROM users WHERE email = '{$this->parentEmail}' LIMIT 1),(SELECT id FROM users WHERE email = '{$this->phmEmail}' LIMIT 1), 'm', 'A+', 'BC-1234')
             ;"
         );
     }
