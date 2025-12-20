@@ -7,12 +7,6 @@ use Library\Framework\Http\Request;
 class AppointmentController
 {
 
-    private $appointmentService;
-
-    public function __construct()
-    {
-        $this->appointmentService = new AppointmentService();
-    }
     public function index()
     {
 
