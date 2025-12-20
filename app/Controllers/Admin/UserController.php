@@ -16,9 +16,14 @@ class UserController
         $this->adminUserService = new AdminUserService();
     }
 
-    public function overview()
+    public function overview(Request $request)
     {
-        $users = $this->userOverviewService->getUserDetails();
+        $search = $request->input('search');
+        $filters = $request->input('filters');
+        $users = $this->userOverviewService->getUserDetails(
+            $search,
+            $filters
+        );
         return view('admin/user/overview', [
             'users' => $users,
         ]);
