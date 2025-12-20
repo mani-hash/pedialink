@@ -29,6 +29,10 @@ class Migration_20251220034008_insert_data_for_childern_table implements \Librar
 
     public function down(): void
     {
-        // TODO: revert changes made in up()
+        QueryBuilder::raw(
+            "DELETE FROM children
+            WHERE name IN ('Sara Johnson', 'Liam Smith')
+            AND parent_id = (SELECT id FROM users WHERE email = '{$this->parentEmail}' LIMIT 1);"
+        );
     }
 }
