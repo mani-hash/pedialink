@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Child;
 use App\Models\ParentM;
 use App\Models\Patient;
+use App\Models\PublicHealthMidwife;
 use App\Models\User;
 use DateTime;
 
@@ -26,9 +27,15 @@ class ChildService
             return $y . ' year' . ($y === 1 ? '' : 's');
         }
 
-        // less than 1 year -> return months only (integer)
-        $m = $diff->m;
-        return $m . ' month' . ($m === 1 ? '' : 's');
+        if ($diff->m >= 1) {
+            $m = $diff->m;
+            return $m . ' month' . ($m === 1 ? '' : 's');
+        }
+
+        $d = $diff->d;
+        return $d . ' day' . ($d === 1 ? '' : 's');
+
+
     }
 
     public function getAllChildren()
@@ -65,6 +72,104 @@ class ChildService
 
         return $resource;
     }
+
+    public function getChildernByParentId(int $parentId)
+    {
+        $children = Child::query()->where('parent_id', '=', $parentId)->get();
+
+        $resource = [];
+        foreach ($children as $child) {
+
+            $parent = ParentM::find($child->parent_id);
+
+            $parentResource = NULL;
+            if ($parent) {
+                $parentResource = [
+                    'id' => $parent->id,
+                    'name' => User::find($parent->id)->name,
+                    'email' => User::find($parent->id)->email,
+                    'type' => $parent->type,
+                ];
+            }
+
+            $phm = PublicHealthMidwife::find($child->phm_id);
+
+            $phmResource = NULL;
+            if ($phm) {
+                $phmResource = [
+                    'id' => $phm->id,
+                    'name' => User::find($phm->id)->name,
+                ];
+            }
+
+
+            $resource[] = [
+                'id' => $child->id,
+                'name' => $child->name,
+                'date_of_birth' => $child->date_of_birth,
+                'age' => $this->calculateAge($child->date_of_birth),
+                'gender' => $child->gender,
+                'health_status' => $child->health_status,
+                'blood_type' => $child->blood_type,
+                'notes' => $child->notes,
+                'parent' => $parentResource,
+                'phm' => $phmResource,
+            ]
+            ;
+        }
+
+        return $resource;
+    }
+
+     public function getChildernById(int $id)
+    {
+        $child = Child::find($id);
+
+        
+
+            $parent = ParentM::find($child->parent_id);
+
+            $parentResource = NULL;
+            if ($parent) {
+                $parentResource = [
+                    'id' => $parent->id,
+                    'name' => User::find($parent->id)->name,
+                    'email' => User::find($parent->id)->email,
+                    'type' => $parent->type,
+                ];
+            }
+
+            $phm = PublicHealthMidwife::find($child->phm_id);
+
+            $phmResource = NULL;
+            if ($phm) {
+                $phmResource = [
+                    'id' => $phm->id,
+                    'name' => User::find($phm->id)->name,
+                ];
+            }
+
+
+            $resource = [
+                'id' => $child->id,
+                'name' => $child->name,
+                'date_of_birth' => $child->date_of_birth,
+                'age' => $this->calculateAge($child->date_of_birth),
+                'gender' => $child->gender,
+                'health_status' => $child->health_status,
+                'blood_type' => $child->blood_type,
+                'notes' => $child->notes,
+                'parent' => $parentResource,
+                'phm' => $phmResource,
+            ]
+            ;
+        
+
+        return $resource;
+    }
+
+
+
 
     private function validateName(string $name)
     {
@@ -126,17 +231,17 @@ class ChildService
             $errors["{$suffix}name"] = $nameError;
         }
 
-        $divisionError= $this->validateCommonFields($division, "GS Division");
+        $divisionError = $this->validateCommonFields($division, "GS Division");
         if ($divisionError) {
             $errors["{$suffix}division"] = $divisionError;
         }
 
-        $dobError= $this->validateCommonFields($dob, "Date of Birth");
+        $dobError = $this->validateCommonFields($dob, "Date of Birth");
         if ($dobError) {
             $errors["{$suffix}dob"] = $dobError;
         }
 
-        $genderError= $this->validateGender($gender);
+        $genderError = $this->validateGender($gender);
         if ($genderError) {
             $errors["{$suffix}gender"] = $genderError;
         }
@@ -193,7 +298,7 @@ class ChildService
 
         $patient = Patient::find($child->id);
         $patient->delete();
-        
+
         $child->delete();
     }
 }

@@ -25,15 +25,12 @@
             <div class="card-header">
                 <div class="header__left">
                     <div class="profile-pic">
-                        @if ($child['image'])
-                        <img src="{{ asset('images/' . $child['image']) }}" alt="Profile Picture">
-                        @else
                         <div class="initials">{{ $initials }}</div>
-                        @endif
                     </div>
                     <div class="child-info">
                         <h3 class="child-name">{{ $child['name'] }}</h3>
-                        <p class="nickname">{{ $child['nickname'] }}</p>
+                        <!-- hardcoded nickname for demo -->
+                        <p class="nickname">Sara</p>
                     </div>
                 </div>
             </div>
@@ -44,24 +41,24 @@
 
                     <span class="section-title">Quick Stats</span>
 
-
                     <c-modal.viewcard>
 
                         <c-modal.viewitem icon="{{ asset('assets/icons/calendar-03.svg') }}" title="Date of Birth"
-                            info="{{ $child['dob'] }}" />
+                            info="{{ $child['date_of_birth'] }}" />
                         <c-modal.viewitem icon="{{ asset('assets/icons/baby-01.svg') }}" title="Age"
                             info="{{ $child['age'] }}" />
 
                         <c-modal.viewitem icon="{{ asset('assets/icons/blood-type.svg') }}" title="Blood Type"
-                            info="{{ $child['blood'] }}" />
+                            info="{{ $child['blood_type'] }}" />
                         <c-modal.viewitem icon="{{ asset('assets/icons/body-weight.svg') }}" title="Weight"
-                            info="{{ $child['weight'] }} kg" />
+                            info="{{ $child['weight'] ?? '' }} kg" />
                         <c-modal.viewitem icon="{{ asset('assets/icons/ruler.svg') }}" title="Height"
-                            info="{{ $child['height'] }} cm" />
+                            info="{{ $child['height'] ?? '' }} cm" />
                         <c-modal.viewitem icon="{{ asset('assets/icons/chart.svg') }}" title="BMI"
-                            info="{{ $child['bmi'] }}" />
+                            info="{{ $child['bmi'] ?? '' }}" />
                         <c-modal.viewitem icon="{{ asset('assets/icons/doctor.svg') }}" title="Assigned PHM"
-                            info="{{ $child['phm'] }}" />
+                            info="    {{ $child['phm']['name'] }}
+" />
 
 
 
@@ -76,12 +73,11 @@
                     <c-modal.viewcard>
 
                         <c-modal.viewitem icon="{{ asset('assets/icons/mother.svg') }}" title="Parent"
-                            info="{{ $child['parent_name'] }}" />
+                            info="{{ $child['parent']['name'] ?? '' }}" />
                         <c-modal.viewitem icon="{{ asset('assets/icons/call.svg') }}" title="Phone Number"
-                            info="{{ $child['parent_phone'] }}" />
+                            info="{{ $child['parent']['phone']?? '' }}" />
                         <c-modal.viewitem icon="{{ asset('assets/icons/mail-01.svg') }}" title="Email Address"
-                            info="{{ $child['parent_email'] }}" />
-
+                            info="{{ $child['parent']['email'] ?? '' }}" />
 
 
 
