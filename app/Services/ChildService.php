@@ -7,6 +7,7 @@ use App\Models\ParentM;
 use App\Models\Patient;
 use App\Models\PublicHealthMidwife;
 use App\Models\User;
+use App\Models\ChildRecord;
 use DateTime;
 
 class ChildService
@@ -125,10 +126,10 @@ class ChildService
     {
         $child = Child::find($id);
 
+        $parent = ParentM::find($child->parent_id);
+
+        $childRecords = ChildRecord::query()->where('child_id', '=', $child->id)->get();
         
-
-            $parent = ParentM::find($child->parent_id);
-
             $parentResource = NULL;
             if ($parent) {
                 $parentResource = [
