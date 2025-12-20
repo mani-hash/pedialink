@@ -28,7 +28,6 @@ class MyChildrenController
     {
         $child = $this->childService->getChildernById($id);
 
-
         if (empty($child)) {
             return redirect('/parent/my-children')->withMessage(
                 "Child Not Found",
