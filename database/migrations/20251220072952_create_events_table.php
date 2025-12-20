@@ -21,7 +21,7 @@ class Migration_20251220072952_create_events_table implements \Library\Framework
         QueryBuilder::raw(
             "CREATE TABLE IF NOT EXISTS events (
                 id SERIAL PRIMARY KEY,
-                admin_id INT REFERENCES admins(id) ON DELETE SET RESTRICT,
+                admin_id INT REFERENCES admins(id) ON DELETE RESTRICT,
                 title VARCHAR(255) NOT NULL, 
                 description TEXT,
                 purpose TEXT,
@@ -40,6 +40,7 @@ class Migration_20251220072952_create_events_table implements \Library\Framework
 
     public function down(): void
     {
-        // TODO: revert changes made in up()
+        QueryBuilder::raw("DROP TABLE IF EXISTS events;");
+        QueryBuilder::raw("DROP TYPE IF EXISTS event_status;");
     }
 }
