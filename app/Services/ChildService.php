@@ -125,7 +125,7 @@ class ChildService
     {
         $child = Child::find($id);
 
-        $childRecord = ChildRecord::query()->where('child_id', '=', $id)->orderBy('visit_date', 'DESC')->first();
+        $childRecord = ChildRecord::query()->where('child_id', '=', $id)->orderBy('visit_date', 'DESC')->orderBy('created_at', 'DESC')->first();
 
         $childRecordResource = null;
         if($childRecord) {
