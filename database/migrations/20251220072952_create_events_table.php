@@ -12,8 +12,6 @@ use Library\Framework\Database\QueryBuilder;;
 class Migration_20251220072952_create_events_table implements \Library\Framework\Database\Migration
 {
 
-    private string $adminMail ='admin@gmail.com';
-
     public function up(): void
     {
         QueryBuilder::raw("CREATE TYPE event_status as ENUM ('upcoming', 'ongoing', 'completed','cancelled');");
