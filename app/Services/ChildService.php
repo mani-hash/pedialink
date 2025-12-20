@@ -123,10 +123,9 @@ class ChildService
 
      public function getChildernById(int $id)
     {
-        $children = Child::query()->where('id', '=', $id)->get();
+        $child = Child::find($id);
 
-        $resource = [];
-        foreach ($children as $child) {
+        
 
             $parent = ParentM::find($child->parent_id);
 
@@ -151,7 +150,7 @@ class ChildService
             }
 
 
-            $resource[] = [
+            $resource = [
                 'id' => $child->id,
                 'name' => $child->name,
                 'date_of_birth' => $child->date_of_birth,
@@ -164,7 +163,7 @@ class ChildService
                 'phm' => $phmResource,
             ]
             ;
-        }
+        
 
         return $resource;
     }
