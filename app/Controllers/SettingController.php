@@ -3,15 +3,18 @@
 namespace App\Controllers;
 
 use App\Services\Profile\NameService;
+use App\Services\Profile\PasswordService;
 use Library\Framework\Http\Request;
 
 class SettingController
 {
     private NameService $nameService;
+    private PasswordService $passwordService;
 
     public function __construct()
     {
         $this->nameService = new NameService();
+        $this->passwordService = new PasswordService();
     }
 
     public function index()
@@ -61,6 +64,33 @@ class SettingController
 
     public function updatePassword(Request $request)
     {
+        $data = [
+            "currentPassword" => $request->input("currentPassword") ?? "",
+            "password" => $request->input("password") ?? "",
+            "confirmPassword" => $request->input("confirmPassword"),
+        ];
+        $user = auth()->user();
+        $redirectRoutePrefix = $user ? strtolower($user->role) : '';
 
+        $errors = $this->passwordService->validateData(
+            $data['currentPassword'],
+            $data['password'],
+            $data['confirmPassword']
+        );
+
+        if (count($errors) === 0) {
+            $this->passwordService->updatePassword($data['password']);
+
+            return redirect(route($redirectRoutePrefix . '.settings') . '#update-password')
+                ->withMessage(
+                    'Passwprd Updated!',
+                    'Success',
+                    'success'
+                );
+        }
+
+        return redirect(route($redirectRoutePrefix . '.settings') . '#update-password')
+            ->withInput($data)
+            ->withErrors($errors);
     }
 }
