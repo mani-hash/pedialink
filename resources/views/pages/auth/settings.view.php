@@ -24,13 +24,27 @@
                 </div>
             </c-slot>
 
-            <form class="settings-form">
-                <c-input type="name" label="Name" name="name" value="{{ $name }}" placeholder="Enter your name" />
-                <c-input type="email" label="Email" name="email" value="{{ $email }}" placeholder="Enter your email" />
+            <form id="update-profile-info" method="POST" action="{{ route('update.profile') }}" class="settings-form">
+                <c-input
+                    type="name"
+                    label="Name"
+                    name="name"
+                    value="{{ old('name') ?? $name }}"
+                    error="{{ errors('name') ?? '' }}"
+                    placeholder="Enter your name"
+                />
+                <c-input
+                    type="email"
+                    label="Email"
+                    name="email"
+                    value="{{ old('email') ?? $email }}"
+                    error="{{ errors('email') ?? '' }}"
+                    placeholder="Enter your email"
+                />
             </form>
 
             <div class="footer-settings">
-                <c-button variant="primary">Save</c-button>
+                <c-button form="update-profile-info" type="submit" variant="primary">Save</c-button>
             </div>
         </c-card>
 
