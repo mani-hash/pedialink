@@ -16,7 +16,7 @@ class Migration_20251222073807_insert_data_for_events_registration_table impleme
     public function up(): void
     {
         QueryBuilder::raw(
-            "INSERT INTO events_registration (event_id, user_id,name, email,phone)
+            "INSERT INTO events_registrations (event_id, user_id,name, email,phone)
             VALUES 
             ((SELECT id FROM events WHERE title = 'Health Awareness Campaign' LIMIT 1),(SELECT id FROM users WHERE email = '{$this->userEmail}' LIMIT 1),'Keeththigan','keeththi2003@gmail.com','+9434567890')
             ;"
