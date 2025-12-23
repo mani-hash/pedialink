@@ -23,10 +23,8 @@ class maternalhealthrecordController
         ]);
     }
 
-    public function createMaternalRecord(Request $request, $id)
+    public function createMaternalRecord(Request $request, int $id)
     {
-
-        $maternalId = $id;
         $recordedAt = $request->input('recorded_at');
         $bmi = $request->input('bmi');
         $bloodPressure = $request->input('blood_pressure');
@@ -36,7 +34,7 @@ class maternalhealthrecordController
         $errors = $this->maternalStatService->validateMaternalRecordData($recordedAt, $bmi, $bloodPressure, $bloodSugar,$healthStatus);
 
         if (count($errors) !== 0) {
-            return redirect(route("doctor.maternal.health", ["id" => $id]))
+            return redirect(route("phm.maternal.health", ["id" => $id]))
                 ->withInput([
                     "recorded_at" => $recordedAt,
                     "bmi" => $bmi,
@@ -49,10 +47,9 @@ class maternalhealthrecordController
 
 
         }
-        ;
 
         $this->maternalStatService->createMaternalStat($id, $recordedAt, $bmi, $bloodPressure, $bloodSugar, $healthStatus);
-        return redirect(route("doctor.maternal.health", ["id" => $id]))
+        return redirect(route("phm.maternal.health", ["id" => $id]))
             ->withMessage(
                 "Health record was successfully created",
                 "Health Record Created",
