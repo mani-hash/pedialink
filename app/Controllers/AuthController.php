@@ -3,12 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\Area;
-use App\Models\ParentM;
-use App\Models\User;
 use App\Services\AuthService;
 use Library\Framework\Http\Request;
-use Library\Framework\Http\Response;
-use Library\Framework\Session\SessionManager;
 
 class AuthController
 {
