@@ -28,18 +28,18 @@ class EventController
         $email = $request->input('email');
         $phone = $request->input('phone');
 
-        // $errors = $this->adminUserService
-        //     ->validateAdminUser($name, $email, $type);
+        $errors = [];
 
-        // if (count($errors) !== 0) {
-        //     return redirect(route("admin.user.admin"))
-        //         ->withInput([
-        //             "name" => $name,
-        //             "email" => $email
-        //         ])
-        //         ->withErrors($errors)
-        //         ->with("create", true);
-        // }
+        if (count($errors) !== 0) {
+            return redirect(route("parent.events.campaigns"))
+                ->withInput([
+                    "name" => $name,
+                    "email" => $email,
+                    "phone" => $phone
+                ])
+                ->withErrors($errors)
+                ->with("booked", true);
+        }
 
         $this->eventService->bookEvent($eventId, $userId, $name, $email, $phone);
 

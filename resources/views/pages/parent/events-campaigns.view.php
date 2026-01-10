@@ -218,8 +218,7 @@ Parent - Event & Campaigns
 
 
 
-            <form id="book-event-form" action="{{route('parent.events.campaigns.book', ['id' => $event['id']])}}"
-               method="POST">
+            <form id="book-event-form" action="{{route('parent.events.campaigns.book', ['id' => $event['id']])}} " method="POST">
                <c-input type="text" label="Name " name="name" placeholder="Enter Participant Name" required />
                <c-input type="email" label="Email " name="email" placeholder="Enter Email" required />
                <c-input type="text" label="Phone Number " name="phone" placeholder="Enter Phone number" required>
