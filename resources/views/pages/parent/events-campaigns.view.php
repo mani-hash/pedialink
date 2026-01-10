@@ -64,38 +64,18 @@ Parent - Event & Campaigns
 
 @section('content')
 
-<?php
-$eventDetails = [
-   ['id' => 'EVT001', 'title' => 'Health Awareness Campaign', 'subtitle' => 'Join us for a day of health awareness activities and workshops.', 'status' => 'Upcoming', 'date' => '2024-07-15', 'time' => '10:00 AM - 4:00 PM', 'registeredParticipants' => 45, 'totalParticipants' => 100, 'location' => 'Community Center', 'isRegistered' => true, 'isFinished' => false, 'organizer' => 'Health Dept.', 'purpose' => 'Join us for a comprehensive polio vaccination drive targeting children under 5 years. This initiative is part of our ongoing effort to maintain polio-free status in our community. Qualified healthcare professionals will administer the vaccines following WHO guidelines.', 'notes' => ['Please bring your child\'s vaccination record', 'Arrive 15 minutes early for registration', 'Light refreshments will be provided']],
-   ['id' => 'EVT002', 'title' => 'Nutrition Workshop', 'subtitle' => 'Learn about balanced diets and healthy eating habits.', 'status' => 'Completed', 'date' => '2024-06-10', 'time' => '1:00 PM - 3:00 PM', 'registeredParticipants' => 30, 'totalParticipants' => 30, 'location' => 'Health Clinic', 'isRegistered' => false, 'isFinished' => true, 'organizer' => 'Nutrition Dept.', 'purpose' => 'Join us for a comprehensive polio vaccination drive targeting children under 5 years. This initiative is part of our ongoing effort to maintain polio-free status in our community. Qualified healthcare professionals will administer the vaccines following WHO guidelines.', 'notes' => ['Please bring your child\'s vaccination record']],
-   ['id' => 'EVT003', 'title' => 'Vaccination Drive', 'subtitle' => 'Get your vaccinations done for a healthier community.', 'status' => 'Ongoing', 'date' => '2024-06-20', 'time' => '9:00 AM - 5:00 PM', 'registeredParticipants' => 75, 'totalParticipants' => 150, 'location' => 'Local School', 'isRegistered' => true, 'isFinished' => false, 'organizer' => 'Health Dept.', 'purpose' => 'Join us for a comprehensive polio vaccination drive targeting children under 5 years. This initiative is part of our ongoing effort to maintain polio-free status in our community. Qualified healthcare professionals will administer the vaccines following WHO guidelines.', 'notes' => ['Please bring your child\'s vaccination record']],
-   ['id' => 'EVT004', 'title' => 'Mental Health Seminar', 'subtitle' => 'Discuss mental health topics with experts in the field.', 'status' => 'Upcoming', 'date' => '2024-08-05', 'time' => '11:00 AM - 2:00 PM', 'registeredParticipants' => 20, 'totalParticipants' => 50, 'location' => 'Library Conference Room', 'isRegistered' => false, 'isFinished' => false, 'organizer' => 'Mental Health Dept.', 'purpose' => 'Join us for a comprehensive polio vaccination drive targeting children under 5 years. This initiative is part of our ongoing effort to maintain polio-free status in our community. Qualified healthcare professionals will administer the vaccines following WHO guidelines.', 'notes' => ['Please bring your child\'s vaccination record']],
-   ['id' => 'EVT005', 'title' => 'First Aid Training', 'subtitle' => "Learn essential first aid skills to help in emergencies.", 'status' => 'Completed', 'date' => '2024-05-25', 'time' => '2:00 PM - 6:00 PM', 'registeredParticipants' => 25, 'totalParticipants' => 25, 'location' => 'Hospital Training Room', 'isRegistered' => false, 'isFinished' => true, 'organizer' => 'Emergency Services', 'purpose' => 'Join us for a comprehensive polio vaccination drive targeting children under 5 years. This initiative is part of our ongoing effort to maintain polio-free status in our community. Qualified healthcare professionals will administer the vaccines following WHO guidelines.', 'notes' => ['Please bring your child\'s vaccination record']],
-];
 
-?>
 <div class="card-container">
-   @foreach ($eventDetails as $key => $event)
+   @foreach ($events as $key => $event)
    {{
    $badgeType = '';
-   if(strtolower($event['status']) == 'completed') {
+   if(strtolower($event['event_status']) == 'completed') {
    $badgeType = 'red';
-   } elseif (strtolower($event['status']) == 'upcoming') {
+   } elseif (strtolower($event['event_status']) == 'upcoming') {
    $badgeType = 'purple';}
    else {
    $badgeType = 'red';
    }
-
-
-   $buttonType = 'primary';
-   $buttonText = 'Book Now';
-
-   if($event['isRegistered'] && !$event['isFinished']){
-   $buttonType = 'destructive';
-   $buttonText = 'Cancel Booking';
-   }elseif($event['isFinished']){
-   $buttonType = 'disabled';
-   $buttonText = 'Event Finished';}
    }}
 
    <c-card class="event-card">
@@ -105,7 +85,7 @@ $eventDetails = [
          </span>
 
          <c-badge type="{{ $badgeType}}">
-            {{$event['status']}}
+            {{$event['event_status']}}
          </c-badge>
       </div>
 
@@ -113,19 +93,19 @@ $eventDetails = [
 
 
       <span class="event-subtitle">
-         {{$event['subtitle']}}
+         {{$event['description']}}
       </span>
 
       <div class="card-body">
          <c-modal.viewcard>
             <c-modal.viewitem icon="{{ asset('assets/icons/calendar-03.svg') }}" title="Date"
-               info="{{ $event['date'] }}" />
+               info="{{ $event['event_date'] }}" />
             <c-modal.viewitem icon="{{ asset('assets/icons/clock-01.svg') }}" title="Time"
-               info="{{ $event['time'] }}" />
+               info="{{ $event['event_time'] }}" />
             <c-modal.viewitem icon="{{ asset('assets/icons/user-group.svg') }}" title="Registered Participants"
-               info="{{ $event['registeredParticipants'] .'/' .$event['totalParticipants'] }}" />
+               info="{{ $event['max_count'] .'/' .$event['max_count'] }}" />
             <c-modal.viewitem icon="{{ asset('assets/icons/location-05.svg') }}" title="Location"
-               info="{{ $event['location'] }}" />
+               info="{{ $event['event_location'] }}" />
          </c-modal.viewcard>
 
       </div>
@@ -150,7 +130,7 @@ $eventDetails = [
             <c-slot name="headerSuffix">
 
                <c-badge type="{{ $badgeType }}">
-                  {{$event['status']}}
+                  {{$event['event_status']}}
                </c-badge>
             </c-slot>
 
@@ -160,15 +140,15 @@ $eventDetails = [
                <c-modal.viewitem icon="{{ asset('assets/icons/megaphone-02.svg') }}" title="Event ID"
                   info="{{ $event['id'] }}" />
                <c-modal.viewitem icon="{{ asset('assets/icons/calendar-03.svg') }}" title="Date"
-                  info="{{ $event['date'] }}" />
+                  info="{{ $event['event_date'] }}" />
                <c-modal.viewitem icon="{{ asset('assets/icons/clock-01.svg') }}" title="Time"
-                  info="{{ $event['time'] }}" />
+                  info="{{ $event['event_time'] }}" />
                <c-modal.viewitem icon="{{ asset('assets/icons/user-group.svg') }}" title="Registered Participants"
-                  info="{{ $event['registeredParticipants'] .'/' .$event['totalParticipants'] }}" />
+                  info="{{ $event['max_count'] .'/' .$event['max_count'] }}" />
                <c-modal.viewitem icon="{{ asset('assets/icons/location-05.svg') }}" title="Location"
-                  info="{{ $event['location'] }}" />
+                  info="{{ $event['event_location'] }}" />
                <c-modal.viewitem icon="{{ asset('assets/icons/user.svg') }}" title="Organizer"
-                  info="{{ $event['organizer'] }}" />
+                  info="{{ $event['admin']['name'] }}" />
             </c-modal.viewcard>
 
 
@@ -202,11 +182,11 @@ $eventDetails = [
             </c-slot>
          </c-modal>
 
-         @if(!$event['isRegistered'] && !$event['isFinished'])
+         @if($event['booking_status'] == NULL)
          <c-modal id="book-event-{{$key}}" size="md" :initOpen="false">
             <c-slot name="trigger">
-               <c-button variant="{{ $buttonType }}">
-                  {{ $buttonText }}
+               <c-button variant="primary">
+                  Book Now
                </c-button>
 
             </c-slot>
@@ -221,8 +201,8 @@ $eventDetails = [
 
             <c-slot name="headerSuffix">
 
-               <c-badge type="{{ $badgeType }}">
-                  {{$event['status']}}
+                <c-badge type="{{ $badgeType }}">
+                  {{$event['event_status']}}
                </c-badge>
             </c-slot>
 
@@ -236,13 +216,13 @@ $eventDetails = [
                   <c-modal.viewitem icon="{{ asset('assets/icons/megaphone-02.svg') }}" title="Event"
                      info="{{ $event['title'] }}" />
                   <c-modal.viewitem icon="{{ asset('assets/icons/calendar-03.svg') }}" title="Date"
-                     info="{{ $event['date'] }} " />
+                     info="{{ $event['event_date'] }} " />
                   <c-modal.viewitem icon="{{ asset('assets/icons/clock-01.svg') }}" title="Time"
-                     info="{{ $event['time'] }}" />
+                     info="{{ $event['event_time'] }}" />
                   <c-modal.viewitem icon="{{ asset('assets/icons/location-05.svg') }}" title="Location"
-                     info="{{ $event['location'] }}" />
+                     info="{{ $event['event_location'] }}" />
                   <c-modal.viewitem icon="{{ asset('assets/icons/user.svg') }}" title="Organzer"
-                     info="{{ $event['organizer'] }}" />
+                     info="{{ $event['admin']['name'] }}" />
 
 
 
@@ -272,16 +252,16 @@ $eventDetails = [
 
             <c-slot name="footer">
 
-               <c-button variant="{{ $buttonType }}" type="submit" form="book-event-form">
-                  {{ $buttonText }}
+               <c-button variant="primary" type="submit" form="book-event-form">
+                  Book Now
                </c-button>
             </c-slot>
          </c-modal>
-         @elseif ($event['isRegistered'] && !$event['isFinished'])
+         @elseif ($event['booking_status'] == 'booked')
          <c-modal id="cancel-event-{{$key}}" size="md" :initOpen="false">
             <c-slot name="trigger">
-               <c-button variant="{{ $buttonType }}">
-                  {{ $buttonText }}
+               <c-button variant="destructive">
+                  Cancel Booking
                </c-button> </c-slot>
 
             <c-slot name="headerPrefix">
@@ -313,9 +293,9 @@ $eventDetails = [
             </c-slot>
 
             <div class="info-card">
-                  <span class="title">
-                     Current Event
-                  </span>
+               <span class="title">
+                  Current Event
+               </span>
 
                <c-modal.viewcard>
 
@@ -350,35 +330,24 @@ $eventDetails = [
             </form>
 
             <c-slot name="close">
-               Cancel
+               Close
             </c-slot>
 
             <c-slot name="footer">
-               <c-button variant="{{ $buttonType }}" type="submit" form="cancel-event-form">
-                  {{ $buttonText }}
+               <c-button variant="destructive" type="submit" form="cancel-event-form">
+                  Cancel Booking
                </c-button>
 
 
             </c-slot>
          </c-modal>
          @else
-         <c-button variant="{{ $buttonType }}">
-            {{ $buttonText }}
+         <c-button variant="disabled">
+            Finished
          </c-button>
-
-
-
          @endif
-
-
       </div>
-
-
    </c-card>
-
    @endforeach
 </div>
-
-
-
 @endsection
