@@ -43,7 +43,19 @@ class EventService
 
     return $eventRegistration ? $eventRegistration->booking_status : null;
 
+    }
 
+    public function bookEvent($eventId, $userId, $name, $email, $phone)
+    {
+        $eventRegistration = new EventRegistrations();
+        $eventRegistration->event_id = $eventId;
+        $eventRegistration->user_id = $userId;
+        $eventRegistration->name = $name;
+        $eventRegistration->email = $email;
+        $eventRegistration->phone = $phone;
+        $eventRegistration->booking_status = 'booked';
+
+        $eventRegistration->save();
     }
 
 }
