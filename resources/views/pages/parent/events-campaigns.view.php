@@ -164,22 +164,17 @@ Parent - Event & Campaigns
 
             <c-modal.viewlist title="Notes">
                <c-slot name="list">
-                  @foreach($event['notes'] as $note)
-                  <li>{{ $note }}</li>
-                  @endforeach
+                  
+                  <li>{{ $event['notes'] }}</li>
+                
                </c-slot>
             </c-modal.viewlist>
 
             <c-slot name="close">
-               Cancel
+               Close
             </c-slot>
 
-            <c-slot name="footer">
-
-               <c-button variant="{{ $buttonType }}">
-                  {{ $buttonText }}
-               </c-button>
-            </c-slot>
+           
          </c-modal>
 
          @if($event['booking_status'] == NULL)
@@ -221,7 +216,7 @@ Parent - Event & Campaigns
                      info="{{ $event['event_time'] }}" />
                   <c-modal.viewitem icon="{{ asset('assets/icons/location-05.svg') }}" title="Location"
                      info="{{ $event['event_location'] }}" />
-                  <c-modal.viewitem icon="{{ asset('assets/icons/user.svg') }}" title="Organzer"
+                  <c-modal.viewitem icon="{{ asset('assets/icons/user.svg') }}" title="Organizer"
                      info="{{ $event['admin']['name'] }}" />
 
 
@@ -302,13 +297,13 @@ Parent - Event & Campaigns
                   <c-modal.viewitem icon="{{ asset('assets/icons/megaphone-02.svg') }}" title="Event"
                      info="{{ $event['title'] }}" />
                   <c-modal.viewitem icon="{{ asset('assets/icons/calendar-03.svg') }}" title="Date"
-                     info="{{ $event['date'] }} " />
+                     info="{{ $event['event_date'] }} " />
                   <c-modal.viewitem icon="{{ asset('assets/icons/clock-01.svg') }}" title="Time"
-                     info="{{ $event['time'] }}" />
+                     info="{{ $event['event_time'] }}" />
                   <c-modal.viewitem icon="{{ asset('assets/icons/location-05.svg') }}" title="Location"
-                     info="{{ $event['location'] }}" />
-                  <c-modal.viewitem icon="{{ asset('assets/icons/user.svg') }}" title="Organzer"
-                     info="{{ $event['organizer'] }}" />
+                     info="{{ $event['event_location'] }}" />
+                  <c-modal.viewitem icon="{{ asset('assets/icons/user.svg') }}" title="Organizer"
+                     info="{{ $event['admin']['name'] }}" />
 
 
 
