@@ -45,6 +45,15 @@ class EventService
 
     }
 
+    public function addEventParticpantCount($eventId)
+    {
+        $event = Events::find($eventId);
+        if ($event) {
+            $event->participant_count += 1;
+            $event->save();
+        }
+    }
+
     public function bookEvent($eventId, $userId, $name, $email, $phone)
     {
         $eventRegistration = new EventRegistrations();
@@ -55,7 +64,11 @@ class EventService
         $eventRegistration->phone = $phone;
         $eventRegistration->booking_status = 'booked';
 
-        $eventRegistration->save();
+       $booked = $eventRegistration->save();
+
+       if($booked){
+        $this->addEventParticpantCount($eventId);
+       }
     }
 
 }
