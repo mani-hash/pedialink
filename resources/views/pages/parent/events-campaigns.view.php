@@ -85,7 +85,7 @@ Parent - Event & Campaigns
          </span>
 
          <c-badge type="{{ $badgeType}}">
-            {{$event['event_status']}}
+            {{ucfirst($event['event_status'])}}
          </c-badge>
       </div>
 
@@ -130,7 +130,7 @@ Parent - Event & Campaigns
             <c-slot name="headerSuffix">
 
                <c-badge type="{{ $badgeType }}">
-                  {{$event['event_status']}}
+                  {{ucfirst($event['event_status'])}}
                </c-badge>
             </c-slot>
 
@@ -197,7 +197,7 @@ Parent - Event & Campaigns
             <c-slot name="headerSuffix">
 
                 <c-badge type="{{ $badgeType }}">
-                  {{$event['event_status']}}
+                  {{ucfirst($event['event_status'])}}
                </c-badge>
             </c-slot>
 
