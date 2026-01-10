@@ -167,7 +167,7 @@ Parent - Event & Campaigns
          </c-modal>
 
          @if($event['booking_status'] == NULL)
-         <c-modal id="book-event-{{$key}}" size="md" :initOpen="false">
+         <c-modal id="book-event-{{$key}}" size="md" :initOpen="flash('booked') ? true : false">
             <c-slot name="trigger">
                <c-button variant="primary">
                   Book Now
@@ -218,7 +218,7 @@ Parent - Event & Campaigns
 
 
 
-            <form id="book-event-form" action="">
+            <form id="book-event-form" action="{{route('parent.events.campaigns.book', ['id' => $event['id']])}}" method="POST">
                <c-input type="text" label="Name " name="name" placeholder="Enter Participant Name" required />
                <c-input type="email" label="Email " name="email" placeholder="Enter Email" required />
                <c-input type="text" label="Phone Number " name="phone" placeholder="Enter Phone number" required>
@@ -226,7 +226,6 @@ Parent - Event & Campaigns
                      +94
                   </c-slot>
                </c-input>
-               <c-textarea name="notes" label="Addtional Notes" placeholder="Any additional notes or others" />
             </form>
 
 

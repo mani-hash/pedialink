@@ -20,14 +20,13 @@ class EventController
         return view("parent/events-campaigns", ['events' => $events]);
     }
 
-    public function bookEvent($request)
+    public function bookEvent($request,$id)
     {
         $userId = auth()->user()->id;   
-
-        $eventId = $request->get('event_id');
-        $name = $request->get('name');
-        $email = $request->get('email');
-        $phone = $request->get('phone');
+        $eventId = $id;
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $phone = $request->input('phone');
 
         // $errors = $this->adminUserService
         //     ->validateAdminUser($name, $email, $type);
