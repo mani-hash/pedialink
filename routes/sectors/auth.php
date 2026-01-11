@@ -18,6 +18,7 @@ return [
     ['POST', '/profile/update-profile', [SettingController::class, 'updateName'], 'update.profile', ['auth']],
     ['POST', '/profile/update-password', [SettingController::class, 'updatePassword'], 'update.password', ['auth']],
     ['GET', '/verify/email', [VerifyController::class, 'emailUnverified'], 'email.unverified', ['auth']],
+    ['POST', '/verify/email/send', [VerifyController::class, 'verifyEmailSend'], 'email.verify.send', ['auth']],
 
     // Parent verification
     ['GET', '/parent/verify/documents', [VerifyController::class, 'parentUnverified'], 'parent.unverified', ['parent']],
