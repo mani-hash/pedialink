@@ -6,12 +6,13 @@ use App\Models\Events;
 use App\Models\EventRegistrations;
 use App\Helpers\Validator;
 use App\Rules\PhoneRule;
-use App\Rules\NameRule; 
+use App\Rules\NameRule;
+use App\Rules\ReasonRule; 
 
 class EventService
 {
 
-    use NameRule,PhoneRule;
+    use NameRule,PhoneRule,ReasonRule;
     public function getAllEvents(): array
     {
         $events = Events::all();
@@ -89,6 +90,17 @@ class EventService
 
         return $errors;
     }
+
+    public function validateEventCancelData($reason){
+        $errors = [];
+
+        $reasonError = $this->validateReason($reason,"Cancel Reason");
+        if ($reasonError) {
+            $errors['reason'] = $reasonError;
+        }
+
+        return $errors;
+    }
    
 
     public function addEventParticpantCount($eventId)
@@ -135,7 +147,7 @@ class EventService
         $cancelled = false;
 
         if ($eventRegistration) {
-            $eventRegistration->booking_status = 'canceled';
+            $eventRegistration->booking_status = 'cancelled';
             $eventRegistration->cancel_reason = $reason;
             $eventRegistration->cancelled_at = date('Y-m-d H:i:s');
             $cancelled = $eventRegistration->save();

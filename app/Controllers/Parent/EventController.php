@@ -57,6 +57,17 @@ class EventController
         $eventId = $id;
         $reason = $request->input('reason');
 
+        $errors = $this->eventService->validateEventCancelData($reason);
+
+        if(count($errors) !== 0) {
+            return redirect(route("parent.events.campaigns"))
+                ->withInput([
+                    "reason" => $reason
+                ])
+                ->withErrors($errors)
+                ->with("cancelBooking", $id);
+        }
+
         $this->eventService->cancelEventBooking($eventId, $userId, $reason);
 
         return redirect(route("parent.events.campaigns"))
