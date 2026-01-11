@@ -51,5 +51,20 @@ class EventController
             );
     }
    
+    public function cancelEventBooking($request, $id)
+    {
+        $userId = auth()->user()->id;   
+        $eventId = $id;
+        $reason = $request->input('reason');
+
+        $this->eventService->cancelEventBooking($eventId, $userId, $reason);
+
+        return redirect(route("parent.events.campaigns"))
+            ->withMessage(
+                "Event booking was successfully cancelled",
+                "Booking Cancelled",
+                "success"
+            );
+    }
  
 }

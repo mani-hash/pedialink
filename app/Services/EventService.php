@@ -100,6 +100,15 @@ class EventService
         }
     }
 
+    public function reduceEventParticpantCount($eventId)
+    {
+        $event = Events::find($eventId);
+        if ($event && $event->participants_count > 0) {
+            $event->participants_count -= 1;
+            $event->save();
+        }
+    }
+
     public function bookEvent($eventId, $userId, $name, $email, $phone)
     {
         $eventRegistration = new EventRegistrations();
@@ -115,6 +124,26 @@ class EventService
        if($booked){
         $this->addEventParticpantCount($eventId);
        }
+    }
+
+    public function cancelEventBooking($eventId, $userId, $reason)
+    {
+        $eventRegistration = EventRegistrations::query()->where('event_id', '=', $eventId)
+            ->where('user_id', '=', $userId)
+            ->first();
+
+        $cancelled = false;
+
+        if ($eventRegistration) {
+            $eventRegistration->booking_status = 'canceled';
+            $eventRegistration->cancel_reason = $reason;
+            $eventRegistration->cancelled_at = date('Y-m-d H:i:s');
+            $cancelled = $eventRegistration->save();
+        }
+
+        if($cancelled){
+            $this->reduceEventParticpantCount($eventId);
+        }
     }
 
 }
