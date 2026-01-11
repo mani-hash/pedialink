@@ -32,6 +32,7 @@ Parent - Event & Campaigns
 
    <span>Events & Campaigns</span>
 </div>
+
 @endsection
 
 @section('header_right')
@@ -42,10 +43,6 @@ Parent - Event & Campaigns
 
 
 </c-table.controls>
-
-
-
-
 
 
 
@@ -334,6 +331,10 @@ Parent - Event & Campaigns
          @elseif (strtolower($event['event_status']) == 'ongoing')
          <c-button variant="disabled">
             Event Ongoing
+         </c-button>
+          @elseif (strtolower($event['booking_status']) == 'cancelled')
+         <c-button variant="disabled">
+            Booking Cancelled
          </c-button>
          @else
          <c-button variant="disabled">
