@@ -7,6 +7,8 @@ return [
     */
     'name' => env('APP_NAME', 'MyApp'),
 
+    'key' => env('APP_KEY', 'change_me_to_a_random_secret'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
