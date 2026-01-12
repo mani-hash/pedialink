@@ -63,8 +63,8 @@ class SignedToken
     public static function verifySignedToken(string $token, string $secret): array
     {
         $result = [
-            'user' => null,
-            'verified' => false,
+            null, // user
+            false, // verified
         ];
 
         // split
@@ -97,7 +97,7 @@ class SignedToken
          * @var User
          */
         $user = User::find($payload['uid']);
-        $result['user'] = $user;
+        $result[0] = $user;
         if (!$user)
             return $result;
 
@@ -109,7 +109,7 @@ class SignedToken
             }
         }
 
-        $result['verified'] = true;
+        $result[1] = true;
         return $result;
     }
 }
