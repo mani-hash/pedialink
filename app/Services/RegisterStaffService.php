@@ -2,18 +2,22 @@
 
 namespace App\Services;
 
+use App\Helpers\NicValidator;
 use App\Helpers\SignedToken;
 use App\Helpers\Validator;
 use App\Models\Doctor;
 use App\Models\PublicHealthMidwife;
 use App\Models\Staff;
 use App\Models\User;
+use App\Rules\DivisionRule;
 use App\Rules\EmailRule;
+use App\Rules\NameRule;
+use App\Rules\PasswordRule;
 use Exception;
 
 class RegisterStaffService
 {
-    use EmailRule;
+    use EmailRule, NameRule, NicValidator, PasswordRule, DivisionRule;
 
     private function validateRole(string $role)
     {
@@ -161,5 +165,90 @@ class RegisterStaffService
         }
 
         return true;
+    }
+
+    private function validateLicenseNo(string $license_no)
+    {
+        $error = null;
+
+        if (!Validator::validateFieldExistence($license_no)) {
+            $error = "License no cannot be empty";
+            return $error;
+        }
+
+        return $error;
+    }
+
+    public function validateFinalStaffData(
+        User $user,
+        string $name,
+        string $nic,
+        string $license_no,
+        string $password,
+        string $confirm_password,
+        ?string $division = null
+    )
+    {
+        $errors = [];
+
+        $nameError = $this->validateName($name, 'Name');
+        if ($nameError) {
+            $errors['name'] = $nameError;
+        }
+
+        $nicError = $this->validateNic($nic);
+        if ($nicError) {
+            $errors['nic'] = $nicError;
+        }
+
+        $licenseError = $this->validateLicenseNo($license_no);
+        if ($licenseError) {
+            $errors['license_no'] = $licenseError;
+        }
+
+        $passwordError = $this->validatePassword($password, $confirm_password);
+        if ($passwordError) {
+            $errors['password'] = $passwordError;
+        }
+
+        if ($user->isPublicHealthMidwife()) {
+            $divisionError = $this->validateDivision($division);
+            if ($divisionError) {
+                $errors['division'] = $divisionError;
+            }
+        }
+
+        return $errors;
+    }
+
+    public function saveStaffFinal(
+        User $user,
+        string $name,
+        string $nic,
+        string $license_no,
+        string $password,
+        ?string $division = null
+    )
+    {
+        $user->name = $name;
+        $user->password_hash = password_hash(
+            $password,
+            PASSWORD_DEFAULT
+        );
+        $user->email_verified = 1;
+        $userId = $user->save();
+
+        if ($user->isPublicHealthMidwife() && $division) {
+            $phm = PublicHealthMidwife::find($userId);
+            $phm->area_id = (int)$division;
+            $phm->save();
+        }
+
+        $staff = Staff::find($userId);
+        $staff->license_no = $license_no;
+        $staff->nic = $nic;
+        $staff->save();
+
+        return User::find($userId);
     }
 }
