@@ -7,7 +7,7 @@ Please verify your email address by visiting the link below. This link will expi
 Verify your email:
 <?= htmlspecialchars($verify_url) ?>
 
-If you did not request this, you can ignore this message or contact support at {{support_email}}.
+If you did not request this, you can ignore this message or contact support at pedialink@gmail.com.
 
 Regards,
 The PediaLink team

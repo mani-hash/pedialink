@@ -1,12 +1,12 @@
 @extends('layout/auth')
 
 @section('title')
-    Forgot Password
+    Reset Password
 @endsection
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/pages/auth/common.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/pages/auth/forgot-password.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/auth/reset-password.css') }}">
 @endsection
 
 @section('content')
@@ -21,26 +21,41 @@
         </div>
         <div class="form-container">
             <div class="topic">
-                <h1>Forgot Password</h1>
+                <h1>Reset Password</h1>
                 <span class="text-muted">Enter your email to reset your password</span>
             </div>
             <c-card class="form-content">
                 <div>
-                    <form id="forgot-password" method="POST" action="{{ route('reset.password.send')}}">
+                    <form id="reset-password-form" method="POST" action="{{ route('reset.password.submit', [], ['token' => $token])}}">
                         <c-input
                             label="Email:"
                             id="email"
                             name="email"
                             type="email"
                             placeholder="Enter your email"
-                            value="{{ old('email') ?? '' }}"
-                            error="{{ errors('email') ?? '' }}"
+                            value="{{ $email }}"
+                            disabled
+                        />
+                        <c-input
+                            label="Password:"
+                            id="password"
+                            name="password"
+                            type="password"
+                            placeholder="Enter your password"
+                            error="{{ errors('password') ?? '' }}"
+                        />
+                        <c-input
+                            label="Confirm Password:"
+                            id="confirm_password"
+                            name="confirm_password"
+                            type="password"
+                            placeholder="Re-enter your password"
                         />
                     </form>
                 </div>
                 <div class="footer">
-                    <c-button id="send-email" type="submit" form="forgot-password" variant="primary">
-                        Send Email
+                    <c-button id="reset-btn" type="submit" form="reset-password-form" variant="primary">
+                        Reset password
                     </c-button>
                 </div>
             </c-card>
