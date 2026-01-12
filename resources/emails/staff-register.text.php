@@ -11,7 +11,7 @@ You can continue to account creation by clicking on the link given below
 Continue to account creation:
 <?= htmlspecialchars($register_link) ?>
 
-If you did not request this, you can ignore this message or contact support at {{support_email}}.
+If you did not request this, you can ignore this message or contact support at pedialink@gmail.com.
 
 Regards,
 The PediaLink team
