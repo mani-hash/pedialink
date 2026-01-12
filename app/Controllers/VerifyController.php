@@ -3,15 +3,18 @@
 namespace App\Controllers;
 
 use App\Services\EmailVerificationService;
+use App\Services\Parent\VerificationService;
 use Library\Framework\Http\Request;
 
 class VerifyController
 {
     private EmailVerificationService $emailVerificationService;
+    private VerificationService $parentVerificationService;
 
     public function __construct()
     {
         $this->emailVerificationService = new EmailVerificationService();
+        $this->parentVerificationService = new VerificationService();
     }
 
     private function preventEmailVerifyViewing()
@@ -135,5 +138,35 @@ class VerifyController
         return view("auth/parent-unverified", [
             "submitted" => $submitted,
         ]);
+    }
+
+    public function submitParentDocuments(Request $request)
+    {
+        $birth_certificate = $request->file('birth_certificate') ?? [];
+        $marriage_certificate = $request->file('marriage_certificate') ?? [];
+        $nic_copy = $request->file('nic_copy') ?? [];
+
+        $errors = $this->parentVerificationService->validateDocuments(
+            $birth_certificate,
+            $marriage_certificate,
+            $nic_copy,
+        );
+
+        if (count($errors) !== 0) {
+            return redirect(route('parent.unverified'))
+                ->withErrors($errors);
+                // ->withInput([
+                //     'birth_certificate' => $birth_certificate,
+                //     'marriage_certificate'
+                // ]);
+        }
+
+        $this->parentVerificationService->uploadDocuments(
+            $birth_certificate,
+            $marriage_certificate,
+            $nic_copy
+        );
+
+        return redirect(route('parent.unverified'));
     }
 }
