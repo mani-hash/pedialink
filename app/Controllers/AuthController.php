@@ -3,20 +3,19 @@
 namespace App\Controllers;
 
 use App\Models\Area;
-use App\Models\ParentM;
-use App\Models\User;
 use App\Services\AuthService;
+use App\Services\EmailVerificationService;
 use Library\Framework\Http\Request;
-use Library\Framework\Http\Response;
-use Library\Framework\Session\SessionManager;
 
 class AuthController
 {
     private AuthService $authService;
+    private EmailVerificationService $emailVerificationService;
 
     public function __construct()
     {
         $this->authService = new AuthService();
+        $this->emailVerificationService = new EmailVerificationService();
     }
 
     public function parentRegisterInitial(Request $request)
@@ -89,6 +88,21 @@ class AuthController
             $data = array_merge($data, session()->get("register_form"));
 
             $user = $this->authService->createParentAccount($data);
+
+            $verifyLink = $this->emailVerificationService
+                    ->createVerificationUrl(
+                        $user, config('app.key')
+                    );
+
+            mailer()->sendTemplate(
+                $user->email,
+                'verify-email',
+                [
+                    'username' => $user->name,
+                    'verify_link' => $verifyLink
+                ],
+                'Verify your email',
+            );
 
             auth()->login($user);
 

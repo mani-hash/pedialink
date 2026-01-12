@@ -2,6 +2,7 @@
 
 use App\Controllers\AuthController;
 use App\Controllers\SettingController;
+use App\Controllers\VerifyController;
 
 return [
     ['GET', '/parent/register', [AuthController::class, 'parentRegisterInitial'], 'parent.register', ['guest']],
@@ -16,4 +17,11 @@ return [
     ['POST', '/logout', [AuthController::class, 'logout'], 'logout', ['auth']],
     ['POST', '/profile/update-profile', [SettingController::class, 'updateName'], 'update.profile', ['auth']],
     ['POST', '/profile/update-password', [SettingController::class, 'updatePassword'], 'update.password', ['auth']],
+    ['GET', '/verify/email', [VerifyController::class, 'emailUnverified'], 'email.unverified', ['auth']],
+    ['POST', '/verify/email/send', [VerifyController::class, 'verifyEmailSend'], 'email.verify.send', ['auth']],
+    ['GET', '/verify-email', [VerifyController::class, 'verifyEmail'], 'email.verify', ['auth']],
+
+    // Parent verification
+    ['GET', '/parent/verify/documents', [VerifyController::class, 'parentUnverified'], 'parent.unverified', ['parent']],
+    ['POST', '/parent/documents/submit', [VerifyController::class, 'submitParentDocuments'], 'parent.document.submit', ['parent']],
 ];
