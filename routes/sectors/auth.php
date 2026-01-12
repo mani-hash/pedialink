@@ -23,4 +23,5 @@ return [
 
     // Parent verification
     ['GET', '/parent/verify/documents', [VerifyController::class, 'parentUnverified'], 'parent.unverified', ['parent']],
+    ['POST', '/parent/documents/submit', [VerifyController::class, 'submitParentDocuments'], 'parent.document.submit', ['parent']],
 ];
