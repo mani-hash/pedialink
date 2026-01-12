@@ -2,20 +2,24 @@
 
 namespace App\Controllers;
 
+use App\Helpers\SignedToken;
 use App\Models\Area;
 use App\Services\AuthService;
 use App\Services\EmailVerificationService;
+use App\Services\RegisterStaffService;
 use Library\Framework\Http\Request;
 
 class AuthController
 {
     private AuthService $authService;
     private EmailVerificationService $emailVerificationService;
+    private RegisterStaffService $registerStaffService;
 
     public function __construct()
     {
         $this->authService = new AuthService();
         $this->emailVerificationService = new EmailVerificationService();
+        $this->registerStaffService = new RegisterStaffService();
     }
 
     public function parentRegisterInitial(Request $request)
@@ -170,6 +174,89 @@ class AuthController
             ->withErrors([
                 "email" => "Invalid username or password",
             ]);
+    }
+
+    public function registerStaffView(Request $request)
+    {
+        $token = $request->input('token') ?? '';
+
+        [$user, $verified] = SignedToken::verifySignedToken($token, config('app.key'));
+
+        if (!$verified || $user->email_verified === true) {
+            return redirect(route('home'))
+                ->withMessage('Invalid token', 'Failure', 'error');
+        }
+
+        $areas = Area::all();
+
+        return view('auth/staff-register', [
+            'token' => $token,
+            'email' => $user->email,
+            'role' => $user->role,
+            'areas' => $areas,
+        ]);
+    }
+
+    public function registerStaff(Request $request)
+    {
+        $token = $request->input('token') ?? '';
+
+        [$user, $verified] = SignedToken::verifySignedToken($token, config('app.key'));
+
+        if (!$verified || $user->email_verified === true) {
+            return redirect(route('staff.register', [], ['token' => $token]))
+                ->withMessage('Invalid token', 'Failure', 'error');
+        }
+
+        $data = [
+            'name' => $request->input('name') ?? '',
+            'nic' => $request->input('nic') ?? '',
+            'license_no' => $request->input('license_no') ?? '',
+            'password' => $request->input('password') ?? '',
+            'confirm_password' => $request->input('confirm_password') ?? '',
+        ];
+
+        if ($user->isPublicHealthMidwife()) {
+            $data['division'] = $request->input('division') ?? '';
+        }
+
+        $errors = $this->registerStaffService->validateFinalStaffData(
+            $user,
+            $data['name'],
+            $data['nic'],
+            $data['license_no'],
+            $data['password'],
+            $data['confirm_password'],
+            isset($data['division']) ? $data['division'] : null
+        );
+
+        if (count($errors) !== 0) {
+            unset($data['password'], $data['confirm_password']);
+            return redirect(route('staff.register', [], ['token' => $token]))
+                ->withInput($data)
+                ->withErrors($errors);
+        }
+
+        $newUser = $this->registerStaffService->saveStaffFinal(
+            $user,
+            $data['name'],
+            $data['nic'],
+            $data['license_no'],
+            $data['password'],
+            isset($data['division']) ? $data['division'] : null
+        );
+
+        auth()->login($newUser);
+
+        $route = route('home');
+
+        if ($user->role === "doctor") {
+            $route = route('doctor.dashboard');
+        } else if ($user->role === "phm") {
+            $route = route('phm.dashboard');
+        }
+
+        return redirect($route);
     }
 
     public function forgotPassword(Request $request)

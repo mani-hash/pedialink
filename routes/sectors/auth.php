@@ -24,4 +24,8 @@ return [
     // Parent verification
     ['GET', '/parent/verify/documents', [VerifyController::class, 'parentUnverified'], 'parent.unverified', ['parent']],
     ['POST', '/parent/documents/submit', [VerifyController::class, 'submitParentDocuments'], 'parent.document.submit', ['parent']],
+
+    // Staff registration
+    ['GET', '/staff/register', [AuthController::class, 'registerStaffView'], 'staff.register', ['guest']],
+    ['POST', '/staff/register', [AuthController::class, 'registerStaff'], 'staff.register.submit', ['guest']],
 ];
