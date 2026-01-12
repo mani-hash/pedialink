@@ -209,7 +209,7 @@ function request($key = null, $default = null)
 /**
  * Global helper to access storage class
  */
-function storage()
+function storage(): Storage
 {
     $storage = app(Storage::class);
 
