@@ -182,7 +182,7 @@ class AuthController
 
         [$user, $verified] = SignedToken::verifySignedToken($token, config('app.key'));
 
-        if (!$verified) {
+        if (!$verified || $user->email_verified === true) {
             return redirect(route('home'))
                 ->withMessage('Invalid token', 'Failure', 'error');
         }
@@ -203,7 +203,7 @@ class AuthController
 
         [$user, $verified] = SignedToken::verifySignedToken($token, config('app.key'));
 
-        if (!$verified) {
+        if (!$verified || $user->email_verified === true) {
             return redirect(route('staff.register', [], ['token' => $token]))
                 ->withMessage('Invalid token', 'Failure', 'error');
         }
