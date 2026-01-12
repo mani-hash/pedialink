@@ -74,6 +74,41 @@ docker compose up -d
 docker compose down
 ```
 
+## Storage fix for docker
+
+Type the following commands to fix storage issues:
+
+### 1. Find the id for www-data in the docker container
+
+Type this command inside the project root. This will give you the uid.
+
+```bash
+docker compose exec app id www-data
+```
+
+**NOTE**: The value will be typically 33
+
+### 2. Change the storage folder owner to the above id
+
+This will change the owner of the storage folder. In my case the id was 33.
+
+```bash
+sudo chown -R 33:33 ./storage
+```
+
+### 3. Change the permissions for storage folder
+
+Change the permissions for all directories inside storage folder
+
+```bash
+sudo find ./storage -type d -exec chmod 775 {} \;
+```
+Change the permissions for all files inside storage folder
+
+```bash
+sudo find ./storage -type f -exec chmod 664 {} \;
+```
+
 ### Additional info:
 
 - By default the project runs under `localhost:8080`
