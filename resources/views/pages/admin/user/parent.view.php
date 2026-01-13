@@ -135,7 +135,9 @@
 
                             <p>Approve parent <span class="parent-name-approve">"{{ $parent["name"] }}"</span> of id <span class="parent-id-approve">P-{{ $parent["id"] }}</span>?</p>
 
-                            <form id="approve-account-{{ $key }}" action="" class="hidden"></form>
+                            <form id="approve-account-{{ $key }}" method="POST" action="{{ route('admin.user.parent.approve', ['id' => $parent['id']])}}" class="hidden">
+
+                            </form>
 
                             <c-slot name="close">
                                 Cancel
@@ -165,7 +167,7 @@
 
                             <p>Deny parent <span class="parent-name-deny">"{{ $parent["name"] }}"</span> of id <span class="parent-id-deny">P-{{ $parent["id"] }}</span>?</p>
 
-                            <form id="deny-account-{{ $key }}" action="" class="hidden"></form>
+                            <form id="deny-account-{{ $key }}" method="POST" action="{{ route('admin.user.parent.deny', ['id' => $parent['id']])}}" class="hidden"></form>
 
                             <c-slot name="close">
                                 Cancel
