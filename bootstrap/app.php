@@ -17,6 +17,7 @@ require_once __DIR__ . '/../library/helpers/global.php';
 
 // Import local helper files
 require_once __DIR__ . '/../library/helpers/filters-data-table.php';
+require_once __DIR__ . '/../library/helpers/time.php';
 
 // Load env values from .env file
 $env = new Env(__DIR__ . '/../.env');

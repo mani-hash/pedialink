@@ -178,6 +178,12 @@ class Storage
         }
     }
 
+    public function getFullPath(string $disk, string $path)
+    {
+        return rtrim($this->diskConfig($disk)['root'], '/') .
+            '/' . ltrim($path, '/');
+    }
+
     // Return a URL for a file. For public disks this will be the prefix + path; for private disks it will be a signed URL route.
     public function url(string $disk, string $path): string
     {
