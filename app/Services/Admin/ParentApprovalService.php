@@ -12,6 +12,9 @@ class ParentApprovalService
     {
         $parents = ParentM::query()
             ->where('verified', '=', 0)
+            ->where('birth_certificate', '!=', \PDO::NULL_NATURAL)
+            ->where('marriage_certificate', '!=', \PDO::NULL_NATURAL)
+            ->where('nic_copy', '!=', \PDO::NULL_NATURAL)
             ->orderBy('id', 'ASC')
             ->paginate(10)
             ->toArray();
