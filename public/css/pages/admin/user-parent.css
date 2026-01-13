@@ -53,6 +53,11 @@
     font-weight: var(--font-weight-semibold);
 }
 
+.download-btn {
+    width: 18rem;
+    justify-content: center;
+}
+
 @media (max-width: 1200px) {
     .parent-approval-content {
         grid-template-columns: repeat(1, minmax(0, 1fr));

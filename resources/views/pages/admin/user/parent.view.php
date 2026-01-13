@@ -13,18 +13,6 @@
 @endsection
 
 @section('content')
-    <?php
-
-    $parents = [
-        ["id" => 1234, "name" => "Peter Johns"],
-        ["id" => 1234, "name" => "Peter Johns"],
-        ["id" => 1234, "name" => "Peter Johns"],
-        ["id" => 1234, "name" => "Peter Johns"],
-        ["id" => 1234, "name" => "Peter Johns"],
-        ["id" => 1234, "name" => "Peter Johns"],
-
-    ];
-    ?>
     <div class="parent-approval-content">
 
         @foreach ($parents as $key => $parent)
@@ -33,7 +21,9 @@
                     <h3>{{ $parent["name"] }}</h3>
                 </c-slot>
                 <c-slot name="headerSuffix">
-                    <span class="approval-time">30 minutes ago</span>
+                    <span class="approval-time">
+                        {{ time_ago($parent['created_at']) }}
+                    </span>
                     <c-dropdown.main class="view-approval-sm-btn">
                         <c-slot name="trigger">
                             <c-button variant="ghost" class="dropdown-trigger">
@@ -63,7 +53,7 @@
                                     <c-modal.viewitem
                                         icon="{{ asset('assets/icons/profile-02.svg') }}"
                                         title="Profile"
-                                        info="P-1234"
+                                        info="P-{{ $parent['id'] }}"
                                     />
                                     <c-modal.viewitem
                                         icon="{{ asset('assets/icons/user.svg') }}"
@@ -73,31 +63,28 @@
                                     <c-modal.viewitem
                                         icon="{{ asset('assets/icons/calendar-02.svg') }}"
                                         title="Created On"
-                                        info="Monday, January 15, 2023"
+                                        info="{{ date('Y-m-d', strtotime($parent['created_at'])) }}"
                                     />
                                     <c-modal.viewitem
                                         icon="{{ asset('assets/icons/student-card.svg') }}"
                                         title="NIC"
-                                        info="200301243423"
+                                        info="{{ $parent['nic'] }}"
                                     />
                                     <c-modal.viewitem
                                         icon="{{ asset('assets/icons/mother.svg') }}"
                                         title="Account Type"
-                                        info="Mother"
+                                        info="{{ ucfirst($parent['type']) }}"
                                     />
                                     
                                     <c-modal.viewitem
                                         icon="{{ asset('assets/icons/location-05.svg') }}"
                                         title="Location"
-                                        info="Borella"
+                                        info="{{ ucfirst($parent['division']) }}"
                                     />
                                 </c-modal.viewcard>
 
                                 <div class="approval-additional-content">
-                                    <h4>Additional Information</h4>
-                                    <ul>
-                                        <li>Address: Lorem Ipsum</li>
-                                    </ul>
+                                    dsds
                                 </div>
 
                                 <c-slot name="close">
@@ -190,7 +177,7 @@
                                 <c-modal.viewitem
                                     icon="{{ asset('assets/icons/profile-02.svg') }}"
                                     title="Profile"
-                                    info="P-1234"
+                                    info="P-{{ $parent['id'] }}"
                                 />
                                 <c-modal.viewitem
                                     icon="{{ asset('assets/icons/user.svg') }}"
@@ -200,29 +187,46 @@
                                 <c-modal.viewitem
                                     icon="{{ asset('assets/icons/calendar-02.svg') }}"
                                     title="Created On"
-                                    info="Monday, January 15, 2023"
+                                    info="{{ date('Y-m-d', strtotime($parent['created_at'])) }}"
                                 />
                                 <c-modal.viewitem
                                     icon="{{ asset('assets/icons/student-card.svg') }}"
                                     title="NIC"
-                                    info="200301243423"
+                                    info="{{ $parent['nic'] }}"
                                 />
                                 <c-modal.viewitem
                                     icon="{{ asset('assets/icons/mother.svg') }}"
                                     title="Account Type"
-                                    info="Mother"
+                                    info="{{ ucfirst($parent['type']) }}"
                                 />
                                 
                                 <c-modal.viewitem
                                     icon="{{ asset('assets/icons/location-05.svg') }}"
                                     title="Location"
-                                    info="Borella"
+                                    info="{{ ucfirst($parent['division']) }}"
                                 />
                             </c-modal.viewcard>
 
                             <c-modal.viewlist title="Additional Information">
                                 <c-slot name="list">
-                                    <li>Address: Lorem Ipsum</li>
+                                    <form action="{{ route('admin.user.parent.download', ['id' => $parent['id'], 'type' => 'marriage']) }}" method="get" target="_blank">
+                                        <c-button class="download-btn" type="submit" variant="primary">
+                                            <img src="{{ asset('assets/icons/download-04.svg') }}" />
+                                            Download marriage certificate
+                                        </c-button>
+                                    </form>
+                                    <form action="{{ route('admin.user.parent.download', ['id' => $parent['id'], 'type' => 'birth']) }}" method="get" target="_blank">
+                                        <c-button class="download-btn" type="submit" variant="primary">
+                                            <img src="{{ asset('assets/icons/download-04.svg') }}" />
+                                            Download birth certificate
+                                        </c-button>
+                                    </form>
+                                    <form action="{{ route('admin.user.parent.download', ['id' => $parent['id'], 'type' => 'nic']) }}" method="get" target="_blank">
+                                        <c-button class="download-btn" type="submit" variant="primary">
+                                            <img src="{{ asset('assets/icons/download-04.svg') }}" />
+                                            Download NIC Copy
+                                        </c-button>
+                                    </form>
                                 </c-slot>
                             </c-modal.viewlist>
 
