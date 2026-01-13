@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Controllers\Admin;
+use App\Models\ParentM;
 use App\Services\Admin\AdminUserService;
 use App\Services\Admin\ParentApprovalService;
 use App\Services\Admin\UserOverviewService;
 use App\Services\RegisterStaffService;
 use Library\Framework\Http\Request;
+use Library\Framework\Http\Response;
 
 class UserController
 {
@@ -78,6 +80,34 @@ class UserController
             'parents' => $parents,
             'links' => $links,
         ]);
+    }
+
+    public function parentDocumentDownload(Request $request, int $id, string $type)
+    {
+        /**
+         * @var ParentM
+         */
+        $parent = ParentM::find($id);
+        $link = "";
+
+        if ($parent) {
+            switch (strtolower($type)) {
+                case "birth":
+                    $link = storage()
+                        ->temporaryUrl('local', $parent->birth_certificate);
+                    break;
+                case "marriage":
+                    $link = storage()
+                        ->temporaryUrl('local', $parent->marriage_certificate);
+                    break;
+                case "nic":
+                    $link = storage()
+                        ->temporaryUrl('local', $parent->nic_copy);
+                    break;
+            }
+        }
+
+        return redirect($link);
     }
 
     public function createAdmin(Request $request)

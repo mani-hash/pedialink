@@ -15,6 +15,7 @@ return [
     ['GET', '/admin/user/overview', [UserController::class, 'overview'], 'admin.user.overview', ['admin', 'verified']],
     ['POST', '/admin/user/register-staff', [UserController::class, 'registerStaff'], 'admin.user.register.staff', ['admin', 'verified']],
     ['GET', '/admin/user/parent', [UserController::class, 'parentAccountApproval'], 'admin.user.parent', ['admin', 'verified']],
+    ['GET', '/admin/user/parent/{id}/{type}', [UserController::class, 'parentDocumentDownload'], 'admin.user.parent.download', ['admin', 'verified']],
     ['GET', '/admin/user/admin', [UserController::class, 'admin'], 'admin.user.admin', ['admin', 'verified']],
     ['POST', '/admin/user/admin/create', [UserController::class, 'createAdmin'], 'admin.user.admin.create', ['admin', 'verified']],
     ['POST', '/admin/user/admin/{id}/edit', [UserController::class, 'editAdmin'], 'admin.user.admin.edit', ['admin', 'verified']],
