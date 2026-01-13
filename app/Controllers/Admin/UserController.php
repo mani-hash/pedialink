@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Admin;
 use App\Services\Admin\AdminUserService;
+use App\Services\Admin\ParentApprovalService;
 use App\Services\Admin\UserOverviewService;
 use App\Services\RegisterStaffService;
 use Library\Framework\Http\Request;
@@ -11,12 +12,14 @@ class UserController
     private UserOverviewService $userOverviewService;
     private AdminUserService $adminUserService;
     private RegisterStaffService $registerStaffService;
+    private ParentApprovalService $parentApprovalService;
 
     public function __construct()
     {
         $this->userOverviewService = new UserOverviewService();
         $this->adminUserService = new AdminUserService();
         $this->registerStaffService = new RegisterStaffService();
+        $this->parentApprovalService = new ParentApprovalService();
     }
 
     public function overview(Request $request)
@@ -70,7 +73,11 @@ class UserController
 
     public function parentAccountApproval()
     {
-        return view('admin/user/parent');
+        [$parents, $links] = $this->parentApprovalService->getPendingParentDetails();
+        return view('admin/user/parent', [
+            'parents' => $parents,
+            'links' => $links,
+        ]);
     }
 
     public function createAdmin(Request $request)
