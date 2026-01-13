@@ -23,12 +23,13 @@ class UserController
     {
         $search = $request->input('search');
         $filters = $request->input('filters');
-        $users = $this->userOverviewService->getUserDetails(
+        [$users, $links] = $this->userOverviewService->getUserDetails(
             $search,
             $filters
         );
         return view('admin/user/overview', [
             'users' => $users,
+            'links' => $links,
         ]);
     }
 
