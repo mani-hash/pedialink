@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Admin;
 use App\Models\ParentM;
+use App\Models\User;
 use App\Services\Admin\AdminUserService;
 use App\Services\Admin\ParentApprovalService;
 use App\Services\Admin\UserOverviewService;
@@ -108,6 +109,59 @@ class UserController
         }
 
         return redirect($link);
+    }
+
+    public function parentApprove(Request $request, int $id)
+    {
+        $parent = ParentM::find($id);
+
+        if ($parent) {
+            $parent->verified = 1;
+            $parent->save();
+
+            return redirect(route('admin.user.parent'))
+                ->withMessage(
+                    'Parent has been approved successfully',
+                    'Success',
+                    'success'
+                );
+        }
+
+        return redirect(route('admin.user.parent'))
+            ->withMessage(
+                'Failed to approve parent',
+                'Failure',
+                'error'
+            );
+    }
+
+    public function parentDeny(Request $request, int $id)
+    {
+        $parent = ParentM::find($id);
+
+        if ($parent) {
+            $parentId = $parent->id;
+            $parent->delete();
+            
+            $user = User::find($parentId);
+            if ($user) {
+                $user->delete();
+            }
+
+            return redirect(route('admin.user.parent'))
+                ->withMessage(
+                    'Parent account has been denied access successfully',
+                    'Success',
+                    'success'
+                );
+        }
+
+        return redirect(route('admin.user.parent'))
+            ->withMessage(
+                'Failed to deny parent access',
+                'Failure',
+                'error'
+            );
     }
 
     public function createAdmin(Request $request)
