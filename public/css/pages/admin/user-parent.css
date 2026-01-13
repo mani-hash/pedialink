@@ -58,6 +58,16 @@
     justify-content: center;
 }
 
+.btn-grp {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing) * 5);
+}
+
+.btn-grp .download-btn {
+    width: 100%;
+}
+
 @media (max-width: 1200px) {
     .parent-approval-content {
         grid-template-columns: repeat(1, minmax(0, 1fr));

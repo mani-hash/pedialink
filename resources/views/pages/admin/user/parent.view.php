@@ -83,8 +83,28 @@
                                     />
                                 </c-modal.viewcard>
 
-                                <div class="approval-additional-content">
-                                    dsds
+                                <div>
+                                    <h4>Additional Information</h4>
+                                    <div class="btn-grp">
+                                        <form action="{{ route('admin.user.parent.download', ['id' => $parent['id'], 'type' => 'marriage']) }}" method="get" target="_blank">
+                                            <c-button class="download-btn" type="submit" variant="primary">
+                                                <img src="{{ asset('assets/icons/download-04.svg') }}" />
+                                                Download marriage certificate
+                                            </c-button>
+                                        </form>
+                                        <form action="{{ route('admin.user.parent.download', ['id' => $parent['id'], 'type' => 'birth']) }}" method="get" target="_blank">
+                                            <c-button class="download-btn" type="submit" variant="primary">
+                                                <img src="{{ asset('assets/icons/download-04.svg') }}" />
+                                                Download birth certificate
+                                            </c-button>
+                                        </form>
+                                        <form action="{{ route('admin.user.parent.download', ['id' => $parent['id'], 'type' => 'nic']) }}" method="get" target="_blank">
+                                            <c-button class="download-btn" type="submit" variant="primary">
+                                                <img src="{{ asset('assets/icons/download-04.svg') }}" />
+                                                Download NIC Copy
+                                            </c-button>
+                                        </form>
+                                    </div>
                                 </div>
 
                                 <c-slot name="close">
