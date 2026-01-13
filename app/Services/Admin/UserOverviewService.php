@@ -93,6 +93,8 @@ class UserOverviewService
             $resource[] = array_merge($common, $additional);
         }
 
-        return $resource;
+        $links = array_diff_key($results, ['items' => true]);
+
+        return [$resource, $links];
     }
 }
