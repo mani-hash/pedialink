@@ -13,20 +13,7 @@
 @endsection
 
 @section('content')
-    <?php
-    $events = [
-        ["title" => "Nutrition Workshop for New Parents", "date" => "2024-01-15 at 09.00 AM", "location" => "MOH Office Clinic", "visibility" => true, "status" => "completed"],
-        ["title" => "Nutrition Workshop for New Parents", "date" => "2024-01-15 at 09.00 AM", "location" => "MOH Office Clinic", "visibility" => true, "status" => "completed"],
-        ["title" => "Nutrition Workshop for New Parents", "date" => "2024-01-15 at 09.00 AM", "location" => "MOH Office Clinic", "visibility" => true, "status" => "completed"],
-        ["title" => "Nutrition Workshop for New Parents", "date" => "2024-01-15 at 09.00 AM", "location" => "MOH Office Clinic", "visibility" => true, "status" => "completed"],
-        ["title" => "Nutrition Workshop for New Parents", "date" => "2024-01-15 at 09.00 AM", "location" => "MOH Office Clinic", "visibility" => false, "status" => "upcoming"],
-        ["title" => "Nutrition Workshop for New Parents", "date" => "2024-01-15 at 09.00 AM", "location" => "MOH Office Clinic", "visibility" => true, "status" => "completed"],
-        ["title" => "Nutrition Workshop for New Parents", "date" => "2024-01-15 at 09.00 AM", "location" => "MOH Office Clinic", "visibility" => true, "status" => "upcoming"],
-        ["title" => "Nutrition Workshop for New Parents", "date" => "2024-01-15 at 09.00 AM", "location" => "MOH Office Clinic", "visibility" => false, "status" => "cancelled"],
-        ["title" => "Nutrition Workshop for New Parents", "date" => "2024-01-15 at 09.00 AM", "location" => "MOH Office Clinic", "visibility" => true, "status" => "upcoming"],
-        ["title" => "Nutrition Workshop for New Parents", "date" => "2024-01-15 at 09.00 AM", "location" => "MOH Office Clinic", "visibility" => false, "status" => "cancelled"],
-    ];
-    ?>
+   
 
     <c-table.controls :columns='["Title","Date & Time","Location","Visibility","Status"]'>
         <c-slot name="filter">
@@ -116,22 +103,22 @@
                     @foreach ($events as $key => $event)
                         <c-table.tr>
                             <c-table.td class="title-event-tdata" col="title">{{ $event['title'] }}</c-table.td>
-                            <c-table.td class="event-tdata" col="date">{{ $event['date'] }}</c-table.td>
-                            <c-table.td class="event-tdata" col="location">{{ $event['location'] }}</c-table.td>
+                            <c-table.td class="event-tdata" col="date">{{ $event['event_date'] }}</c-table.td>
+                            <c-table.td class="event-tdata" col="location">{{ $event['event_location'] }}</c-table.td>
                             <c-table.td class="event-tdata" col="visibility">
-                                @if ($event["visibility"])
+                                @if ($event["visible"])
                                     <c-badge class="visibility-event" type="green">Visible</c-badge>
                                 @else 
                                     <c-badge class="visibility-event" type="red">Hidden</c-badge>
                                 @endif
                             </c-table.td>
                             <c-table.td class="event-tdata" col="status">
-                                @if (strtolower($event['status']) === "completed")
-                                    <c-badge class="status-event" type="green">{{ ucfirst($event['status']) }}</c-badge>
-                                @elseif (strtolower($event['status']) === "upcoming")
-                                    <c-badge class="status-event" type="purple">{{ ucfirst($event['status']) }}</c-badge>
-                                @elseif (strtolower($event['status']) === "cancelled")
-                                    <c-badge class="status-event" type="red">{{ ucfirst($event['status']) }}</c-badge>                                  
+                                @if (strtolower($event['event_status']) === "completed")
+                                    <c-badge class="status-event" type="green">{{ ucfirst($event['event_status']) }}</c-badge>
+                                @elseif (strtolower($event['event_status']) === "upcoming")
+                                    <c-badge class="status-event" type="purple">{{ ucfirst($event['event_status']) }}</c-badge>
+                                @elseif (strtolower($event['event_status']) === "cancelled")
+                                    <c-badge class="status-event" type="red">{{ ucfirst($event['event_status']) }}</c-badge>                                  
                                 @endif
                             </c-table.td>
                             <c-table.td class="table-actions" align="center">
@@ -260,24 +247,24 @@
                                         </c-modal>
                                         <c-modal>
                                             <c-slot name="trigger">
-                                                <c-dropdown.item>{{ $event['visibility'] ? 'Hide' : 'Show' }} Event</c-dropdown.item>
+                                                <c-dropdown.item>{{ $event['visible'] ? 'Hide' : 'Show' }} Event</c-dropdown.item>
                                             </c-slot>
 
                                             <c-slot name="header">
-                                                <div>{{ $event['visibility'] ? 'Hide' : 'Show' }} Event Details</div>
+                                                <div>{{ $event['visible'] ? 'Hide' : 'Show' }} Event Details</div>
                                             </c-slot>
-                                            @if ($event["visibility"])
-                                                <p>Do you want to hide <span class="event-visible-alert-highlight">Event No 123</span>?</p>
+                                            @if ($event["visible"])
+                                                <p>Do you want to hide <span class="event-visible-alert-highlight">Event ID E-{{ $event['id'] }}</span>?</p>
                                             @else 
-                                                <p>Do you want to make <span class="event-visible-alert-highlight">Event No 123</span> visible?</p>   
+                                                <p>Do you want to make <span class="event-visible-alert-highlight">Event ID E-{{ $event['id'] }}</span> visible?</p>   
                                             @endif
                                             <c-slot name="close">
                                                 Cancel
                                             </c-slot>
 
                                             <c-slot name="footer">
-                                                <c-button variant="{{ $event['visibility'] ? 'destructive' : 'primary'}}" type="submit">
-                                                    {{ $event['visibility'] ? 'Hide Event' : 'Show Event'}}
+                                                <c-button variant="{{ $event['visible'] ? 'destructive' : 'primary'}}" type="submit">
+                                                    {{ $event['visible'] ? 'Hide Event' : 'Show Event'}}
                                                 </c-button>
                                             </c-slot>
                                         </c-modal> 
@@ -290,7 +277,7 @@
                                             </c-slot>
 
                                             <p>
-                                                Do you want to delete <span class="delete-event-highlight">Event No 123</span>?
+                                                Do you want to delete <span class="delete-event-highlight">Event ID E-{{ $event['id'] }}</span>?
                                             </p>
 
                                             <c-slot name="close">
