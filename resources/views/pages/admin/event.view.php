@@ -154,44 +154,31 @@ Events & Campaigns
 
                                     <c-modal.viewcard>
                                         <c-modal.viewitem icon="{{ asset('assets/icons/calendar-02.svg') }}"
-                                            title="Date" info="Monday, January 15, 2023" />
+                                            title="Date" info="{{ $event['event_date'] }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/clock-01.svg') }}" title="Time"
-                                            info="10:30 AM" />
+                                            info="{{ $event['event_time'] }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/profile-02.svg') }}"
-                                            title="Event ID" info="EVE001" />
+                                            title="Event ID" info="{{ 'E-' . $event['id'] }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/location-05.svg') }}"
-                                            title="Location" info="MOH Office Clinic" />
+                                            title="Location" info="{{ $event['event_location'] }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/mother.svg') }}"
-                                            title="Registered" info="45/200" />
+                                            title="Registered"
+                                            info="{{ $event['participants_count'] . '/' . $event['max_count'] }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/user.svg') }}" title="Created By"
-                                            info="A-1234" />
+                                            info="{{ $event['admin']['name'] }}" />
                                     </c-modal.viewcard>
 
-                                    <c-modal.viewlist title="Title">
+                                    <c-modal.viewlist title="Purpose">
                                         <c-slot name="list">
-                                            <li>Polio Vaccination Drive</li>
+                                            <li>{{ $event['purpose'] }}</li>
                                         </c-slot>
                                     </c-modal.viewlist>
 
-                                    <c-modal.viewlist title="Purpose of Visit">
+                                    <c-modal.viewlist title="Notes">
                                         <c-slot name="list">
-                                            <li>
-                                                Join us for a comprehensive polio vaccination drive targeting children
-                                                under 5
-                                                years. This initiative is part of our ongoing effort to maintain
-                                                polio-free
-                                                status in our community. Qualified healthcare professionals will
-                                                administer the
-                                                vaccines following WHO guidelines.
-                                            </li>
-                                        </c-slot>
-                                    </c-modal.viewlist>
 
-                                    <c-modal.viewlist title="Important Notes">
-                                        <c-slot name="list">
-                                            <li>Bring child vaccination card</li>
-                                            <li>Valid ID for parent/guardian</li>
-                                            <li>Free entry</li>
+                                            <li>{{ $event['notes'] }}</li>
+
                                         </c-slot>
                                     </c-modal.viewlist>
 
