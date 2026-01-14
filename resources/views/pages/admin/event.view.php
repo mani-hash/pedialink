@@ -60,16 +60,19 @@ Events & Campaigns
                 <div>Add Events</div>
             </c-slot>
 
-            <form id="add-event" class="event-form" action="">
-                <c-input type="text" label="Title" placeholder="Enter event title" required />
+            <form id="add-event-form" class="event-form" action="{{route('admin.event.create')}}" method="POST">
+                <c-input type="text" label="Title" name="title" placeholder="Enter event title" required />
                 <c-textarea label="Description" name="description" placeholder="Enter description of the event"
                     required></c-textarea>
                 <div class="event-form-double-input">
-                    <c-input label="Date" type="date" placeholder="Select Date" required />
-                    <c-input label="Time" type="time" placeholder="Select Time" required />
+                    <c-input label="Date" type="date" name="date" placeholder="Select Date" required />
+                    <c-input label="Time" type="time" name="time" placeholder="Select Time" required />
                 </div>
-                <c-input type="number" label="Max Count" placeholder="Maximum Count" required />
-                <c-textarea label="Additional Note" name="additional"
+                <c-input type="text" label="Location" name="location" placeholder="Enter event location" required />
+                <c-input type="number" label="Max Count" name="max_count" placeholder="Maximum Count" required />
+                <c-input type="text" label="Purpose" name="purpose" placeholder="Enter event purpose"  />
+
+                <c-textarea label="Additional Note" name="notes"
                     placeholder="Enter additional details"></c-textarea>
             </form>
 
@@ -78,7 +81,7 @@ Events & Campaigns
             </c-slot>
 
             <c-slot name="footer">
-                <c-button type="submit" form="add-event" variant="primary">Create Event</c-button>
+                <c-button type="submit" form="add-event-form" variant="primary">Create Event</c-button>
             </c-slot>
         </c-modal>
     </c-slot>
