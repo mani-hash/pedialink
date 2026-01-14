@@ -4,28 +4,28 @@ namespace App\Rules;
 
 use App\Helpers\Validator;
 
-trait ReasonRule
+trait TextRule
 {
     /**
      * Validate the reason field
      * 
-     * @param string $reason
+     * @param string $text
      * @param string $attributeName
      * @return string|null
      */
-    private function validateReason(string $reason, string $attributeName = 'Reason')
+    private function validateText(string $text, string $attributeName = 'Text')
     {
         $error = null;
 
-        if (!Validator::validateFieldExistence($reason)) {
+        if (!Validator::validateFieldExistence($text)) {
             return "{$attributeName} field cannot be empty";
         }
 
-        if (!Validator::validateFieldMinLength($reason, 5)) {
+        if (!Validator::validateFieldMinLength($text, 5)) {
             return "{$attributeName} must be at least 5 characters";
         }
 
-        if (!Validator::validateFieldMaxLength($reason, 255)) {
+        if (!Validator::validateFieldMaxLength($text, 255)) {
             return "{$attributeName} cannot be greater than 255 characters";
         }
 
