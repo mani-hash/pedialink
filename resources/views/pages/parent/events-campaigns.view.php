@@ -38,7 +38,7 @@ Parent - Event & Campaigns
 @section('header_right')
 
 
-<c-table.controls action="{{ route('parent.appointments') }}"  :filters="['status' => ['upcoming', 'pending', 'completed', 'cancelled']]">
+<c-table.controls action="{{ route('parent.events.campaigns') }}"  :filters="['status' => ['upcoming', 'ongoing', 'completed', 'cancelled']]">
 
 
 
@@ -50,7 +50,13 @@ Parent - Event & Campaigns
 
 @section('content')
 
-
+@if(empty($events))
+<div class="no-data">
+   <img src="{{ asset('assets/icons/empty-data.svg') }}" alt="No Events" />
+   <h2>No Events & Campaigns Available</h2>
+   <p>Try adjusting your filters or check back later for new events and campaigns.</p>
+</div>
+@endif
 <div class="card-container">
    @foreach ($events as $key => $event)
    {{
