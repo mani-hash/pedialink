@@ -35,6 +35,7 @@ return [
     ['GET', '/admin/events-and-campaigns', [EventController::class, 'index'], 'admin.event', ['admin', 'verified']],
     ['POST', '/admin/events-and-campaigns/create', [EventController::class, 'createEvent'], 'admin.event.create', ['admin', 'verified']],
     ['POST', '/admin/events-and-campaigns/{id}/edit', [EventController::class, 'editEvent'], 'admin.event.edit', ['admin', 'verified']],
+    ['POST', '/admin/events-and-campaigns/{id}/delete', [EventController::class, 'deleteEvent'], 'admin.event.delete', ['admin', 'verified']],
     ['GET', '/admin/settings', [SettingController::class, 'index'], 'admin.settings', ['admin']],
     ['GET', '/admin/notification', [NotificationController::class, 'index'], 'admin.notification', ['admin', 'verified']]
 ];
