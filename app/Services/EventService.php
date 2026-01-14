@@ -8,18 +8,51 @@ use App\Helpers\Validator;
 use App\Rules\PhoneRule;
 use App\Rules\NameRule;
 use App\Rules\ReasonRule; 
+use Library\Framework\Database\QueryBuilder;
 
 class EventService
 {
 
     use NameRule,PhoneRule,ReasonRule;
-    public function getAllEvents(): array
+
+
+     private function applySearch(QueryBuilder $events, string $search)
     {
-        $events = Events::all();
+        $events->where('title', 'ILIKE', "$search%");
+
+        return $events;
+    }
+
+    private function applyFilters(QueryBuilder $events, array $filters)
+    {
+        foreach ($filters as $filterName => $filterValue) {
+            if ($filterValue && is_array($filterValue)) {
+                $events->whereIn('event_status', $filterValue);
+            }
+        }
+
+        return $events;
+    }
+    public function getAllEvents(?string $search, ?array $filters): array
+    {
+        $events = Events::query();
+
+         if ($search) {
+            $events = $this->applySearch($events, $search);
+        }
+
+        if ($filters) {
+            $events = $this->applyFilters($events, $filters);
+        }
+
+        $results = $events
+            ->orderBy('id', 'ASC')
+            ->paginate(10);
+
 
         $resource = [];
 
-        foreach ($events as $event) {
+        foreach ($results->items as $event) {
             $resource[] = [
                 'id' => $event->id,
                 'title' => $event->title,
