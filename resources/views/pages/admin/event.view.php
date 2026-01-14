@@ -15,8 +15,8 @@ Events & Campaigns
 @section('content')
 
 
-<c-table.controls action="{{ route('admin.event') }}" :filters="['Status' => ['upcoming', 'phm', 'doctor', 'admin']]" >
-  
+<c-table.controls action="{{ route('admin.event') }}" :filters="['Status' => ['upcoming', 'phm', 'doctor', 'admin']]">
+
 
     <c-slot name="extrabtn">
         <c-modal id="add-event-modal" size="sm" :initOpen="flash('create') ? true : false">
@@ -60,20 +60,27 @@ Events & Campaigns
                 <div>Add Events</div>
             </c-slot>
 
-            <form id="add-event-form" class="event-form" action="{{route('admin.event.create')}}" method="POST" novalidate>
+            <form id="add-event-form" class="event-form" action="{{route('admin.event.create')}}" method="POST"
+                novalidate>
                 <c-input type="text" label="Title" name="title" value="{{ old('title') ?? '' }}"
-                        error="{{ errors('title') ?? '' }}" placeholder="Enter event title" required />
-                <c-textarea label="Description" name="description" value="{{ old('description') ?? '' }}"  error="{{ errors('description') ?? '' }}" placeholder="Enter description of the event"
+                    error="{{ errors('title') ?? '' }}" placeholder="Enter event title" required />
+                <c-textarea label="Description" name="description" value="{{ old('description') ?? '' }}"
+                    error="{{ errors('description') ?? '' }}" placeholder="Enter description of the event"
                     required></c-textarea>
                 <div class="event-form-double-input">
-                    <c-input label="Date" type="date" name="date" value="{{ old('date') ?? '' }}"  error="{{ errors('date') ?? '' }}" placeholder="Select Date" required />
-                    <c-input label="Time" type="time" name="time" value="{{ old('time') ?? '' }}"  error="{{ errors('time') ?? '' }}" placeholder="Select Time" required />
+                    <c-input label="Date" type="date" name="date" value="{{ old('date') ?? '' }}"
+                        error="{{ errors('date') ?? '' }}" placeholder="Select Date" required />
+                    <c-input label="Time" type="time" name="time" value="{{ old('time') ?? '' }}"
+                        error="{{ errors('time') ?? '' }}" placeholder="Select Time" required />
                 </div>
-                <c-input type="text" label="Location" name="location" value="{{ old('location') ?? '' }}"  error="{{ errors('location') ?? '' }}" placeholder="Enter event location" required />
-                <c-input type="number" label="Max Count" name="max_count" value="{{ old('max_count') ?? '' }}"  error="{{ errors('max_count') ?? '' }}" placeholder="Maximum Count" required />
-                <c-input type="text" label="Purpose" name="purpose" value="{{ old('purpose') ?? '' }}"  error="{{ errors('purpose') ?? '' }}" placeholder="Enter event purpose"  />
-                <c-textarea label="Additional Note" name="notes" value="{{ old('notes') ?? '' }}"  error="{{ errors('notes') ?? '' }}"
-                    placeholder="Enter additional details"></c-textarea>
+                <c-input type="text" label="Location" name="location" value="{{ old('location') ?? '' }}"
+                    error="{{ errors('location') ?? '' }}" placeholder="Enter event location" required />
+                <c-input type="number" label="Max Count" name="max_count" value="{{ old('max_count') ?? '' }}"
+                    error="{{ errors('max_count') ?? '' }}" placeholder="Maximum Count" required />
+                <c-input type="text" label="Purpose" name="purpose" value="{{ old('purpose') ?? '' }}"
+                    error="{{ errors('purpose') ?? '' }}" placeholder="Enter event purpose" />
+                <c-textarea label="Additional Note" name="notes" value="{{ old('notes') ?? '' }}"
+                    error="{{ errors('notes') ?? '' }}" placeholder="Enter additional details"></c-textarea>
             </form>
 
             <c-slot name="close">
@@ -133,7 +140,7 @@ Events & Campaigns
                                 </c-button>
                             </c-slot>
                             <c-slot name="menu">
-                                <c-modal size="md" :initOpen="false">
+                                <c-modal id="view-details-modal" size="md" :initOpen="false">
                                     <c-slot name="trigger">
                                         <c-dropdown.item>View Details</c-dropdown.item>
                                     </c-slot>
@@ -180,7 +187,7 @@ Events & Campaigns
                                         Close
                                     </c-slot>
                                 </c-modal>
-                                <c-modal size="sm" :initOpen="false">
+                                <c-modal id="edit-event-modal-{{$key}}" size="sm" :initOpen="flash('edit') === $event['id'] ? true : false">
                                     <c-slot name="trigger">
                                         <c-dropdown.item>Edit Details</c-dropdown.item>
                                     </c-slot>
@@ -207,21 +214,33 @@ Events & Campaigns
                                         <div>Edit Event Details</div>
                                     </c-slot>
 
-                                    <form id="edit-event" class="event-form" action="">
-                                        <c-input type="text" label="Title" placeholder="Enter event title"
-                                            value="Polio Vaccination Drive" required />
-                                        <c-textarea label="Description" name="description"
-                                            placeholder="Enter description of the event" required>Ipsum
-                                            Lorem</c-textarea>
-                                        <div class="event-form-double-input">
-                                            <c-input label="Date" type="date" placeholder="Select Date"
-                                                value="2025-10-17" required />
-                                            <c-input label="Time" type="time" placeholder="Select Time" value="11:30"
-                                                required />
-                                        </div>
-                                        <c-input type="number" label="Max Count" placeholder="Maximum Count" value="300"
+                                    <form id="edit-event-form-{{$event['id']}}" class="event-form" action="{{ route('admin.event.edit', ['id' => $event['id']]) }}" method="POST">
+                                        <c-input type="text" label="Title" name="title" value="{{ old('e_title') ?? '' }}"
+                                            error="{{ errors('e_title') ?? '' }}" placeholder="Enter event title"
                                             required />
-                                        <c-textarea label="Additional Note" name="additional"
+                                        <c-textarea label="Description" name="description"
+                                            value="{{ old('e_description') ?? '' }}"
+                                            error="{{ errors('e_description') ?? '' }}"
+                                            placeholder="Enter description of the event" required></c-textarea>
+                                        <div class="event-form-double-input">
+                                            <c-input label="Date" type="date" name="date"
+                                                value="{{ old('e_date') ?? '' }}" error="{{ errors('e_date') ?? '' }}"
+                                                placeholder="Select Date" required />
+                                            <c-input label="Time" type="time" name="time"
+                                                value="{{ old('e_time') ?? '' }}" error="{{ errors('e_time') ?? '' }}"
+                                                placeholder="Select Time" required />
+                                        </div>
+                                        <c-input type="text" label="Location" name="location"
+                                            value="{{ old('e_location') ?? '' }}" error="{{ errors('e_location') ?? '' }}"
+                                            placeholder="Enter event location" required />
+                                        <c-input type="number" label="Max Count" name="max_count"
+                                            value="{{ old('e_max_count') ?? '' }}" error="{{ errors('e_max_count') ?? '' }}"
+                                            placeholder="Maximum Count" required />
+                                        <c-input type="text" label="Purpose" name="e_purpose"
+                                            value="{{ old('e_purpose') ?? '' }}" error="{{ errors('e_purpose') ?? '' }}"
+                                            placeholder="Enter event purpose" />
+                                        <c-textarea label="Additional Note" name="e_notes"
+                                            value="{{ old('e_notes') ?? '' }}" error="{{ errors('e_notes') ?? '' }}"
                                             placeholder="Enter additional details"></c-textarea>
                                     </form>
 
@@ -230,7 +249,7 @@ Events & Campaigns
                                     </c-slot>
 
                                     <c-slot name="footer">
-                                        <c-button type="submit" form="edit-event" variant="primary">Save
+                                        <c-button type="submit" form="edit-event-form-{{$event['id']}}" variant="primary">Save
                                             Changes</c-button>
                                     </c-slot>
                                 </c-modal>
