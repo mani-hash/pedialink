@@ -52,6 +52,34 @@ class EventController
 
         $this->eventService->createEvent($title, $description, $date, $time, $location, $maxCount, $purpose, $notes);
 
-        return redirect(route('admin.event'))->withMessage('success', 'Event created successfully.');
+        return redirect(route('admin.event'))->withMessage('success', 'Event created successfully.','success');
+    }
+
+    public function editEvent($request, $eventId)
+    {
+        $title = $request->input('title');
+        $date = $request->input('date');
+        $time = $request->input('time');
+        $location = $request->input('location');
+        $maxCount = $request->input('max_count');
+
+        $errors = $this->eventService->validateEditEventData($title,  $date, $time, $location, $maxCount);
+
+        if (count($errors) !== 0) {
+            return redirect(route("admin.event"))
+                ->withInput([
+                    "e_title" => $title,
+                    "e_date" => $date,
+                    "e_time" => $time,
+                    "e_location" => $location,
+                    "e_max_count" => $maxCount,
+                ])
+                ->withErrors($errors)
+                ->with("edit", $eventId);
+        }
+
+        $this->eventService->editEvent($eventId, $title, $date, $time, $location, $maxCount);
+
+        return redirect(route('admin.event'))->withMessage('success', 'Event updated successfully.','success');
     }
 }

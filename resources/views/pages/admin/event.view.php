@@ -140,7 +140,7 @@ Events & Campaigns
                                 </c-button>
                             </c-slot>
                             <c-slot name="menu">
-                                <c-modal id="view-details-modal" size="md" :initOpen="false">
+                                <c-modal size="md" :initOpen="false">
                                     <c-slot name="trigger">
                                         <c-dropdown.item>View Details</c-dropdown.item>
                                     </c-slot>
@@ -214,34 +214,26 @@ Events & Campaigns
                                         <div>Edit Event Details</div>
                                     </c-slot>
 
-                                    <form id="edit-event-form-{{$event['id']}}" class="event-form" action="{{ route('admin.event.edit', ['id' => $event['id']]) }}" method="POST">
-                                        <c-input type="text" label="Title" name="title" value="{{ old('e_title') ?? '' }}"
-                                            error="{{ errors('e_title') ?? '' }}" placeholder="Enter event title"
+                                    <form id="edit-event-form-{{$event['id']}}" class="event-form" action="{{ route('admin.event.edit', ['id' => $event['id']]) }}" method="POST" novalidate>
+                                        <c-input type="text" label="Title" name="title" value="{{ flash('edit') === $event['id'] ? (old('e_title') ?? '') : $event['title'] }}"
+                                                                                                error="{{ flash('edit') === $event['id'] ? (errors('e_title') ?? '') : '' }}"
+ placeholder="Enter event title"
                                             required />
-                                        <c-textarea label="Description" name="description"
-                                            value="{{ old('e_description') ?? '' }}"
-                                            error="{{ errors('e_description') ?? '' }}"
-                                            placeholder="Enter description of the event" required></c-textarea>
                                         <div class="event-form-double-input">
                                             <c-input label="Date" type="date" name="date"
-                                                value="{{ old('e_date') ?? '' }}" error="{{ errors('e_date') ?? '' }}"
+                                                value="{{ flash('edit') === $event['id'] ? (old('e_date') ?? '') : $event['event_date'] }}" error="{{ flash('edit') === $event['id'] ? (errors('e_date') ?? '') : '' }}"
                                                 placeholder="Select Date" required />
                                             <c-input label="Time" type="time" name="time"
-                                                value="{{ old('e_time') ?? '' }}" error="{{ errors('e_time') ?? '' }}"
+                                                value="{{ flash('edit') === $event['id'] ? (old('e_time') ?? '') : $event['event_time'] }}" error="{{ flash('edit') === $event['id'] ? (errors('e_time') ?? '') : '' }}"
                                                 placeholder="Select Time" required />
                                         </div>
                                         <c-input type="text" label="Location" name="location"
-                                            value="{{ old('e_location') ?? '' }}" error="{{ errors('e_location') ?? '' }}"
+                                            value="{{ flash('edit') === $event['id'] ? (old('e_location') ?? '') : $event['event_location'] }}" error="{{ flash('edit') === $event['id'] ? (errors('e_location') ?? '') : '' }}"
                                             placeholder="Enter event location" required />
                                         <c-input type="number" label="Max Count" name="max_count"
-                                            value="{{ old('e_max_count') ?? '' }}" error="{{ errors('e_max_count') ?? '' }}"
+                                            value="{{ flash('edit') === $event['id'] ? (old('e_max_count') ?? '') : $event['max_count'] }}" error="{{ flash('edit') === $event['id'] ? (errors('e_max_count') ?? '') : '' }}"
                                             placeholder="Maximum Count" required />
-                                        <c-input type="text" label="Purpose" name="e_purpose"
-                                            value="{{ old('e_purpose') ?? '' }}" error="{{ errors('e_purpose') ?? '' }}"
-                                            placeholder="Enter event purpose" />
-                                        <c-textarea label="Additional Note" name="e_notes"
-                                            value="{{ old('e_notes') ?? '' }}" error="{{ errors('e_notes') ?? '' }}"
-                                            placeholder="Enter additional details"></c-textarea>
+                                     
                                     </form>
 
                                     <c-slot name="close">
