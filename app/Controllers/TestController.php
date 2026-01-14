@@ -21,8 +21,6 @@ class TestController
         $search = $request->input("search");
         $filters = $request->input("filters");
 
-        
-
 
         [$testDetails,$links] = $this->testService->getAllTestDetails($search, $filters);
         return view('test/test', ['items' => $testDetails, 'links' => $links]);
