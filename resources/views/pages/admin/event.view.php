@@ -15,17 +15,8 @@ Events & Campaigns
 @section('content')
 
 
-<c-table.controls :columns='["Title","Date & Time","Location","Visibility","Status"]'>
-    <c-slot name="filter">
-        <c-button variant="outline">
-            <img src="{{ asset('assets/icons/filter.svg') }}" />
-            Status
-        </c-button>
-        <c-button variant="outline">
-            <img src="{{ asset('assets/icons/filter.svg') }}" />
-            Visibility
-        </c-button>
-    </c-slot>
+<c-table.controls action="{{ route('admin.event') }}" :filters="['Status' => ['upcoming', 'phm', 'doctor', 'admin']]" >
+  
 
     <c-slot name="extrabtn">
         <c-modal id="add-event-modal" size="sm" :initOpen="false">
