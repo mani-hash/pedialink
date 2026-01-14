@@ -187,7 +187,8 @@ Events & Campaigns
                                         Close
                                     </c-slot>
                                 </c-modal>
-                                <c-modal id="edit-event-modal-{{$key}}" size="sm" :initOpen="flash('edit') === $event['id'] ? true : false">
+                                <c-modal id="edit-event-modal-{{$key}}" size="sm"
+                                    :initOpen="flash('edit') == $event['id'] ? true : false">
                                     <c-slot name="trigger">
                                         <c-dropdown.item>Edit Details</c-dropdown.item>
                                     </c-slot>
@@ -214,26 +215,32 @@ Events & Campaigns
                                         <div>Edit Event Details</div>
                                     </c-slot>
 
-                                    <form id="edit-event-form-{{$event['id']}}" class="event-form" action="{{ route('admin.event.edit', ['id' => $event['id']]) }}" method="POST" novalidate>
-                                        <c-input type="text" label="Title" name="title" value="{{ flash('edit') === $event['id'] ? (old('e_title') ?? '') : $event['title'] }}"
-                                                                                                error="{{ flash('edit') === $event['id'] ? (errors('e_title') ?? '') : '' }}"
- placeholder="Enter event title"
-                                            required />
+                                    <form id="edit-event-form-{{$event['id']}}" class="event-form"
+                                        action="{{ route('admin.event.edit', ['id' => $event['id']]) }}" method="POST"
+                                        novalidate>
+                                        <c-input type="text" label="Title" name="e_title"
+                                            value="{{ flash('edit') == $event['id'] ? (old('e_title') ?? '') : $event['title'] }}"
+                                            error="{{ flash('edit') == $event['id'] ? (errors('e_title') ?? '') : '' }}"
+                                            placeholder="Enter event title" required />
                                         <div class="event-form-double-input">
-                                            <c-input label="Date" type="date" name="date"
-                                                value="{{ flash('edit') === $event['id'] ? (old('e_date') ?? '') : $event['event_date'] }}" error="{{ flash('edit') === $event['id'] ? (errors('e_date') ?? '') : '' }}"
+                                            <c-input label="Date" type="date" name="e_date"
+                                                value="{{ flash('edit') == $event['id'] ? (old('e_date') ?? '') : $event['event_date'] }}"
+                                                error="{{ flash('edit') == $event['id'] ? (errors('e_date') ?? '') : '' }}"
                                                 placeholder="Select Date" required />
-                                            <c-input label="Time" type="time" name="time"
-                                                value="{{ flash('edit') === $event['id'] ? (old('e_time') ?? '') : $event['event_time'] }}" error="{{ flash('edit') === $event['id'] ? (errors('e_time') ?? '') : '' }}"
+                                            <c-input label="Time" type="time" name="e_time"
+                                                value="{{ flash('edit') == $event['id'] ? (old('e_time') ?? '') : $event['event_time'] }}"
+                                                error="{{ flash('edit') == $event['id'] ? (errors('e_time') ?? '') : '' }}"
                                                 placeholder="Select Time" required />
                                         </div>
-                                        <c-input type="text" label="Location" name="location"
-                                            value="{{ flash('edit') === $event['id'] ? (old('e_location') ?? '') : $event['event_location'] }}" error="{{ flash('edit') === $event['id'] ? (errors('e_location') ?? '') : '' }}"
+                                        <c-input type="text" label="Location" name="e_location"
+                                            value="{{ flash('edit') == $event['id'] ? (old('e_location') ?? '') : $event['event_location'] }}"
+                                            error="{{ flash('edit') == $event['id'] ? (errors('e_location') ?? '') : '' }}"
                                             placeholder="Enter event location" required />
-                                        <c-input type="number" label="Max Count" name="max_count"
-                                            value="{{ flash('edit') === $event['id'] ? (old('e_max_count') ?? '') : $event['max_count'] }}" error="{{ flash('edit') === $event['id'] ? (errors('e_max_count') ?? '') : '' }}"
+                                        <c-input type="number" label="Max Count" name="e_max_count"
+                                            value="{{ flash('edit') == $event['id'] ? (old('e_max_count') ?? '') : $event['max_count'] }}"
+                                            error="{{ flash('edit') == $event['id'] ? (errors('e_max_count') ?? '') : '' }}"
                                             placeholder="Maximum Count" required />
-                                     
+
                                     </form>
 
                                     <c-slot name="close">
@@ -241,7 +248,8 @@ Events & Campaigns
                                     </c-slot>
 
                                     <c-slot name="footer">
-                                        <c-button type="submit" form="edit-event-form-{{$event['id']}}" variant="primary">Save
+                                        <c-button type="submit" form="edit-event-form-{{$event['id']}}"
+                                            variant="primary">Save
                                             Changes</c-button>
                                     </c-slot>
                                 </c-modal>
@@ -289,8 +297,13 @@ Events & Campaigns
                                         Cancel
                                     </c-slot>
 
+                                    <form id="delete-event-form-{{ $event['id'] }}"
+                                        action="{{ route('admin.event.delete', ['id' => $event['id']]) }}"
+                                        method="POST"></form>
+
                                     <c-slot name="footer">
-                                        <c-button type="submit" variant="destructive">
+                                        <c-button type="submit" form="delete-event-form-{{ $event['id'] }}"
+                                            variant="destructive">
                                             Delete Event
                                         </c-button>
                                     </c-slot>
