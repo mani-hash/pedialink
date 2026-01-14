@@ -15,7 +15,7 @@ Events & Campaigns
 @section('content')
 
 
-<c-table.controls action="{{ route('admin.event') }}" :filters="['Status' => ['upcoming', 'phm', 'doctor', 'admin']]">
+<c-table.controls action="{{ route('admin.event') }}" :filters="['Status' => ['upcoming', 'ongoing', 'completed', 'cancelled']]">
 
 
     <c-slot name="extrabtn">
@@ -316,15 +316,14 @@ Events & Campaigns
                 @endforeach
                 @if(count($events) === 0)
                 <tr>
-                    <td colspan="6">
-                        <div class="table-empty">No items found</div>
+                    <td colspan="7">
+                        <div class="table-empty">No events found</div>
                     </td>
                 </tr>
-                @endif
+@endif
             </c-table.tbody>
         </c-table.main>
     </div>
 </c-table.wrapper>
-
-<c-table.pagination />
+ <c-table.pagination :links="$links" />
 @endsection

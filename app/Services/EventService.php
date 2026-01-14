@@ -49,7 +49,7 @@ class EventService
 
         $results = $events
             ->orderBy('id', 'ASC')
-            ->paginate(10);
+            ->paginate(8);
 
 
         $resource = [];
@@ -77,7 +77,9 @@ class EventService
             ];
         }
 
-        return $resource;
+        $links = $results->toArray();
+
+        return [$resource, $links];
     }
 
     public function getEventBookingStatus($eventId)
