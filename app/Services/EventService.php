@@ -32,6 +32,7 @@ class EventService
                 'event_location' => $event->event_location,
                 'max_count' => $event->max_count,
                 'participants_count'=> $event->participants_count,
+                'visible' => $event->visible,
                 'admin' => $event->getAdmin() ? [
                     'id' => $event->getAdmin()->id,
                     'name' => $event->getAdmin()->name,
