@@ -55,13 +55,13 @@ class EventController
         return redirect(route('admin.event'))->withMessage('success', 'Event created successfully.','success');
     }
 
-    public function editEvent($request, $eventId)
+    public function editEvent($request, $id)
     {
-        $title = $request->input('title');
-        $date = $request->input('date');
-        $time = $request->input('time');
-        $location = $request->input('location');
-        $maxCount = $request->input('max_count');
+        $title = $request->input('e_title');
+        $date = $request->input('e_date');
+        $time = $request->input('e_time');
+        $location = $request->input('e_location');
+        $maxCount = $request->input('e_max_count');
 
         $errors = $this->eventService->validateEditEventData($title,  $date, $time, $location, $maxCount);
 
@@ -75,11 +75,36 @@ class EventController
                     "e_max_count" => $maxCount,
                 ])
                 ->withErrors($errors)
-                ->with("edit", $eventId);
+                ->with("edit", $id);
         }
 
-        $this->eventService->editEvent($eventId, $title, $date, $time, $location, $maxCount);
+        $this->eventService->editEvent($id, $title, $date, $time, $location, $maxCount);
 
         return redirect(route('admin.event'))->withMessage('success', 'Event updated successfully.','success');
     }
+
+    public function deleteEvent($request,$id){
+        $error = $this->eventService->validateDeleteEvent($id);
+
+        if ($error !== NULL) {
+            return redirect(route("admin.event"))
+                ->with("delete", false)
+                ->withMessage(
+                    $error,
+                    "Failed",
+                    "error",
+                );
+        }
+
+        $this->eventService->deleteEvent($id);
+        
+        return redirect(route("admin.event"))
+            ->with("delete", true)
+            ->withMessage(
+                "Event with ID: E-$id was successfully deleted",
+                "Deleted Successfully",
+                "success",
+            );
+    }
 }
+

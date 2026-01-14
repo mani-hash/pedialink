@@ -62,7 +62,7 @@ class EventService
                 'purpose' => $event->purpose,
                 'notes' => $event->notes,
                 'event_date' => $event->event_date,
-                'event_time' => $event->event_time,
+                'event_time' => date('H:i', strtotime($event->event_time)),
                 'event_status' => $event->event_status,
                 'event_location' => $event->event_location,
                 'max_count' => $event->max_count,
