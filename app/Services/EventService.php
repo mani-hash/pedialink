@@ -263,6 +263,20 @@ class EventService
 
         return $errors;
     }
+
+    public function validateDeleteEvent($eventId){
+
+        $event = Events::find($eventId);
+
+        $error = null;
+
+        if($event->event_status == 'ongoning'){
+            $error = "Cannot delete ongoing events";
+            return $error;
+        }
+
+
+    }
     public function createEvent($title, $description, $eventDate, $eventTime, $eventLocation, $maxCount, $purpose ,$notes){
 
         $event = new Events();
@@ -292,6 +306,13 @@ class EventService
         $event->max_count = $maxCount;
 
         $event->save();
+
+    }
+
+    public function deleteEvent($eventId){
+
+        $event = Events::find($eventId);
+        $event->delete();
 
     }
 
