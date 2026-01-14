@@ -12,10 +12,11 @@ class EventController
     {
         $this->eventService = new EventService();
     }
-    public function index()
+    public function index($request)
     {
-
-        $events = $this->eventService->getAllEvents();
+        $search = $request->input('search');
+        $filters = $request->input('filters');
+        $events = $this->eventService->getAllEvents($search, $filters);
 
         return view('admin/event', ['events' => $events]);
     }
