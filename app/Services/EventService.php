@@ -80,6 +80,53 @@ class EventService
         return $resource;
     }
 
+    public function getVisibleEvents(?string $search, ?array $filters){
+
+        $events = Events::query();
+
+        if ($search) {
+            $events = $this->applySearch($events, $search);
+        }
+
+        if ($filters) {
+            $events = $this->applyFilters($events, $filters);
+        }
+
+        $results = $events
+            ->orderBy('id', 'ASC')
+            ->paginate(10);
+
+
+        $resource = [];
+
+        foreach ($results->items as $event) {
+            if ($event->visible) {
+                $resource[] = [
+                    'id' => $event->id,
+                    'title' => $event->title,
+                    'description' => $event->description,
+                    'purpose' => $event->purpose,
+                    'notes' => $event->notes,
+                    'event_date' => $event->event_date,
+                    'event_time' => date('H:i', strtotime($event->event_time)),
+                    'event_status' => $event->event_status,
+                    'event_location' => $event->event_location,
+                    'max_count' => $event->max_count,
+                    'participants_count' => $event->participants_count,
+                    'visible' => $event->visible,
+                    'admin' => $event->getAdmin() ? [
+                        'id' => $event->getAdmin()->id,
+                        'name' => $event->getAdmin()->name,
+                        'email' => $event->getAdmin()->email,
+                    ] : null,
+                    'booking_status' => $this->getEventBookingStatus($event->id)
+                ];
+            }
+        }
+
+        return $resource;
+    }
+
     public function getEventBookingStatus($eventId)
     {
         $eventRegistration = EventRegistrations::query()->where('event_id', '=', $eventId)->first();
