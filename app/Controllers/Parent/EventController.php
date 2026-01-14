@@ -13,9 +13,13 @@ class EventController
         $this->eventService = new EventService();
     }
 
-    public function index()
+    public function index($request)
     {
-        $events = $this->eventService->getAllEvents();
+
+        $search = $request->input('search');
+        $filters = $request->input('filters');
+
+        $events = $this->eventService->getVisibleEvents($search,$filters);
 
         return view("parent/events-campaigns", ['events' => $events]);
     }
