@@ -5,15 +5,17 @@ namespace App\Services;
 use App\Models\Events;
 use App\Models\EventRegistrations;
 use App\Helpers\Validator;
+use App\Rules\NumberRule;
 use App\Rules\PhoneRule;
 use App\Rules\NameRule;
-use App\Rules\ReasonRule; 
+use App\Rules\TextRule; 
+use App\Rules\DateRule;
 use Library\Framework\Database\QueryBuilder;
 
 class EventService
 {
 
-    use NameRule,PhoneRule,ReasonRule;
+    use NameRule,PhoneRule,TextRule,DateRule,NumberRule;
 
 
      private function applySearch(QueryBuilder $events, string $search)
@@ -128,7 +130,7 @@ class EventService
     public function validateEventCancelData($reason){
         $errors = [];
 
-        $reasonError = $this->validateReason($reason,"Cancel Reason");
+        $reasonError = $this->validateText($reason,"Cancel Reason");
         if ($reasonError) {
             $errors['reason'] = $reasonError;
         }
@@ -189,6 +191,65 @@ class EventService
         if($cancelled){
             $this->reduceEventParticpantCount($eventId);
         }
+    }
+
+
+    public function validateCreateEventData($title, $description, $eventDate, $eventTime, $eventLocation, $maxCount)
+    {
+        $errors = [];
+
+        $titleError = $this->validateName($title,"Event Title");
+        if ($titleError) {
+            $errors['title'] = $titleError;
+        }
+
+        $descriptionError = $this->validateText($description, "Event Description");
+        if($descriptionError){
+            $errors['description'] = $descriptionError;
+        }
+
+        $dateError = $this->validateDate($eventDate, "Event Date", true);   
+        if ($dateError) {
+            $errors['date'] = $dateError;
+        }
+
+        $timeError = $this->validateTime($eventTime, "Event Time");
+        if ($timeError) {
+            $errors['time'] = $timeError;
+        }
+
+        $locationError = $this->validateText($eventLocation, "Event Location");
+        if($locationError){
+            $errors['location'] = $locationError;
+        }
+
+        $maxCountError = $this->validateInteger($maxCount, "Maximum Participants", 1, null);
+        if($maxCountError){
+            $errors['max_count'] = $maxCountError;
+        }
+
+        return $errors;
+    }
+    public function createEvent($title, $description, $eventDate, $eventTime, $eventLocation, $maxCount, $purpose ,$notes){
+
+        $event = new Events();
+        $event->title = $title;
+        $event->description = $description;
+        $event->admin_id = auth()->user()->id;
+        $event->event_date = $eventDate;
+        $event->event_time = $eventTime;
+        $event->event_location = $eventLocation;
+        $event->max_count = $maxCount;
+        $event->notes = $notes;
+        $event->purpose = $purpose;
+        $event->event_status = 'upcoming';
+
+        $event->save();
+
+
+
+
+
     }
 
 }
