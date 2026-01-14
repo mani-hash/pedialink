@@ -19,7 +19,7 @@ Events & Campaigns
   
 
     <c-slot name="extrabtn">
-        <c-modal id="add-event-modal" size="sm" :initOpen="false">
+        <c-modal id="add-event-modal" size="sm" :initOpen="flash('create') ? true : false">
             <c-slot name="trigger">
                 <c-button class="add-event-btn" variant="primary">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -60,19 +60,19 @@ Events & Campaigns
                 <div>Add Events</div>
             </c-slot>
 
-            <form id="add-event-form" class="event-form" action="{{route('admin.event.create')}}" method="POST">
-                <c-input type="text" label="Title" name="title" placeholder="Enter event title" required />
-                <c-textarea label="Description" name="description" placeholder="Enter description of the event"
+            <form id="add-event-form" class="event-form" action="{{route('admin.event.create')}}" method="POST" novalidate>
+                <c-input type="text" label="Title" name="title" value="{{ old('title') ?? '' }}"
+                        error="{{ errors('title') ?? '' }}" placeholder="Enter event title" required />
+                <c-textarea label="Description" name="description" value="{{ old('description') ?? '' }}"  error="{{ errors('description') ?? '' }}" placeholder="Enter description of the event"
                     required></c-textarea>
                 <div class="event-form-double-input">
-                    <c-input label="Date" type="date" name="date" placeholder="Select Date" required />
-                    <c-input label="Time" type="time" name="time" placeholder="Select Time" required />
+                    <c-input label="Date" type="date" name="date" value="{{ old('date') ?? '' }}"  error="{{ errors('date') ?? '' }}" placeholder="Select Date" required />
+                    <c-input label="Time" type="time" name="time" value="{{ old('time') ?? '' }}"  error="{{ errors('time') ?? '' }}" placeholder="Select Time" required />
                 </div>
-                <c-input type="text" label="Location" name="location" placeholder="Enter event location" required />
-                <c-input type="number" label="Max Count" name="max_count" placeholder="Maximum Count" required />
-                <c-input type="text" label="Purpose" name="purpose" placeholder="Enter event purpose"  />
-
-                <c-textarea label="Additional Note" name="notes"
+                <c-input type="text" label="Location" name="location" value="{{ old('location') ?? '' }}"  error="{{ errors('location') ?? '' }}" placeholder="Enter event location" required />
+                <c-input type="number" label="Max Count" name="max_count" value="{{ old('max_count') ?? '' }}"  error="{{ errors('max_count') ?? '' }}" placeholder="Maximum Count" required />
+                <c-input type="text" label="Purpose" name="purpose" value="{{ old('purpose') ?? '' }}"  error="{{ errors('purpose') ?? '' }}" placeholder="Enter event purpose"  />
+                <c-textarea label="Additional Note" name="notes" value="{{ old('notes') ?? '' }}"  error="{{ errors('notes') ?? '' }}"
                     placeholder="Enter additional details"></c-textarea>
             </form>
 
