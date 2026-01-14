@@ -24,8 +24,8 @@ class TestController
         
 
 
-        $testDetails = $this->testService->getAllTestDetails($search, $filters);
-        return view('test/test', ['items' => $testDetails]);
+        [$testDetails,$links] = $this->testService->getAllTestDetails($search, $filters);
+        return view('test/test', ['items' => $testDetails, 'links' => $links]);
     }
 
   
