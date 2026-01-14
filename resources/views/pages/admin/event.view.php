@@ -262,6 +262,7 @@ Events & Campaigns
                                     <c-slot name="header">
                                         <div>{{ $event['visible'] ? 'Hide' : 'Show' }} Event Details</div>
                                     </c-slot>
+                                    <form id="edit-event-visible-form-{{$event['id']}}" action="{{ route('admin.event.edit.visible', ['id' => $event['id']]) }}" method="POST"></form>
                                     @if ($event["visible"])
                                     <p>Do you want to hide <span class="event-visible-alert-highlight">Event ID E-{{
                                             $event['id'] }}</span>?</p>
@@ -275,7 +276,7 @@ Events & Campaigns
 
                                     <c-slot name="footer">
                                         <c-button variant="{{ $event['visible'] ? 'destructive' : 'primary'}}"
-                                            type="submit">
+                                            type="submit" form="edit-event-visible-form-{{$event['id']}}">
                                             {{ $event['visible'] ? 'Hide Event' : 'Show Event'}}
                                         </c-button>
                                     </c-slot>

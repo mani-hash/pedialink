@@ -32,9 +32,9 @@ class EventController
         $purpose = $request->input('purpose');
         $notes = $request->input('notes');
 
-        $errors = $this->eventService->validateCreateEventData($title, $description, $date,$time, $location, $maxCount);
+        $errors = $this->eventService->validateCreateEventData($title, $description, $date, $time, $location, $maxCount);
 
-       if (count($errors) !== 0) {
+        if (count($errors) !== 0) {
             return redirect(route("admin.event"))
                 ->withInput([
                     "title" => $title,
@@ -52,7 +52,7 @@ class EventController
 
         $this->eventService->createEvent($title, $description, $date, $time, $location, $maxCount, $purpose, $notes);
 
-        return redirect(route('admin.event'))->withMessage('success', 'Event created successfully.','success');
+        return redirect(route('admin.event'))->withMessage('success', 'Event created successfully.', 'success');
     }
 
     public function editEvent($request, $id)
@@ -63,7 +63,7 @@ class EventController
         $location = $request->input('e_location');
         $maxCount = $request->input('e_max_count');
 
-        $errors = $this->eventService->validateEditEventData($title,  $date, $time, $location, $maxCount);
+        $errors = $this->eventService->validateEditEventData($title, $date, $time, $location, $maxCount);
 
         if (count($errors) !== 0) {
             return redirect(route("admin.event"))
@@ -80,10 +80,38 @@ class EventController
 
         $this->eventService->editEvent($id, $title, $date, $time, $location, $maxCount);
 
-        return redirect(route('admin.event'))->withMessage('success', 'Event updated successfully.','success');
+        return redirect(route('admin.event'))->withMessage('success', 'Event updated successfully.', 'success');
     }
 
-    public function deleteEvent($request,$id){
+    public function editEventVisible($requset, $id)
+    {
+        $error = $this->eventService->validateEditEventVisible($id);
+
+        if ($error !== NULL) {
+            return redirect(route("admin.event"))
+                ->with("edit-visible", false)
+                ->withMessage(
+                    $error,
+                    "Failed",
+                    "error",
+                );
+        }
+
+        $this->eventService->editEventVisible($id);
+
+        return redirect(route("admin.event"))
+            ->with("edit-visible", true)
+            ->withMessage(
+                "Event with ID: E-$id 's visibility was successfully changed",
+                "Visibility Changed",
+                "success",
+            );
+
+
+    }
+
+    public function deleteEvent($request, $id)
+    {
         $error = $this->eventService->validateDeleteEvent($id);
 
         if ($error !== NULL) {
@@ -97,7 +125,7 @@ class EventController
         }
 
         $this->eventService->deleteEvent($id);
-        
+
         return redirect(route("admin.event"))
             ->with("delete", true)
             ->withMessage(
@@ -106,5 +134,7 @@ class EventController
                 "success",
             );
     }
+
+
 }
 
