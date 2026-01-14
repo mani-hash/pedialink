@@ -41,7 +41,7 @@ class TestService
 
         $results = $tests
             ->orderBy('id', 'ASC')
-            ->paginate(10);
+            ->paginate(7);
 
         $resource = [];
 
@@ -57,7 +57,10 @@ class TestService
             ];
         }
 
-        return $resource;
+        $links = $results->toArray();
+
+
+        return [$resource, $links];
     }
 
 
