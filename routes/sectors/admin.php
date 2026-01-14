@@ -33,6 +33,7 @@ return [
     ['GET', '/admin/vaccination/schedule/{schedule_id}/manage', [VaccineController::class, 'manageSchedule'], 'admin.vaccination.schedule.manage', ['admin', 'verified']],
     ['GET', '/admin/appointment', [AppointmentController::class, 'index'], 'admin.appointment', ['admin', 'verified']],
     ['GET', '/admin/events-and-campaigns', [EventController::class, 'index'], 'admin.event', ['admin', 'verified']],
+    ['POST', '/admin/events-and-campaigns/create', [EventController::class, 'createEvent'], 'admin.event.create', ['admin', 'verified']],
     ['GET', '/admin/settings', [SettingController::class, 'index'], 'admin.settings', ['admin']],
     ['GET', '/admin/notification', [NotificationController::class, 'index'], 'admin.notification', ['admin', 'verified']]
 ];
