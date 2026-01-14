@@ -152,4 +152,17 @@ class Validator
     return false;
 }
 
+public static function validateDateFormat(string $date): bool
+{
+    $d = \DateTime::createFromFormat('Y-m-d', $date);
+    return $d && $d->format('Y-m-d') === $date;
+}
+
+public static function validateTimeFormat(string $time): bool
+{
+    return preg_match('/^(2[0-3]|[01]?[0-9]):[0-5][0-9]$/', $time);
+}
+
+
+
 }
