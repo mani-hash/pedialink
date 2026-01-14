@@ -230,6 +230,39 @@ class EventService
 
         return $errors;
     }
+
+    public function validateEditEventData($title, $eventDate, $eventTime, $eventLocation, $maxCount)
+    {
+        $errors = [];
+
+        $titleError = $this->validateName($title,"Event Title");
+        if ($titleError) {
+            $errors['e_title'] = $titleError;
+        }
+
+
+        $dateError = $this->validateDate($eventDate, "Event Date", true);   
+        if ($dateError) {
+            $errors['e_date'] = $dateError;
+        }
+
+        $timeError = $this->validateTime($eventTime, "Event Time");
+        if ($timeError) {
+            $errors['e_time'] = $timeError;
+        }
+
+        $locationError = $this->validateText($eventLocation, "Event Location");
+        if($locationError){
+            $errors['e_location'] = $locationError;
+        }
+
+        $maxCountError = $this->validateInteger($maxCount, "Maximum Participants", 1, null);
+        if($maxCountError){
+            $errors['e_max_count'] = $maxCountError;
+        }
+
+        return $errors;
+    }
     public function createEvent($title, $description, $eventDate, $eventTime, $eventLocation, $maxCount, $purpose ,$notes){
 
         $event = new Events();
@@ -246,9 +279,19 @@ class EventService
 
         $event->save();
 
+    }
 
+    public function editEvent($eventId,$title,$eventDate,$eventTime,$eventLocation,$maxCount){
 
+        $event = Events::find($eventId);
+        $event->title = $title;
+        $event->admin_id = auth()->user()->id;
+        $event->event_date = $eventDate;
+        $event->event_time = $eventTime;
+        $event->event_location = $eventLocation;
+        $event->max_count = $maxCount;
 
+        $event->save();
 
     }
 
