@@ -141,7 +141,9 @@ Health Records View
                         <c-table.td col="Blood Pressure">{{ $item['blood_pressure'] }}</c-table.td>
                         <c-table.td col="Blood Sugar">{{ $item['blood_sugar'] }}</c-table.td>
                         <c-table.td col="Health Status">
-                            @if (strtolower($item['health_status']) === "good")
+                            @if ($item['is_invalid'] ?? false)
+                                <c-badge type="yellow">[!] Invalid</c-badge>
+                            @elseif (strtolower($item['health_status']) === "good")
                                 <c-badge type="green">{{ $item['health_status'] }}</c-badge>                   
                             @elseif (strtolower($item['health_status']) === "critical")
                                 <c-badge type="purple">{{ $item['health_status'] }}</c-badge>
@@ -162,13 +164,15 @@ Health Records View
                                             <c-dropdown.item>View Record</c-dropdown.item>
                                         </c-slot>
                                         <c-slot name="headerSuffix">
-                                            @if (strtolower($item['health_status']) === "good")
-                                                <c-badge type="green">{{ $item['health_status'] }}</c-badge>                   
-                                            @elseif (strtolower($item['health_status']) === "critical")
-                                               <c-badge type="purple">{{ $item['health_status'] }}</c-badge>
-                                            @elseif (strtolower($item['health_status']) === "bad")
-                                               <c-badge type="red">{{ $item['health_status'] }}</c-badge>
-                                            @endif
+                                                          @if ($item['is_invalid'] ?? false)
+                                                              <c-badge type="yellow">[!] Invalid</c-badge>
+                                                          @elseif (strtolower($item['health_status']) === "good")
+                                                                <c-badge type="green">{{ $item['health_status'] }}</c-badge>                   
+                                                          @elseif (strtolower($item['health_status']) === "critical")
+                                                              <c-badge type="purple">{{ $item['health_status'] }}</c-badge>
+                                                          @elseif (strtolower($item['health_status']) === "bad")
+                                                              <c-badge type="red">{{ $item['health_status'] }}</c-badge>
+                                                          @endif
                                         </c-slot>
 
                                         <c-slot name="headerPrefix">
@@ -185,11 +189,11 @@ Health Records View
                                             <c-modal.viewitem icon="{{ asset('assets/icons/ruler.svg') }}"
                                                 title="BMI" info="{{ $item['bmi'] }} " />
                                             <c-modal.viewitem icon="{{ asset('assets/icons/blood-type.svg') }}"
-                                                title="Blood Pressure" info="{{ $item['blood_pressure'] }} " />
+                                                title="Blood Pressure(mm Hg)" info="{{ $item['blood_pressure'] }} " />
                                             <c-modal.viewitem icon="{{ asset('assets/icons/blood-type.svg') }}"
-                                                title="Blood Sugar" info="{{ $item['blood_sugar'] }} " />
+                                                title="Blood Sugar(mg/dL)" info="{{ $item['blood_sugar'] }} " />
                                             <c-modal.viewitem icon="{{ asset('assets/icons/body-weight.svg') }}"
-                                                title="Weight" info="{{ $item['weight'] }}" />
+                                                title="Weight(kg)" info="{{ $item['weight'] }}" />
                                             <c-modal.viewitem icon="{{ asset('assets/icons/bubble-chat.svg') }}"
                                                 title="Trimester" info="{{ $item['trimester'] }} " />
                                             <c-modal.viewitem icon="{{ asset('assets/icons/filter.svg') }}"
@@ -272,6 +276,7 @@ Health Records View
                                         >
                                             <li class="select-item" data-value="good">Good</li>
                                             <li class="select-item" data-value="bad">Bad</li>
+                                            <li class="select-item" data-value="critical">Critical</li>
                                         </c-select>
                                         <c-textarea label="Additional Notes:" name="e_notes"
                                             placeholder="Enter any additional notes" error="{{ flash('edit') == $item['id'] ? (errors('e_notes') ?? '') : '' }}"
@@ -294,13 +299,15 @@ Health Records View
                                             <div>Mark as Invalid</div>
                                         </c-slot>
 
-                                        <p>Are you sure you want to mark this record as invalid?</p>
+                                        <form id="mark-invalid-record-form-{{ $key }}" action="{{ route('phm.maternal.health.invalid', ['id' => $parentId, 'recordId' => $item['id']]) }}" method="POST">
+                                            <p>Are you sure you want to mark this record as invalid?</p>
+                                        </form>
 
                                         <c-slot name="close">
                                             cancel
                                         </c-slot>
                                         <c-slot name="footer">
-                                            <c-button type="button" variant="destructive">Mark</c-button>
+                                            <c-button type="submit" form="mark-invalid-record-form-{{ $key }}" variant="destructive">Mark</c-button>
                                         </c-slot>
                                     </c-modal>
                                 </c-slot>

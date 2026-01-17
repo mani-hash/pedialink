@@ -11,6 +11,7 @@ class maternalrecordService
         $resource = [];
         foreach ($maternalrecords as $record) {
             $resource[] = [
+                'id' => $record->id,
                 'parent_id' => $record->parent_id,
                 'visit_date' => $record->visit_date,
                 'bmi' => $record->bmi,
@@ -127,7 +128,7 @@ class maternalrecordService
             $errors["{$errorSuffix}bmi"] = $bmiError;
         }
 
-        $bloodPressureError = $this->validateNumericStat($bloodPressure, "Blood Pressure");
+        $bloodPressureError = $this->validateCommonFields($bloodPressure, "Blood Pressure");
         if ($bloodPressureError) {
             $errors["{$errorSuffix}blood_pressure"] = $bloodPressureError;
         }
@@ -153,10 +154,7 @@ class maternalrecordService
             $errors["{$errorSuffix}health_status"] = $healthStatusError;
         }
 
-        $notesError = $this->validateCommonFields($additionalNotes, "Additional Notes");
-        if ($notesError) {
-            $errors["{$errorSuffix}notes"] = $notesError;
-        }
+        // Notes are optional, no validation needed
 
         return $errors;
     }
@@ -212,5 +210,44 @@ class maternalrecordService
         $maternalrecord->save();
 
         return $maternalrecord;
+    }
+
+    public function markAsInvalid($recordId)
+    {
+        $maternalrecord = MaternalRecord::find($recordId);
+
+        if (!$maternalrecord) {
+            throw new \Exception("Maternal Record not found");
+        }
+
+        $maternalrecord->is_invalid = true;
+        $maternalrecord->save();
+
+        return $maternalrecord;
+    }
+    public function getLatestMaternalRecord($maternalId)
+    {
+        $maternalRecord = MaternalRecord::query()
+            ->where('parent_id', '=', $maternalId)
+            ->where('health_status', '!=', 'invalid')
+            ->orderBy('visit_date', 'DESC')
+            ->first();
+
+        if (!$maternalRecord) {
+            return null;
+        }
+
+        return [
+            'id' => $maternalRecord->id,
+            'maternal_id' => $maternalRecord->parent_id,
+            'visit_date' => $maternalRecord->visit_date,
+            'trimester' => $maternalRecord->trimester,
+            'bmi' => $maternalRecord->bmi ?? '-',
+            'weight' => $maternalRecord->weight ?? '-',
+            'blood_sugar' => $maternalRecord->blood_sugar ?? '-',
+            'blood_pressure' => $maternalRecord->blood_pressure ?? '-',
+            'health_status' => $maternalRecord->health_status ?? '-',
+            'notes' => $maternalRecord->notes ? json_decode($maternalRecord->notes) : null,
+        ];
     }
 }

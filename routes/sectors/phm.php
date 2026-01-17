@@ -29,6 +29,7 @@ return [
     ['POST', '/phm/maternal-profiles/{id}/health-records/add', [maternalhealthrecordController::class, 'createMaternalRecord'], 'phm.maternal.health.add', ['phm']],
     ['POST', '/phm/maternal-profiles/{id}/health-records/{recordId}/edit', [maternalhealthrecordController::class, 'editMaternalRecord'], 'phm.maternal.health.edit', ['phm']],
     ['POST', '/phm/maternal-profiles/{id}/health-records/{recordId}/delete', [maternalhealthrecordController::class, 'deleteMaternalRecord'], 'phm.maternal.health.delete', ['phm']],
+    ['POST', '/phm/maternal-profiles/{id}/health-records/{recordId}/invalid', [maternalhealthrecordController::class, 'markInvalid'], 'phm.maternal.health.invalid', ['phm']],
     ['GET', '/phm/child-vaccinations/{id}/records', [ChildHealthController::class, 'vaccinationIndex'], 'phm.child.vaccinations', ['phm']],
     ['GET', '/phm/growth-monitoring', [GrowthMonitorController::class, 'index'], 'phm.growth.monitoring', ['phm']],
     ['GET', '/phm/growth-monitoring/{id}', [GrowthMonitorController::class, 'childGrowthIndex'], 'phm.growth.monitoring.child', ['phm']],
