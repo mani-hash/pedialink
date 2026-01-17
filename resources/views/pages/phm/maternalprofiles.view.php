@@ -114,9 +114,9 @@ Maternal Profiles - Overview
                                         <c-modal.viewitem icon="{{ asset('assets/icons/location-05.svg') }}"
                                             title="Address" info="{{ $item['address'] ?? '-' }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/location-05.svg') }}"
-                                            title="GS Devision" info="Matara" />
+                                            title="GS Devision" info="{{ $item['gs_devision'] ?? '-' }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/profile.svg') }}"
-                                            title="NIC Number" info="2300567890V" />
+                                            title="NIC Number" info="{{ $item['nic'] ?? '-' }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/filter.svg') }}" title="Type"
                                             info="{{ $item['type'] ?? '-' }}" />
                                         <c-modal.viewitem icon="{{ asset('assets/icons/user.svg') }}"

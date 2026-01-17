@@ -220,7 +220,7 @@ class maternalrecordService
             throw new \Exception("Maternal Record not found");
         }
 
-        $maternalrecord->is_invalid = true;
+        $maternalrecord->health_status = 'invalid';
         $maternalrecord->save();
 
         return $maternalrecord;

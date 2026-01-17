@@ -141,14 +141,14 @@ Health Records View
                         <c-table.td col="Blood Pressure">{{ $item['blood_pressure'] }}</c-table.td>
                         <c-table.td col="Blood Sugar">{{ $item['blood_sugar'] }}</c-table.td>
                         <c-table.td col="Health Status">
-                            @if ($item['is_invalid'] ?? false)
-                                <c-badge type="yellow">[!] Invalid</c-badge>
-                            @elseif (strtolower($item['health_status']) === "good")
+                            @if (strtolower($item['health_status']) === "good")
                                 <c-badge type="green">{{ $item['health_status'] }}</c-badge>                   
                             @elseif (strtolower($item['health_status']) === "critical")
                                 <c-badge type="purple">{{ $item['health_status'] }}</c-badge>
                             @elseif (strtolower($item['health_status']) === "bad")
                                 <c-badge type="red">{{ $item['health_status'] }}</c-badge>
+                            @elseif (strtolower($item['health_status']) === "invalid")
+                                <c-badge type="yellow">Invalid!</c-badge>
                             @endif
                         </c-table.td>
                         <c-table.td class="table-actions" align="center">
@@ -164,14 +164,14 @@ Health Records View
                                             <c-dropdown.item>View Record</c-dropdown.item>
                                         </c-slot>
                                         <c-slot name="headerSuffix">
-                                                          @if ($item['is_invalid'] ?? false)
-                                                              <c-badge type="yellow">[!] Invalid</c-badge>
-                                                          @elseif (strtolower($item['health_status']) === "good")
+                                                          @if (strtolower($item['health_status']) === "good")
                                                                 <c-badge type="green">{{ $item['health_status'] }}</c-badge>                   
                                                           @elseif (strtolower($item['health_status']) === "critical")
                                                               <c-badge type="purple">{{ $item['health_status'] }}</c-badge>
                                                           @elseif (strtolower($item['health_status']) === "bad")
                                                               <c-badge type="red">{{ $item['health_status'] }}</c-badge>
+                                                          @elseif (strtolower($item['health_status']) === "invalid")
+                                                              <c-badge type="yellow">[!] Invalid</c-badge>
                                                           @endif
                                         </c-slot>
 

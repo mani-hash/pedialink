@@ -23,6 +23,7 @@ class MaternalProfileController
         $items = array_map(function ($parent) {
             $user = User::find($parent->id);
             $latestRecord = $this->maternalrecordService->getLatestMaternalRecord($parent->id);
+            $area = $parent->getArea();
 
             return [
                 'id' => $parent->id,
@@ -30,7 +31,8 @@ class MaternalProfileController
                 'age' => '-',
                 'address' => $parent->address ?? '-',
                 'type' => $parent->type ?? '-',
-                'gs_devision' =>  $parent->gs_devision ??  '-',
+                'gs_devision' => $area->code ?? '-',
+                'nic' => $parent->nic ?? ($user->nic ?? '-'),
                 'latest_health_record' => $latestRecord,
             ];
         }, $parents ?? []);
